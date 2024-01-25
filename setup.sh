@@ -21,19 +21,6 @@ apt_update() {
     apt-get update > /dev/null 2>&1
 }
 
-install_brew(){
-    test -d ~/.linuxbrew && eval "$(~/.linuxbrew/bin/brew shellenv)" > /dev/null 2>&1 &
-    test -d /home/linuxbrew/.linuxbrew && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)" > /dev/null 2>&1
-    if grep -q $(brew --prefix) ~/.bashrc
-    then
-        : # pass
-    else
-        echo "" >> ~/.bashrc
-        echo "# Brew" >> ~/.bashrc
-        echo "eval \"\$($(brew --prefix)/bin/brew shellenv)\"" >> ~/.bashrc
-    fi
-}
-
 install_dotnet7() {
     apt install dotnet7 > /dev/null 2>&1
 }
@@ -60,8 +47,7 @@ install_nvim(){
 }
 
 install_oh_my_posh(){
-    brew install jandedobbeleer/oh-my-posh/oh-my-posh > /dev/null 2>&1
-    brew update && brew upgrade oh-my-posh > /dev/null 2>&1
+    curl -s https://ohmyposh.dev/install.sh | bash -s
 }
 
 config_oh_my_posh(){
@@ -118,11 +104,8 @@ config_neofetch(){
 }
 
 install_thefuck(){
-    brew install thefuck > /dev/null 2>&1 # generic linux install
-    
-    : 'Ubuntu/mint specific install
     apt install python3-dev python3-pip python3-setuptools
-    pip3 install thefuck --user'
+    pip3 install thefuck --user
 }
 
 config_thefuck(){
@@ -176,7 +159,6 @@ back_up_files() {
 manage_package_managers() {
     function_list=(
         "apt_update"
-        "install_brew"
     )
     
     for func in "${function_list[@]}"
