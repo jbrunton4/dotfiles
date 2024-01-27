@@ -22,7 +22,7 @@ for script in "${all[@]}"; do
     echo "    (￣ヽ＿  _ヽ_)__)        |＿＿_＿＿|／"
     echo "    ＼二)"
     sleep 0.1
-    /bin/bash $script > /dev/null 2>&1
+    yes | /bin/bash $script > /dev/null 2>&1
 done
 
 clear
