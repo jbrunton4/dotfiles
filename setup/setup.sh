@@ -42,7 +42,6 @@ echo "/ᐠ. ｡.ᐟ\\ ${bold}All done!${normal}ˎˊ˗ ✩₊˚.⋆☾⋆⁺₊�
 echo ""
 echo "===REMINDERS==="
 echo "* Clone your neovim config into ~/.config/nvim"
-echo "* Clone your tmux config into ~/.tmux.conf"
 echo "* Install a nerd font for OMP to work correctly"
 echo "* Your old config has been backed up in $HOME/.brunt-dotfiles"
 echo ""
