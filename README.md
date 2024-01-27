@@ -3,7 +3,7 @@
 ## Installation & Usage
 To apply this configuration on your system, it is recommended to use cURL: 
 ```bash
-curl -sSL https://raw.githubusercontent.com/jbrunton4/dotfiles/master/setup.sh | bash /dev/stdin
+curl -sSL https://raw.githubusercontent.com/jbrunton4/dotfiles/main/setup.sh | bash /dev/stdin
 ```
 
 ## Outstallation
