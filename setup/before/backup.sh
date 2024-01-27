@@ -1,4 +1,4 @@
-backup_filepath="$HOME/.dotfiles-backup/$(date +%s%N)"
+backup_filepath="$HOME/.brunt-dotfiles/backup/$(date +%s%N)"
 mkdir $backup_filepath
 
 cp -r "$HOME/.config/nvim" "$backup_filepath/nvim"
