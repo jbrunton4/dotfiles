@@ -1,5 +1,5 @@
 backup_filepath="$HOME/.brunt-dotfiles/backup/$(date +%s%N)"
-mkdir $backup_filepath
+mkdir -p $backup_filepath
 
 cp -r "$HOME/.config/nvim" "$backup_filepath/nvim"
 cp -r "$HOME/.config/neofetch" "$backup_filepath/neofetch" 
