@@ -12,7 +12,7 @@ mkdir -p $logs_dir
 logs_file="$logs_dir/$(date +%s).log"
 touch $logs_file
 
-preliminary=($(find ./install/ -type f -name "*.sh"))
+preliminary=($(find ./preliminary/ -type f -name "*.sh"))
 before=($(find ./before/ -type f -name "*.sh"))
 install=($(find ./install/ -type f -name "*.sh"))
 after=($(find ./after/ -type f -name "*.sh"))
