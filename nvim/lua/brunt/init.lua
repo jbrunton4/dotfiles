@@ -1,5 +1,5 @@
-require("toast.suppress")
-require("toast.packer")
-require("toast.set")
-require("toast.remap")
+require("brunt.suppress")
+require("brunt.packer")
+require("brunt.set")
+require("brunt.remap")
 
