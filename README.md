@@ -38,6 +38,7 @@ Thanks to everyone whose open-source code fuels this configuration:
 - [nmap/nmap](https://github.com/nmap/nmap)
 - [nvbn/thefuck](https://github.com/nvbn/thefuck)
 - [scop/bash-completion](https://github.com/scop/bash-completion)
+- [sivel/speedtest-cli](https://github.com/sivel/speedtest-cli)
 - [tmux/tmux](https://github.com/tmux/tmux)
 
 See also some other great open-source tools:
