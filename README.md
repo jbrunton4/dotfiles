@@ -40,6 +40,7 @@ Thanks to everyone whose open-source code fuels this configuration:
     - [williamboman/mason.nvim](https://github.com/williamboman/mason.nvim)
 - [nmap/nmap](https://github.com/nmap/nmap)
 - [nvbn/thefuck](https://github.com/nvbn/thefuck)
+- [python/cpython](https://github.com/python/cpython)
 - [scop/bash-completion](https://github.com/scop/bash-completion)
 - [sivel/speedtest-cli](https://github.com/sivel/speedtest-cli)
 - [tmux/tmux](https://github.com/tmux/tmux)
