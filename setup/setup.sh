@@ -3,6 +3,10 @@ normal=$(tput sgr0)
 prevline='\e[1A'
 clearline='\e[K'
 
+github_logo=""
+user_logo=""
+version_logo=""
+
 logs_dir="$HOME/.brunt-dotfiles/logs"
 mkdir -p $logs_dir
 logs_file="$logs_dir/$(date +%s).log"
@@ -37,9 +41,9 @@ clear
 
 echo "
 ╭━━╮╱╭╮╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╭╮
-┃━━╋━┫╰┳┳┳━╮╭━┳━┳━━┳━┳╮╭━┫╰┳━╮      [  Github]
-┣━━┃┻┫╭┫┃┃╋┃┃━┫╋┃┃┃┃╋┃╰┫┻┫╭┫┻┫      [  jbrunton4]
-╰━━┻━┻━┻━┫╭╯╰━┻━┻┻┻┫╭┻━┻━┻━┻━╯      [  Unversioned]
+┃━━╋━┫╰┳┳┳━╮╭━┳━┳━━┳━┳╮╭━┫╰┳━╮      [$github_logo  Github]
+┣━━┃┻┫╭┫┃┃╋┃┃━┫╋┃┃┃┃╋┃╰┫┻┫╭┫┻┫      [$user_logo  jbrunton4]
+╰━━┻━┻━┻━┫╭╯╰━┻━┻┻┻┫╭┻━┻━┻━┻━╯      [$version_logo  Unversioned]
 ╱╱╱╱╱╱╱╱╱╰╯╱╱╱╱╱╱╱╱╰╯" | lolcat 
 
 echo ""
