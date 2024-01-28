@@ -48,7 +48,6 @@ echo "
 
 echo ""
 echo "${bold}===REMINDERS=== ˎˊ˗ ✩₊˚.⋆☾⋆⁺₊✧${normal}"
-echo "* Clone your neovim config into ~/.config/nvim"
 echo "* Install a nerd font for OMP to work correctly"
 echo "* Your old config has been backed up in $HOME/.brunt-dotfiles"
 echo ""
