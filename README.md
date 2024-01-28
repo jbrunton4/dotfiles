@@ -6,8 +6,17 @@ To apply this configuration on your system, it is recommended to use cURL:
 curl -sSL https://raw.githubusercontent.com/jbrunton4/dotfiles/main/setup/setup-remote.sh | bash /dev/stdin
 ```
 
-## Outstallation
-The uninstall feature has not yet been implemented. 
+Before running, a backup of any files that are likely to be edited is created in `~/.brunt-dotfiles/backup/latest`. This folder also contains previous backups, organised by time generated. As there is [not yet an uninstall/restore feature](https://github.com/jbrunton4/dotfiles/issues/5), backups must be restored manually if desired. 
+
+Logs are output to the alphabetical last file in `~/.brunt-dotfiles/logs`. Should the script be allowed to run to completion, the latest logs are copied into `~/.brunt-dotfiles/logs/latest.log`. 
+
+## Dependencies
+The ideal environment to run this installer is a debian-based linux distribution, as the strict requirements for installation are `apt` and `snap`. 
+
+Any other dependency will be installed automatically - for example, [sivel/speedtest-cli](https://github.com/sivel/speedtest-cli) is installed via `python3`'s `pip` module, whose presence in the environment will be automatically ensured by the program. 
+
+## Uninstallation
+The uninstall feature has not yet been implemented. See [the issue addressing this enhancement](https://github.com/jbrunton4/dotfiles/issues/5).
 
 ## Acknowledgements
 Thanks to everyone whose open-source code fuels this configuration: 
@@ -15,7 +24,6 @@ Thanks to everyone whose open-source code fuels this configuration:
 - [dylanaraps/neofetch](https://github.com/dylanaraps/neofetch)
 - [busyloop/lolcat](https://github.com/busyloop/lolcat)
 - [eza-community/eza](https://github.com/eza-community/eza)
-- [Homebrew/brew](https://github.com/Homebrew/brew)
 - [JanDeDobbeleer/oh-my-posh](https://github.com/JanDeDobbeleer/oh-my-posh)
 - [jbrunton4/git-back](https://github.com/jbrunton4/git-back) ([me](https://pbs.twimg.com/media/D90nHuOXkAAGxtJ.jpg:large))
 - [jesseduffield/lazygit](https://github.com/jesseduffield/lazygit)

@@ -4,7 +4,7 @@ prevline='\e[1A'
 clearline='\e[K'
 
 github_logo=""
-user_logo=""
+repo_logo=""
 version_logo=""
 
 logs_dir="$HOME/.brunt-dotfiles/logs"
@@ -18,10 +18,12 @@ install=($(find ./install/ -type f -name "*.sh"))
 after=($(find ./after/ -type f -name "*.sh"))
 all=("${preliminary[@]}" "${before[@]}" "${install[@]}" "${after[@]}")
 
-for script in "${all[@]}"; do
+for ((i=0; i<${#all[@]}; i++)); do
+    script="${all[i]}"
+
     clear
     echo "
-             ／＞　 フ
+             ／＞　 フ    ${i}/${#all[@]}
             |   | | |     ${script}
           ／\` ミ＿•ノ
          /　　　　 |
@@ -41,15 +43,13 @@ cp -f $logs_file "$logs_dir/latest.log"
 source $HOME/.bashrc
 clear
 
-echo "
-╭━━╮╱╭╮╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╭╮
-┃━━╋━┫╰┳┳┳━╮╭━┳━┳━━┳━┳╮╭━┫╰┳━╮      [$github_logo  Github]
-┣━━┃┻┫╭┫┃┃╋┃┃━┫╋┃┃┃┃╋┃╰┫┻┫╭┫┻┫      [$user_logo  jbrunton4]
-╰━━┻━┻━┻━┫╭╯╰━┻━┻┻┻┫╭┻━┻━┻━┻━╯      [$version_logo  Unversioned]
-╱╱╱╱╱╱╱╱╱╰╯╱╱╱╱╱╱╱╱╰╯" | lolcat 
-
-echo ""
-echo "${bold}===REMINDERS=== ˎˊ˗ ✩₊˚.⋆☾⋆⁺₊✧${normal}"
-echo "* Install a nerd font for OMP to work correctly"
-echo "* Your old config has been backed up in $HOME/.brunt-dotfiles"
-echo ""
+github_link="\e]8;;https://github.com\aGithub\e]8;;\a"
+repo_link="\e]8;;https://github.com/jbrunton4/dotfiles\ajbrunton4/dotfiles\e]8;;\a"
+version_link="\e]8;;https://example.com\aUnversioned\e]8;;\a"
+echo -e "
+╭━━╮╱╭╮╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╭╮ ˎˊ˗ ✩₊˚.⋆☾⋆⁺₊✧
+┃━━╋━┫╰┳┳┳━╮╭━┳━┳━━┳━┳╮╭━┫╰┳━╮      [ $github_logo  ${bold}${github_link}${normal} ]
+┣━━┃┻┫╭┫┃┃╋┃┃━┫╋┃┃┃┃╋┃╰┫┻┫╭┫┻┫      [ $repo_logo  ${bold}${repo_link}${normal} ]
+╰━━┻━┻━┻━┫╭╯╰━┻━┻┻┻┫╭┻━┻━┻━┻━╯      [ $version_logo  ${bold}${version_link}${normal} ]
+╱╱╱╱╱╱╱╱╱╰╯╱╱╱╱╱╱╱╱╰╯
+" | lolcat -a --duration=1 --seed=100
