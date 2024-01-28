@@ -33,9 +33,7 @@ for script in "${all[@]}"; do
 done
 
 clear
-tmux > /dev/null 2>&1
-tmux kill-session -a > /dev/null 2>&1
-eval "$(oh-my-posh init bash)" > /dev/null 2>&1
+source $HOME/.bashrc
 
 neofetch
 echo "/ᐠ. ｡.ᐟ\\ ${bold}All done!${normal}ˎˊ˗ ✩₊˚.⋆☾⋆⁺₊✧"
