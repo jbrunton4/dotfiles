@@ -21,7 +21,7 @@ Thanks to everyone whose open-source code fuels this configuration:
 - [microsoft/dotnet](https://github.com/microsoft/dotnet) (.NET 7)
 - [neovim/neovim](https://github.com/neovim/neovim) as well as related plugins and dependencies: 
     - [3rd/image.nvim](https://github.com/3rd/image.nvim)
-    - [L3MON4D3/LuaSnip](L3MON4D3/LuaSnip)
+    - [L3MON4D3/LuaSnip](https://github.com/L3MON4D3/LuaSnip)
     - [MunifTanjim/nui.nvim](https://github.com/MunifTanjim/nui.nvim)
     - [VonHeikemen/lsp-zero.nvim](https://github.com/VonHeikemen/lsp-zero.nvim)
     - [andweeb/presence.nvim](https://github.com/wbthomason/packer.nvim)
