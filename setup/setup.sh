@@ -36,6 +36,8 @@ for script in "${all[@]}"; do
     yes | /bin/bash $script >> $logs_file 2>&1
 done
 
+cp -f $logs_file "$logs_dir/latest.log"
+
 source $HOME/.bashrc
 clear
 

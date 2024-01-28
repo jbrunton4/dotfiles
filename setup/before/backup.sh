@@ -8,3 +8,5 @@ cp -r "$HOME/.tmux.conf" "$backup_filepath/.tmux.conf"
 cp -r "$HOME/.bashrc" "$backup_filepath/.bashrc"
 
 cp -r "$HOME/.config/newsboat/urls" "$backup_filepath/newsboat/urls"
+
+cp -r -f $backup_filepath "$HOME/.brunt-dotfiles/backup/latest"
