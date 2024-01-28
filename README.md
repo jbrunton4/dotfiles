@@ -13,6 +13,7 @@ The uninstall feature has not yet been implemented.
 Thanks to everyone whose open-source code fuels this configuration: 
 - [AlDanial/cloc](https://github.com/AlDanial/cloc)
 - [dylanaraps/neofetch](https://github.com/dylanaraps/neofetch)
+- [busyloop/lolcat](https://github.com/busyloop/lolcat)
 - [eza-community/eza](https://github.com/eza-community/eza)
 - [Homebrew/brew](https://github.com/Homebrew/brew)
 - [JanDeDobbeleer/oh-my-posh](https://github.com/JanDeDobbeleer/oh-my-posh)
