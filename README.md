@@ -35,6 +35,7 @@ Thanks to everyone whose open-source code fuels this configuration:
     - [wbthomason/packer.nvim](https://github.com/andweeb/presence.nvim)
     - [williamboman/mason-lspconfig.nvim](https://github.com/williamboman/mason-lspconfig.nvim)
     - [williamboman/mason.nvim](https://github.com/williamboman/mason.nvim)
+- [nmap/nmap](https://github.com/nmap/nmap)
 - [nvbn/thefuck](https://github.com/nvbn/thefuck)
 - [scop/bash-completion](https://github.com/scop/bash-completion)
 - [tmux/tmux](https://github.com/tmux/tmux)
