@@ -15,6 +15,8 @@ The ideal environment to run this installer is a debian-based linux distribution
 
 Any other dependency will be installed automatically - for example, [sivel/speedtest-cli](https://github.com/sivel/speedtest-cli) is installed via `python3`'s `pip` module, whose presence in the environment will be automatically ensured by the program. 
 
+It is **recommended** to use a nerd font, so that programs such as [oh-my-posh](https://github.com/JanDeDobbeleer/oh-my-posh) and [dashboard-nvim](https://github.com/nvimdev/dashboard-nvim) can display correctly. [FiraCode Nerd Mono](https://github.com/ryanoasis/nerd-fonts/tree/master/patched-fonts/FiraCode/Regular) is a great option to use and guaranteed to work with this configuration. 
+
 ## Uninstallation
 The uninstall feature has not yet been implemented. See [the issue addressing this enhancement](https://github.com/jbrunton4/dotfiles/issues/5).
 
@@ -50,6 +52,7 @@ Thanks to everyone whose open-source code fuels this configuration:
 - [nmap/nmap](https://github.com/nmap/nmap)
 - [nvbn/thefuck](https://github.com/nvbn/thefuck)
 - [python/cpython](https://github.com/python/cpython)
+- [ryanoasis/nerd-fonts](https://github.com/ryanoasis/nerd-fonts)
 - [scop/bash-completion](https://github.com/scop/bash-completion)
 - [sivel/speedtest-cli](https://github.com/sivel/speedtest-cli)
 - [tmux/tmux](https://github.com/tmux/tmux)
