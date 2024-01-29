@@ -1,0 +1,10 @@
+{
+    "twitter": {
+        "YorkPride": "https://rss.app/feeds/hgslzfjH6HjRtom4.xml",
+        "yorkpress": "https://rss.app/feeds/7gnxCa5mzIgpa01X.xml",
+        "NDC_Conferences": "https://rss.app/feeds/cEuIEX2NLSAlWmET.xml"
+    },
+    "misc": {
+        "xkcd": "https://xkcd.com/rss.xml"
+    }
+}
