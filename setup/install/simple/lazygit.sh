@@ -1,1 +1,1 @@
-apt install lazygit
+snap install lazygit
