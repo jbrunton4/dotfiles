@@ -10,5 +10,5 @@ mkdir $HOME/.config/nvim
 mv $clone_folder_name/nvim/* $HOME/.config/nvim
 rm -rf $clone_folder_name
 
-nvim --cmd "so $HOME/.config/nvim/init.lua" -c "qa"
-nvim --cmd "lua require('packer').sync()" -c "qa"
+# nvim --cmd "so $HOME/.config/nvim/init.lua" -c "qa"
+# nvim --cmd "lua require('packer').sync()" -c "qa"
