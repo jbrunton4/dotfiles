@@ -9,8 +9,10 @@ version_logo=""
 
 logs_dir="$HOME/.brunt-dotfiles/logs"
 mkdir -p $logs_dir
-logs_file="$logs_dir/$(date +%s).log"
-touch $logs_file
+timestamped_logs_file="$logs_dir/$(date +%s).log"
+touch $timestamped_logs_file
+logs_file="$HOME/.brunt-dotfiles/logs/latest.log"
+echo -n > $logs_file
 
 preliminary=($(find ./preliminary/ -type f -name "*.sh"))
 before=($(find ./before/ -type f -name "*.sh"))
@@ -38,7 +40,7 @@ for ((i=0; i<${#all[@]}; i++)); do
     yes | /bin/bash $script >> $logs_file 2>&1
 done
 
-cp -f $logs_file "$logs_dir/latest.log"
+cp -f $logs_file $timestamped_logs_file
 
 source $HOME/.bashrc
 clear
