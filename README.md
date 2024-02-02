@@ -54,6 +54,7 @@ Thanks to everyone whose open-source code fuels this configuration:
 - [python/cpython](https://github.com/python/cpython)
 - [ryanoasis/nerd-fonts](https://github.com/ryanoasis/nerd-fonts)
 - [scop/bash-completion](https://github.com/scop/bash-completion)
+- [sharkdp/bat](https://github.com/sharkdp/bat)
 - [sivel/speedtest-cli](https://github.com/sivel/speedtest-cli)
 - [tmux/tmux](https://github.com/tmux/tmux)
 
