@@ -45,6 +45,7 @@ Thanks to everyone whose open-source code fuels this configuration:
     - [nvim-neo-tree/neo-tree.nvim](https://github.com/nvim-neo-tree/neo-tree.nvim)
     - [nvim-tree/nvim-web-devicons](https://github.com/nvim-tree/nvim-web-devicons)
     - [nvimdev/dashboard-nvim](https://github.com/nvimdev/dashboard-nvim)
+    - [ojroques/nvim-hardline](https://github.com/ojroques/nvim-hardline)
     - [wbthomason/packer.nvim](https://github.com/andweeb/presence.nvim)
     - [williamboman/mason-lspconfig.nvim](https://github.com/williamboman/mason-lspconfig.nvim)
     - [williamboman/mason.nvim](https://github.com/williamboman/mason.nvim)

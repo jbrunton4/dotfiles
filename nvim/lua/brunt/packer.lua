@@ -4,6 +4,9 @@ require('packer').startup(function(use)
     -- Packer can manage itself https://github.com/wbthomason/packer.nvim
     use 'wbthomason/packer.nvim'
 
+    -- ojroques/nvim-hardline
+    use 'ojroques/nvim-hardline'
+
     -- andweeb/presence.nvim
     use 'andweeb/presence.nvim'
 
