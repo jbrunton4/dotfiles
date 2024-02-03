@@ -23,8 +23,9 @@ The uninstall feature has not yet been implemented. See [the issue addressing th
 ## Acknowledgements
 Thanks to everyone whose open-source code fuels this configuration: 
 - [AlDanial/cloc](https://github.com/AlDanial/cloc)
-- [dylanaraps/neofetch](https://github.com/dylanaraps/neofetch)
 - [busyloop/lolcat](https://github.com/busyloop/lolcat)
+- [cli/cli](https://github.com/cli/cli)
+- [dylanaraps/neofetch](https://github.com/dylanaraps/neofetch)
 - [eza-community/eza](https://github.com/eza-community/eza)
 - [JanDeDobbeleer/oh-my-posh](https://github.com/JanDeDobbeleer/oh-my-posh)
 - [jbrunton4/git-back](https://github.com/jbrunton4/git-back) ([me](https://pbs.twimg.com/media/D90nHuOXkAAGxtJ.jpg:large))
