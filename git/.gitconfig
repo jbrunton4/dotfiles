@@ -1,0 +1,12 @@
+[user]
+	name = Josh Brunton
+	email = josh.brunton@proton.me
+[core]
+	editor = nvim
+[alias]
+	back = !git-back
+	hist = log --graph --oneline --decorate --all
+[init]
+	defaultBranch = main
+[merge]
+	tool = kdiff3
