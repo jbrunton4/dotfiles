@@ -58,6 +58,7 @@ Thanks to everyone whose open-source code fuels this configuration:
 - [sharkdp/bat](https://github.com/sharkdp/bat)
 - [sivel/speedtest-cli](https://github.com/sivel/speedtest-cli)
 - [TizenTeam/dos2unix](https://github.com/TizenTeam/dos2unix)
+- [TheZoraiz/ascii-image-converter](https://github.com/TheZoraiz/ascii-image-converter)
 - [tmux/tmux](https://github.com/tmux/tmux)
 
 See also some other great open-source tools:
