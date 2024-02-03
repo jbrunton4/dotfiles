@@ -1,3 +1,5 @@
+start=$(date +%s)
+
 bold=$(tput bold)
 normal=$(tput sgr0)
 prevline='\e[1A'
@@ -6,6 +8,9 @@ clearline='\e[K'
 github_logo=""
 repo_logo=""
 version_logo=""
+github_link="\e]8;;https://github.com\aGithub\e]8;;\a"
+repo_link="\e]8;;https://github.com/jbrunton4/dotfiles\ajbrunton4/dotfiles\e]8;;\a"
+version_link="\e]8;;https://example.com\aUnversioned\e]8;;\a"
 
 logs_dir="$HOME/.brunt-dotfiles/logs"
 mkdir -p $logs_dir
@@ -45,13 +50,11 @@ cp -f $logs_file $timestamped_logs_file
 source $HOME/.bashrc
 clear
 
-github_link="\e]8;;https://github.com\aGithub\e]8;;\a"
-repo_link="\e]8;;https://github.com/jbrunton4/dotfiles\ajbrunton4/dotfiles\e]8;;\a"
-version_link="\e]8;;https://example.com\aUnversioned\e]8;;\a"
+time=$(($(date +%s) - $start))
 echo -e "
 ╭━━╮╱╭╮╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╭╮ ˎˊ˗ ✩₊˚.⋆☾⋆⁺₊✧
 ┃━━╋━┫╰┳┳┳━╮╭━┳━┳━━┳━┳╮╭━┫╰┳━╮      [ $github_logo  ${bold}${github_link}${normal} ]
 ┣━━┃┻┫╭┫┃┃╋┃┃━┫╋┃┃┃┃╋┃╰┫┻┫╭┫┻┫      [ $repo_logo  ${bold}${repo_link}${normal} ]
 ╰━━┻━┻━┻━┫╭╯╰━┻━┻┻┻┫╭┻━┻━┻━┻━╯      [ $version_logo  ${bold}${version_link}${normal} ]
-╱╱╱╱╱╱╱╱╱╰╯╱╱╱╱╱╱╱╱╰╯
+╱╱╱╱╱╱╱╱╱╰╯╱╱╱╱╱╱╱╱╰╯ ${time}s
 " | lolcat -a --duration=1 --seed=100
