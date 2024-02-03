@@ -57,6 +57,7 @@ Thanks to everyone whose open-source code fuels this configuration:
 - [scop/bash-completion](https://github.com/scop/bash-completion)
 - [sharkdp/bat](https://github.com/sharkdp/bat)
 - [sivel/speedtest-cli](https://github.com/sivel/speedtest-cli)
+- [TizenTeam/dos2unix](https://github.com/TizenTeam/dos2unix)
 - [tmux/tmux](https://github.com/tmux/tmux)
 
 See also some other great open-source tools:
