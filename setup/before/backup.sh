@@ -15,6 +15,7 @@ cp -r "$HOME/.config/neofetch" "$backup_filepath/neofetch"
 cp -r "$HOME/.tmux.conf" "$backup_filepath/.tmux.conf"
 cp -r "$HOME/.bashrc" "$backup_filepath/.bashrc"
 cp -r "$HOME/.config/newsboat/urls" "$backup_filepath/newsboat/urls"
+cp -r "$HOME/.gitconfig" "$backup_filepath/.gitconfig"
 
 git -C "$backup_filepath" add --all
 git -C "$backup_filepath" commit -m "$(date +%s%N)"
