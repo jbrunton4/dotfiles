@@ -31,6 +31,7 @@ Thanks to everyone whose open-source code fuels this configuration:
 - [jbrunton4/git-back](https://github.com/jbrunton4/git-back) ([me](https://pbs.twimg.com/media/D90nHuOXkAAGxtJ.jpg:large))
 - [jesseduffield/lazygit](https://github.com/jesseduffield/lazygit)
 - [microsoft/dotnet](https://github.com/microsoft/dotnet) (.NET 7)
+- [microsoft/vscode](https://github.com/microsoft/vscode)
 - [neovim/neovim](https://github.com/neovim/neovim) as well as related plugins and dependencies: 
     - [3rd/image.nvim](https://github.com/3rd/image.nvim)
     - [L3MON4D3/LuaSnip](https://github.com/L3MON4D3/LuaSnip)
