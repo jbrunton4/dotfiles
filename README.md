@@ -42,6 +42,7 @@ Thanks to everyone whose open-source code fuels this configuration:
     - [hrsh7th/cmp-nvim-lsp](https://github.com/hrsh7th/cmp-nvim-lsp)
     - [hrsh7th/nvim-cmp](https://github.com/hrsh7th/nvim-cmp)
     - [kdheepak/lazygit.nvim](kdheepak/lazygit.nvim)
+    - [lewis6991/gitsigns.nvim](https://github.com/lewis6991/gitsigns.nvim)
     - [neovim/nvim-lspconfig](https://github.com/neovim/nvim-lspconfig)
     - [nvim-lua/plenary.nvim](https://github.com/nvim-lua/plenary.nvim)
     - [nvim-neo-tree/neo-tree.nvim](https://github.com/nvim-neo-tree/neo-tree.nvim)

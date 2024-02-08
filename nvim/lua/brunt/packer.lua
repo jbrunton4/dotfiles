@@ -4,6 +4,13 @@ require('packer').startup(function(use)
     -- Packer can manage itself https://github.com/wbthomason/packer.nvim
     use 'wbthomason/packer.nvim'
 
+    use { 
+        'lewis6991/gitsigns.nvim',
+        config = function() 
+            require("gitsigns").setup()
+        end
+    }
+
     -- ojroques/nvim-hardline
     use 'ojroques/nvim-hardline'
 
