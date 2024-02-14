@@ -30,6 +30,7 @@ Thanks to everyone whose open-source code fuels this configuration:
 - [JanDeDobbeleer/oh-my-posh](https://github.com/JanDeDobbeleer/oh-my-posh)
 - [jbrunton4/git-back](https://github.com/jbrunton4/git-back) ([me](https://pbs.twimg.com/media/D90nHuOXkAAGxtJ.jpg:large))
 - [jesseduffield/lazygit](https://github.com/jesseduffield/lazygit)
+- [junegunn/fzf](https://github.com/junegunn/fzf)
 - [microsoft/dotnet](https://github.com/microsoft/dotnet) (.NET 7)
 - [microsoft/vscode](https://github.com/microsoft/vscode)
 - [neovim/neovim](https://github.com/neovim/neovim) as well as related plugins and dependencies: 
