@@ -1,0 +1,1 @@
+apt install dotnet-sdk-8.0
