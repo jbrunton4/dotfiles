@@ -10,7 +10,8 @@ repo_logo=""
 version_logo=""
 github_link="\e]8;;https://github.com\aGithub\e]8;;\a"
 repo_link="\e]8;;https://github.com/jbrunton4/dotfiles\ajbrunton4/dotfiles\e]8;;\a"
-version_link="\e]8;;https://example.com\aUnversioned\e]8;;\a"
+version=$(echo "$(git rev-parse HEAD)" | cut -c 1-7)
+version_link="\e]8;;https://example.com\a${version}\e]8;;\a"
 
 logs_dir="$HOME/.brunt-dotfiles/logs"
 mkdir -p $logs_dir
