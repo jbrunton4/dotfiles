@@ -108,7 +108,6 @@ eval $(thefuck --alias FUCK)
 
 # tmux
 tmux
-tmux kill-session -a
 
 # neofetch
 neofetch --disable packages --disable distro --ascii_distro Arch
