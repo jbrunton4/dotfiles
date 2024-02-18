@@ -14,7 +14,7 @@ then
 fi
 
 # check that the directory has subdirectories
-subdircount=$(find "${root}" -maxdepth -type d | wc -l)
+subdircount=$(find "${root}" -maxdepth 1 -type d | wc -l)
 if [[ "$subdircount" -eq 1 ]]
 then
     echo "Directory contains no subdirectories (${root})"
