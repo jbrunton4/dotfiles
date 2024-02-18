@@ -29,6 +29,7 @@ Thanks to everyone whose open-source code fuels this configuration:
 - [cli/cli](https://github.com/cli/cli)
 - [dylanaraps/neofetch](https://github.com/dylanaraps/neofetch)
 - [eza-community/eza](https://github.com/eza-community/eza)
+- [git/git](https://github.com/git/git)
 - [JanDeDobbeleer/oh-my-posh](https://github.com/JanDeDobbeleer/oh-my-posh)
 - [jbrunton4/git-back](https://github.com/jbrunton4/git-back) ([me](https://pbs.twimg.com/media/D90nHuOXkAAGxtJ.jpg:large))
 - [jesseduffield/lazygit](https://github.com/jesseduffield/lazygit)

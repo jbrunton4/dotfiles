@@ -8,6 +8,7 @@ packages=(
     "exa"
     "ffmpeg"
     "fzf"
+    "git"
     "gh"
     "kdiff3"
     "nmap"
