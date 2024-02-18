@@ -5,3 +5,4 @@ alias top="bashtop"
 alias ripgrep="rg"
 
 bind '"\C-o": "\C-usource $HOME/.brunt-dotfiles/scripts/open_work_project.sh\n"'
+bind -x '"\C-r": source $HOME/.bashrc'
