@@ -1,4 +1,5 @@
 packages=(
+    "bash-completion"
     "bashtop"
     "bat"
     "cloc"
@@ -11,6 +12,7 @@ packages=(
     "git"
     "gh"
     "kdiff3"
+    "neofetch"
     "nmap"
     "ripgrep"
     "tree"
