@@ -1,0 +1,39 @@
+# requires tree, fzf
+root="$(cat $HOME/.brunt-dotfiles/config/projects_directory)"
+
+# check that root is configured
+if [[ -z $root ]]
+then
+    echo "No path was configured! ($root)"
+fi
+
+# check that the directory exists
+if [ ! -d "$root" ]
+then
+    echo "Directory does not exist (${root})"
+fi
+
+# check that the directory has subdirectories
+subdircount=$(find "${root}" -maxdepth -type d | wc -l)
+if [[ "$subdircount" -eq 1 ]]
+then
+    echo "Directory contains no subdirectories (${root})"
+fi
+
+# move
+target=$(ls -d -1 "${root}/"**/ |
+    awk -F "/" '{print $(NF-1) "/" $NF}' |
+    fzf --preview "tree {} -L 1" \
+        --info "hidden" \
+        --header "$root/" \
+        --header-first \
+        --reverse \
+        --keep-right)
+target=$(echo "$target" | awk '{sub(/^'"'"'/,""); sub(/'"'"'$/,""); print}') # strip quotes from fzf output
+target=$(basename $target)
+
+if [[ ! -z $target ]]
+then
+    cd "${root}/${target}"
+fi
+

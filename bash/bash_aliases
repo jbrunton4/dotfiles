@@ -1,3 +1,5 @@
 alias ls="exa"
 alias cat="batcat"
 alias ffmpreg="ffmpeg"
+
+bind '"\C-o": "\C-usource $HOME/.brunt-dotfiles/scripts/open_work_project.sh\n"'
