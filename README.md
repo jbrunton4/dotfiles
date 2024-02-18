@@ -67,6 +67,7 @@ Thanks to everyone whose open-source code fuels this configuration:
 - [TizenTeam/dos2unix](https://github.com/TizenTeam/dos2unix)
 - [TheZoraiz/ascii-image-converter](https://github.com/TheZoraiz/ascii-image-converter)
 - [tmux/tmux](https://github.com/tmux/tmux)
+- [tmux-plugins/tpm](https://github.com/tmux-plugins/tpm)
 
 See also some other great open-source tools:
 - [gitextensions/gitextensions](https://github.com/gitextensions/gitextensions)
