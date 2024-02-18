@@ -26,6 +26,7 @@ Thanks to everyone whose open-source code fuels this configuration:
 - [aristocratos/bashtop](https://github.com/aristocratos/bashtop)
 - [BurntSushi/ripgrep](https://github.com/BurntSushi/ripgrep)
 - [busyloop/lolcat](https://github.com/busyloop/lolcat)
+- [catppuccin/tmux](https://github.com/catppuccin/tmux)
 - [cli/cli](https://github.com/cli/cli)
 - [dylanaraps/neofetch](https://github.com/dylanaraps/neofetch)
 - [eza-community/eza](https://github.com/eza-community/eza)
