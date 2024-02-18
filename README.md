@@ -24,6 +24,7 @@ The uninstall feature has not yet been implemented. See [the issue addressing th
 Thanks to everyone whose open-source code fuels this configuration: 
 - [AlDanial/cloc](https://github.com/AlDanial/cloc)
 - [aristocratos/bashtop](https://github.com/aristocratos/bashtop)
+- [BurntSushi/ripgrep](https://github.com/BurntSushi/ripgrep)
 - [busyloop/lolcat](https://github.com/busyloop/lolcat)
 - [cli/cli](https://github.com/cli/cli)
 - [dylanaraps/neofetch](https://github.com/dylanaraps/neofetch)
