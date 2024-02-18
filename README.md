@@ -26,7 +26,6 @@ Thanks to everyone whose open-source code fuels this configuration:
 - [aristocratos/bashtop](https://github.com/aristocratos/bashtop)
 - [BurntSushi/ripgrep](https://github.com/BurntSushi/ripgrep)
 - [busyloop/lolcat](https://github.com/busyloop/lolcat)
-- [catppuccin/tmux](https://github.com/catppuccin/tmux)
 - [cli/cli](https://github.com/cli/cli)
 - [dylanaraps/neofetch](https://github.com/dylanaraps/neofetch)
 - [eza-community/eza](https://github.com/eza-community/eza)
@@ -67,8 +66,10 @@ Thanks to everyone whose open-source code fuels this configuration:
 - [sivel/speedtest-cli](https://github.com/sivel/speedtest-cli)
 - [TizenTeam/dos2unix](https://github.com/TizenTeam/dos2unix)
 - [TheZoraiz/ascii-image-converter](https://github.com/TheZoraiz/ascii-image-converter)
-- [tmux/tmux](https://github.com/tmux/tmux)
-- [tmux-plugins/tpm](https://github.com/tmux-plugins/tpm)
+- [tmux/tmux](https://github.com/tmux/tmux) as well as related plugins: 
+    - [catppuccin/tmux](https://github.com/catppuccin/tmux)
+    - [tmux-plugins/tmux-cpu](https://github.com/tmux-plugins/tmux-cpu)
+    - [tmux-plugins/tpm](https://github.com/tmux-plugins/tpm)
 
 See also some other great open-source tools:
 - [gitextensions/gitextensions](https://github.com/gitextensions/gitextensions)
