@@ -4,6 +4,10 @@ packages=(
     "lolcat"
 )
 
+if [ ! -f /etc/wsl.conf ]; then
+    packages+=("firefox")
+fi
+
 for package in "${packages[@]}"
 do
     echo "===== SNAP INSTALL: $package =====" >> $HOME/.brunt-dotfiles/logs/latest
