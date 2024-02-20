@@ -4,7 +4,7 @@
 [core]
 	editor = nvim
 [alias]
-	back = !git-back
+	back = !/bin/bash "$HOME/.brunt-dotfiles/scripts/git-back.sh"
 	hist = log --graph --oneline --decorate --all
 [init]
 	defaultBranch = main
