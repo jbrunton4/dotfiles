@@ -74,6 +74,7 @@ Thanks to everyone whose open-source code fuels this configuration. Links lead t
         - [tmux-plugins/tmux-cpu](https://github.com/tmux-plugins/tmux-cpu)
         - [tmux-plugins/tpm](https://github.com/tmux-plugins/tpm)
 - **GUI Software**
+    - GIMP ([gimp.org](https://www.gimp.org/source/))
     - [gitextensions/gitextensions](https://github.com/gitextensions/gitextensions)
     - Mozilla Firefox ([mozilla.org](https://www.mozilla.org/firefox/))
     - [microsoft/vscode](https://github.com/microsoft/vscode)

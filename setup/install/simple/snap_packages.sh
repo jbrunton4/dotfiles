@@ -6,6 +6,7 @@ packages=(
 
 if [ ! -f /etc/wsl.conf ]; then
     packages+=("firefox")
+    packages+=("gimp")
     packages+=("postman")
 fi
 
