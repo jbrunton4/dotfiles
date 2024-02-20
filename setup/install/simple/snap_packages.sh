@@ -6,6 +6,7 @@ packages=(
 
 if [ ! -f /etc/wsl.conf ]; then
     packages+=("firefox")
+    packages+=("postman")
 fi
 
 for package in "${packages[@]}"
