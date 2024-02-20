@@ -30,10 +30,10 @@ target=$(ls -d -1 "${root}/"**/ |
         --reverse \
         --keep-right)
 target=$(echo "$target" | awk '{sub(/^'"'"'/,""); sub(/'"'"'$/,""); print}') # strip quotes from fzf output
-target=$(basename $target)
 
 if [[ ! -z $target ]]
 then
+    target=$(basename $target)
     cd "${root}/${target}"
 fi
 
