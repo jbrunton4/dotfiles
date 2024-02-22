@@ -8,7 +8,14 @@ curl -sSL https://raw.githubusercontent.com/jbrunton4/dotfiles/main/setup/setup-
 
 Alternatively, if you're feeling lazy: 
 ```bash
-curl -L joshbrunton.dev/i | bash
+curl joshbrunton.dev/i | bash
+```
+
+If you want to host an endpoint to this file, you should read the content at the URL and return it with the `content-type: text/plain`. This is mostly in case I forget. 
+```python
+@app.route("/i")
+def i():
+  return flask.Response(requests.get("https://raw.githubusercontent.com/jbrunton4/dotfiles/main/setup/setup-remote.sh").text, content_type='text/plain')
 ```
 
 Before running, a backup of any files that are likely to be edited is created in `~/.brunt-dotfiles/backup/latest`. This folder also contains previous backups, organised by time generated. As there is [not yet an uninstall/restore feature](https://github.com/jbrunton4/dotfiles/issues/5), backups must be restored manually if desired. 
