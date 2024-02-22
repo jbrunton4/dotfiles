@@ -83,7 +83,6 @@ Thanks to everyone whose open-source code fuels this configuration. Links lead t
     - [TheZoraiz/ascii-image-converter](https://github.com/TheZoraiz/ascii-image-converter)
     - [tmux/tmux](https://github.com/tmux/tmux) and associated plugins:
         - [catppuccin/tmux](https://github.com/catppuccin/tmux)
-        - [tmux-plugins/tmux-cpu](https://github.com/tmux-plugins/tmux-cpu)
         - [tmux-plugins/tpm](https://github.com/tmux-plugins/tpm)
 - **GUI Software**
     - GIMP ([gimp.org](https://www.gimp.org/source/))
