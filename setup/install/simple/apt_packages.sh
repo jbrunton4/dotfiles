@@ -16,7 +16,6 @@ packages=(
     "nmap"
     "ripgrep"
     "tree"
-    "code"
 )
 
 for package in "${packages[@]}"

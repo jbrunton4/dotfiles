@@ -2,6 +2,7 @@ packages=(
     "ascii-image-converter"
     "lazygit"
     "lolcat"
+    "code"
 )
 
 if [ ! -f /etc/wsl.conf ]; then
