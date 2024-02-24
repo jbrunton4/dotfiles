@@ -1,1 +1,1 @@
-apt install mono-complete
+sudo apt install mono-complete
