@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # while logs directory contains too much data, prune the oldest
 
 folder_path="$HOME/.brunt-dotfiles/logs"

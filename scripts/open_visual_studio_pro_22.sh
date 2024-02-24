@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # preliminary checks
 if [ ! -f /etc/wsl.conf ]
 then

@@ -1,3 +1,5 @@
+#!/bin/bash
+
 backup_filepath="$HOME/.brunt-dotfiles/backup"
 mkdir -p "$backup_filepath"
 

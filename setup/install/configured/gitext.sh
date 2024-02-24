@@ -1,3 +1,5 @@
+#!/bin/bash
+
 install_destination="$HOME/.brunt-dotfiles/install/gitext"
 rm -rf "$install_destination"
 mkdir -p "$install_destination"

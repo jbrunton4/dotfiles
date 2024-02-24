@@ -1,3 +1,4 @@
+#!/bin/bash
 
 snap install newsboat 
 

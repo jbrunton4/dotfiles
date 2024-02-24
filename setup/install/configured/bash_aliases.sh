@@ -1,1 +1,3 @@
+#!/bin/bash
+
 curl -sSL https://raw.githubusercontent.com/jbrunton4/dotfiles/main/bash/bash_aliases > $HOME/.bash_aliases

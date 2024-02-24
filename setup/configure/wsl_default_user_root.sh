@@ -1,3 +1,5 @@
+#!/bin/bash
+
 if [ ! -f /etc/wsl.conf ]; then
     exit 0
 fi

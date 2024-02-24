@@ -1,3 +1,5 @@
+#!/bin/bash
+
 sudo apt-get install tmux
 
 touch $HOME/.tmux.conf

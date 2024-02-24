@@ -1,3 +1,5 @@
+#!/bin/bash
+
 packages=(
     "ascii-image-converter"
     "lazygit"

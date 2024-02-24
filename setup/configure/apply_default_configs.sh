@@ -1,3 +1,5 @@
+#!/bin/bash
+
 files=(
     "logs.json"
     "install.json"

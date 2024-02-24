@@ -1,3 +1,5 @@
+#!/bin/bash
+
 start=$(date +%s)
 
 bold=$(tput bold)

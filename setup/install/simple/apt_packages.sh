@@ -1,3 +1,5 @@
+#!/bin/bash
+
 packages=(
     "bash-completion"
     "bashtop"

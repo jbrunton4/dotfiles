@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # requires tree, fzf
 root="$(cat $HOME/.brunt-dotfiles/config/projects_directory)"
 

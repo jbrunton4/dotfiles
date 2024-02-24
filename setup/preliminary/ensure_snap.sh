@@ -1,3 +1,5 @@
+#!/bin/bash
+
 if command -v snap &>/dev/null
 then
     : # pass

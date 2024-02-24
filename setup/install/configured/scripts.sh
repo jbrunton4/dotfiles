@@ -1,3 +1,5 @@
+#!/bin/bash
+
 scripts_dir="$HOME/.brunt-dotfiles/scripts"
 config_dir="$HOME/.brunt-dotfiles/config"
 
