@@ -7,8 +7,8 @@ mkdir -p "$scripts_dir"
 mkdir -p "$config_dir"
 
 scripts=(
-    "open_visual_studio_pro_22",
-    "open_work_project",
+    "open_visual_studio_pro_22"
+    "open_work_project"
 )
 if [ $(jq '.profile' $HOME/.brunt-dotfiles/config/install.json) -eq "home" ]; then
     scripts+=("lolcat_block")
