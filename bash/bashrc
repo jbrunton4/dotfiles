@@ -87,7 +87,9 @@ eval $(thefuck --alias fuck)
 eval $(thefuck --alias FUCK)
 
 # tmux
-tmux
+if [ "$(tmux list-sessions | awk '$0 ~ /\(attached\)$/' | wc -l)" -eq 0 ]; then
+    tmux new-session -A -s dev
+fi
 
 # neofetch
 if [ -f /etc/wsl.conf ]; then
