@@ -25,7 +25,7 @@ fi
 # move
 target=$(ls -d -1 "${root}/"**/ |
     awk -F "/" '{print $(NF-1) "/" $NF}' |
-    fzf --preview "tree {} -L 1" \
+    fzf --preview "tree '$root/$({} | awk -F/ '{print $2}')' -L 1" \
         --info "hidden" \
         --header "$root/" \
         --header-first \
