@@ -13,7 +13,7 @@ if [ ! -f /etc/wsl.conf ]; then
     packages+=("postman")
 fi
 
-if [ $(jq '.profile' $HOME/.brunt-dotfiles/config/install.json) -eq "home" ]; then
+if [ $(jq '.profile' $HOME/.brunt-dotfiles/config/install.json) -eq "\"home\"" ]; then
     packages+=("discord")
 fi
 

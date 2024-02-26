@@ -92,7 +92,7 @@ if [ "$(tmux list-sessions | awk '$0 ~ /\(attached\)$/' | wc -l)" -eq 0 ]; then
 fi
 
 # neofetch
-if [ "$(jq '.profile' $HOME/.brunt-dotfiles/config/install.json)" == "work" ] && [ -f /etc/wsl.conf ]; then
+if [ "$(jq '.profile' $HOME/.brunt-dotfiles/config/install.json)" == "\"work\"" ] && [ -f /etc/wsl.conf ]; then
     neofetch --disable packages --disable distro --ascii_distro windows10
 else 
     neofetch --disable packages

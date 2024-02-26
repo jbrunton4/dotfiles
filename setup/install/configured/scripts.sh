@@ -10,7 +10,7 @@ scripts=(
     "open_visual_studio_pro_22"
     "open_work_project"
 )
-if [ $(jq '.profile' $HOME/.brunt-dotfiles/config/install.json) -eq "home" ]; then
+if [ $(jq '.profile' $HOME/.brunt-dotfiles/config/install.json) -eq "\"home\"" ]; then
     scripts+=("lolcat_block")
 fi
 
