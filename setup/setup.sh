@@ -55,10 +55,17 @@ source $HOME/.bashrc
 clear
 
 time=$(($(date +%s) - $start))
-echo -e "
+message="
 ╭━━╮╱╭╮╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╭╮ ˎˊ˗ ✩₊˚.⋆☾⋆⁺₊✧
 ┃━━╋━┫╰┳┳┳━╮╭━┳━┳━━┳━┳╮╭━┫╰┳━╮      [ $github_logo  ${bold}${github_link}${normal} ]
 ┣━━┃┻┫╭┫┃┃╋┃┃━┫╋┃┃┃┃╋┃╰┫┻┫╭┫┻┫      [ $repo_logo  ${bold}${repo_link}${normal} ]
 ╰━━┻━┻━┻━┫╭╯╰━┻━┻┻┻┫╭┻━┻━┻━┻━╯      [ $version_logo  ${bold}${version_link}${normal} ]
 ╱╱╱╱╱╱╱╱╱╰╯╱╱╱╱╱╱╱╱╰╯ ${time}s
-" | lolcat -a --duration=1 --seed=100
+" 
+
+if command -v lolcat &> /dev/null
+then
+    echo -e $message | lolcat -a --duration=1 --seed=100
+else
+    echo -e $message
+fi
