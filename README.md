@@ -90,6 +90,7 @@ Thanks to everyone whose open-source code fuels this configuration. Links lead t
     - Mozilla Firefox ([mozilla.org](https://www.mozilla.org/firefox/))
     - [microsoft/vscode](https://github.com/microsoft/vscode)
     - [postmanlabs/postman-runtime](https://github.com/postmanlabs/postman-runtime)
+    - [qbittorrent/qBittorrent](https://github.com/qbittorrent/qBittorrent)
 - **Other Tools**
     - [microsoft/dotnet](https://github.com/microsoft/dotnet)
     - [python/cpython](https://github.com/python/cpython)
