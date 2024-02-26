@@ -88,6 +88,7 @@ eval $(thefuck --alias FUCK)
 
 # tmux
 if [ "$(tmux list-sessions | awk '$0 ~ /\(attached\)$/' | wc -l)" -eq 0 ]; then
+    tmux kill-session -t dev
     tmux new-session -A -s dev
 fi
 
