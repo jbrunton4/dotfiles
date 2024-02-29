@@ -26,8 +26,9 @@ preliminary=($(find ./preliminary/ -type f -name "*.sh"))
 before=($(find ./before/ -type f -name "*.sh"))
 configure=($(find ./configure/ -type f -name "*.sh"))
 install=($(find ./install/ -type f -name "*.sh"))
+housekeeping=($(find ./housekeeping/ -type f -name "*.sh"))
 after=($(find ./after/ -type f -name "*.sh"))
-all=("${preliminary[@]}" "${before[@]}" "${configure[@]}" "${install[@]}" "${after[@]}")
+all=("${preliminary[@]}" "${before[@]}" "${configure[@]}" "${install[@]}" "${housekeeping[@]}" "${after[@]}")
 
 for ((i=0; i<${#all[@]}; i++)); do
     script="${all[i]}"
