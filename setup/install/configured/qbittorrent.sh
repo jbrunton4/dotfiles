@@ -1,6 +1,6 @@
 #!/usr/bin
 
-if [ $(jq '.profile' $HOME/.brunt-dotfiles/config/install.json) -ne "\"home\"" ]; then
+if [ "$(jq '.profile' $HOME/.brunt-dotfiles/config/install.json)" != "\"home\"" ]; then
     exit 0
 fi
 
