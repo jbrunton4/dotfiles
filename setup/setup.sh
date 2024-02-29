@@ -57,11 +57,11 @@ clear
 
 time=$(($(date +%s) - $start))
 message="
-╭━━╮╱╭╮╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╭╮ ˎˊ˗ ✩₊˚.⋆☾⋆⁺₊✧
-┃━━╋━┫╰┳┳┳━╮╭━┳━┳━━┳━┳╮╭━┫╰┳━╮      [ $github_logo  ${bold}${github_link}${normal} ]
-┣━━┃┻┫╭┫┃┃╋┃┃━┫╋┃┃┃┃╋┃╰┫┻┫╭┫┻┫      [ $repo_logo  ${bold}${repo_link}${normal} ]
-╰━━┻━┻━┻━┫╭╯╰━┻━┻┻┻┫╭┻━┻━┻━┻━╯      [ $version_logo  ${bold}${version_link}${normal} ]
-╱╱╱╱╱╱╱╱╱╰╯╱╱╱╱╱╱╱╱╰╯ ${time}s
+╭━━╮╱╭╮╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╭╮ ˎˊ˗ ✩₊˚.⋆☾⋆⁺₊✧\n
+┃━━╋━┫╰┳┳┳━╮╭━┳━┳━━┳━┳╮╭━┫╰┳━╮      [ $github_logo  ${bold}${github_link}${normal} ]\n
+┣━━┃┻┫╭┫┃┃╋┃┃━┫╋┃┃┃┃╋┃╰┫┻┫╭┫┻┫      [ $repo_logo  ${bold}${repo_link}${normal} ]\n
+╰━━┻━┻━┻━┫╭╯╰━┻━┻┻┻┫╭┻━┻━┻━┻━╯      [ $version_logo  ${bold}${version_link}${normal} ]\n
+╱╱╱╱╱╱╱╱╱╰╯╱╱╱╱╱╱╱╱╰╯ ${time}s\n
 " 
 
 if command -v lolcat &> /dev/null
