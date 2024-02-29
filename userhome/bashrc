@@ -18,6 +18,12 @@ HISTFILESIZE=2000
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize
 
+# start tmux
+if [ "$(tmux list-sessions | awk '$0 ~ /\(attached\)$/' | wc -l)" -eq 0 ]; then
+    tmux kill-session -t dev
+    tmux new-session -A -s dev
+fi
+
 # make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
@@ -85,12 +91,6 @@ source /etc/profile.d/bash_completion.sh
 eval $(thefuck --alias)
 eval $(thefuck --alias fuck)
 eval $(thefuck --alias FUCK)
-
-# tmux
-if [ "$(tmux list-sessions | awk '$0 ~ /\(attached\)$/' | wc -l)" -eq 0 ]; then
-    tmux kill-session -t dev
-    tmux new-session -A -s dev
-fi
 
 # neofetch
 if [ "$(jq '.profile' $HOME/.brunt-dotfiles/config/install.json)" == "\"work\"" ] && [ -f /etc/wsl.conf ]; then
