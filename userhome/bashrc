@@ -101,3 +101,6 @@ fi
 
 # oh-my-posh
 eval "$(oh-my-posh init bash --config 'https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/catppuccin_frappe.omp.json')"
+
+# PATH
+export PATH="your-dir:$PATH"

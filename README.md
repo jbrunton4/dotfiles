@@ -52,7 +52,7 @@ Thanks to everyone whose open-source code fuels this configuration. Links lead t
     - [jbrunton4/git-back](https://github.com/jbrunton4/git-back) ([me](https://pbs.twimg.com/media/D90nHuOXkAAGxtJ.jpg:large))
     - [jesseduffield/lazygit](https://github.com/jesseduffield/lazygit)
     - [junegunn/fzf](https://github.com/junegunn/fzf)
-    - [neovim/neovim](https://github.com/neovim/neovim) and associated plugins: 
+    - [LunarVim/LunarVim](https://github.com/LunarVim/LunarVim) (based on [neovim/neovim](https://github.com/neovim/neovim)), and associated plugins: 
         - [3rd/image.nvim](https://github.com/3rd/image.nvim)
         - [L3MON4D3/LuaSnip](https://github.com/L3MON4D3/LuaSnip)
         - [MunifTanjim/nui.nvim](https://github.com/MunifTanjim/nui.nvim)
