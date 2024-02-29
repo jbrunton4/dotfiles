@@ -42,6 +42,7 @@ Thanks to everyone whose open-source code fuels this configuration. Links lead t
 - **CLI Tools**
     - [AlDanial/cloc](https://github.com/AlDanial/cloc)
     - [aristocratos/bashtop](https://github.com/aristocratos/bashtop)
+    - [bootandy/dust](https://github.com/bootandy/dust)
     - [BurntSushi/ripgrep](https://github.com/BurntSushi/ripgrep)
     - [busyloop/lolcat](https://github.com/busyloop/lolcat)
     - [cli/cli](https://github.com/cli/cli)
@@ -72,6 +73,7 @@ Thanks to everyone whose open-source code fuels this configuration. Links lead t
         - [wbthomason/packer.nvim](https://github.com/andweeb/presence.nvim)
         - [williamboman/mason-lspconfig.nvim](https://github.com/williamboman/mason-lspconfig.nvim)
         - [williamboman/mason.nvim](https://github.com/williamboman/mason.nvim)
+    - [mozilla/sccache](https://github.com/mozilla/sccache)
     - [newsboat/newsboat](https://github.com/newsboat/newsboat)
     - [nmap/nmap](https://github.com/nmap/nmap)
     - [nvbn/thefuck](https://github.com/nvbn/thefuck)
@@ -94,6 +96,7 @@ Thanks to everyone whose open-source code fuels this configuration. Links lead t
 - **Other Tools**
     - [microsoft/dotnet](https://github.com/microsoft/dotnet)
     - [python/cpython](https://github.com/python/cpython)
+    - [rust-lang/rust](https://github.com/rust-lang/rust) and its package manager [rust-lang/cargo](https://github.com/rust-lang/cargo)
 
 Further thanks to Quad9 DNS service ([quad9.net](https://www.quad9.net)), which by nature does not fit under the definition of open-source code, but is still used in this configuration and worthy of recognition. 
 
