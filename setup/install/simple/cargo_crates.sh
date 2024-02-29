@@ -6,6 +6,7 @@ cargo install sccache >> $HOME/.brunt-dotfiles/logs/latest
 
 packages=(
     "du-dust"
+    "atuin"
 )
 
 for package in "${packages[@]}"

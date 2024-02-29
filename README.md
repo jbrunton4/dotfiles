@@ -42,6 +42,7 @@ Thanks to everyone whose open-source code fuels this configuration. Links lead t
 - **CLI Tools**
     - [AlDanial/cloc](https://github.com/AlDanial/cloc)
     - [aristocratos/bashtop](https://github.com/aristocratos/bashtop)
+    - [atuinsh/atuin](https://github.com/atuinsh/atuin)
     - [bootandy/dust](https://github.com/bootandy/dust)
     - [BurntSushi/ripgrep](https://github.com/BurntSushi/ripgrep)
     - [busyloop/lolcat](https://github.com/busyloop/lolcat)
