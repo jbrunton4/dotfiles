@@ -5,8 +5,9 @@ echo "===== CARGO INSTALL: $package =====" >> $HOME/.brunt-dotfiles/logs/latest
 cargo install sccache >> $HOME/.brunt-dotfiles/logs/latest
 
 packages=(
-    "du-dust"
     "atuin"
+    "du-dust"
+    "ripgrep"
 )
 
 for package in "${packages[@]}"
