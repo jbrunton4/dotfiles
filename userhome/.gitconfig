@@ -1,8 +1,11 @@
 [user]
-	name = Josh Brunton
-	email = josh.brunton@proton.me
+	name = "Josh Brunton"
+	email = "josh.brunton@proton.me"
 [core]
 	editor = nvim
+	logallrefupdates = true
+	ignorecase = false
+	hideFotFiles = false
 [alias]
 	back = !/bin/bash "$HOME/.brunt-dotfiles/scripts/git-back.sh"
 	hist = log --graph --oneline --decorate --all
@@ -10,3 +13,18 @@
 	defaultBranch = main
 [merge]
 	tool = kdiff3
+[rerere]
+	enabled = 1
+	autoupdate = 1
+[github]
+	user = jbrunton4
+[web]
+	browser = firefox
+[color "status"]
+	changed = blue bold
+[url "https://github.com/"]
+	insteadOf = gh:
+[advice]
+	detachedHead = false
+[fetch]
+	all = true
