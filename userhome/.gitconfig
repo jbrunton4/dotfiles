@@ -1,6 +1,5 @@
 [user]
 	name = "Josh Brunton"
-	email = "josh.brunton@proton.me"
 [core]
 	editor = nvim
 	logallrefupdates = true
@@ -16,8 +15,6 @@
 [rerere]
 	enabled = 1
 	autoupdate = 1
-[github]
-	user = jbrunton4
 [web]
 	browser = firefox
 [color "status"]
