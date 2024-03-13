@@ -7,6 +7,7 @@ cargo install sccache >> $HOME/.brunt-dotfiles/logs/latest
 packages=(
     "atuin"
     "du-dust"
+    "eza"
     "ripgrep"
 )
 
