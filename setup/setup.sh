@@ -46,8 +46,13 @@ for ((i=0; i<${#all[@]}; i++)); do
     ＼二)"
     sleep 0.1
 
-    echo -e "\n\n===== $script =====" >> $logs_file
-    yes | /bin/bash $script >> $logs_file 2>&1
+    if [[ $1 == "-v" || $1 == "--verbose" ]]; then 
+        echo -e "\n\n===== $script ====="
+        yes | /bin/bash $script
+    else
+        echo -e "\n\n===== $script =====" >> $logs_file
+        yes | /bin/bash $script >> $logs_file 2>&1
+    fi
 done
 
 cp -f $logs_file $timestamped_logs_file
