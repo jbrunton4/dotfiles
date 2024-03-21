@@ -105,6 +105,7 @@ eval "$(oh-my-posh init bash --config 'https://raw.githubusercontent.com/JanDeDo
 # PATH
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
+export PATH="$HOME/.brunt-dotfiles/bin:$PATH"
 
 # atuin
 eval "$(atuin init bash --disable-up-arrow --disable-ctrl-r)"

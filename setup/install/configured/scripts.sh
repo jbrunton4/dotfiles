@@ -1,6 +1,6 @@
 #!/bin/bash
 
-scripts_dir="$HOME/.brunt-dotfiles/scripts"
+scripts_dir="$HOME/.brunt-dotfiles/bin"
 config_dir="$HOME/.brunt-dotfiles/config"
 
 mkdir -p "$scripts_dir"
@@ -16,7 +16,7 @@ fi
 
 for script_name in "${scripts[@]}"
 do
-    curl -sSL https://raw.githubusercontent.com/jbrunton4/dotfiles/main/scripts/${script_name}.sh > "${scripts_dir}/${script_name}.sh"
+    curl -sSL https://raw.githubusercontent.com/jbrunton4/dotfiles/main/scripts/${script_name}.sh > "${scripts_dir}/${script_name}"
 done
 
 config_files=(
