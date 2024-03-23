@@ -6,7 +6,7 @@ root="$(cat $HOME/.brunt-dotfiles/config/projects_directory)"
 # check that root is configured
 if [[ -z $root ]]
 then
-    echo "No path was configured! ($root)"
+    echo "No path was configured! ($HOME/.brunt-dotfiles/config/projects_directory)"
 fi
 
 # check that the directory exists
