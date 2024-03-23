@@ -20,6 +20,7 @@ fi
 for script_name in "${scripts[@]}"
 do
     curl -sSL https://raw.githubusercontent.com/jbrunton4/dotfiles/main/scripts/${script_name}.sh > "${scripts_dir}/${script_name}"
+    chmod +x "${scripts_dir}/${script_name}"
 done
 
 config_files=(
@@ -30,5 +31,3 @@ for file in "${config_files[@]}"
 do
     [ ! -f "${config_dir}/${file}" ] && touch "${config_dir}/${file}"
 done
-
-chmod +x "$scripts_dir/*"
