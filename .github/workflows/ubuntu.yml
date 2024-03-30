@@ -17,5 +17,5 @@ jobs:
       
       - name: Run
         run: |
-          /bin/bash $GITHUB_WORKSPACE/setup/setup.sh
+          /bin/bash $GITHUB_WORKSPACE/setup/setup-remote.sh
           echo "todo: Add tests" 
