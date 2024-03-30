@@ -6,10 +6,8 @@ root="$(cat $HOME/.brunt-dotfiles/config/projects_directory)"
 # check that root is configured
 if [[ -z $root ]]
 then
-    echo "No path was configured! ($HOME/.brunt-dotfiles/config/projects_directory)"
-    echo "Specify repos folder: "
-    read repos_folder
-    echo "${repos_folder}" > $HOME/.brunt-dotfiles/config/projects_directory
+    echo "# No directory configured - where are your projects?" > $HOME/.brunt-dotfiles/config/projects_directory
+    $(git config --get core.editor) $HOME/.brunt-dotfiles/config/projects_directory
 fi
 
 # check that the directory exists
