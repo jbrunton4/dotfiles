@@ -11,6 +11,7 @@ if [ ! -f /etc/wsl.conf ]; then
     packages+=("firefox")
     packages+=("gimp")
     packages+=("postman")
+    packages+=("snap-store")
 fi
 
 if [ $(jq '.profile' $HOME/.brunt-dotfiles/config/install.json) -eq "\"home\"" ]; then
