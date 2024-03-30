@@ -8,7 +8,7 @@ curl -sSL https://raw.githubusercontent.com/jbrunton4/dotfiles/main/setup/setup-
 
 Alternatively, if you're feeling lazy: 
 ```bash
-curl joshbrunton.dev/i | bash
+curl -L joshbrunton.dev/i | bash
 ```
 
 If you want to host an endpoint to this file, you should read the content at the URL and return it with the `content-type: text/plain`. This is mostly in case I forget. 
