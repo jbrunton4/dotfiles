@@ -8,6 +8,7 @@ if [[ -z $root ]]
 then
     echo "# No directory configured - where are your projects?" > $HOME/.brunt-dotfiles/config/projects_directory
     $(git config --get core.editor) $HOME/.brunt-dotfiles/config/projects_directory
+    root="$(cat $HOME/.brunt-dotfiles/config/projects_directory)"
 fi
 
 # check that the directory exists
