@@ -7,6 +7,9 @@ root="$(cat $HOME/.brunt-dotfiles/config/projects_directory)"
 if [[ -z $root ]]
 then
     echo "No path was configured! ($HOME/.brunt-dotfiles/config/projects_directory)"
+    echo "Specify repos folder: "
+    read repos_folder
+    echo "${repos_folder}" > $HOME/.brunt-dotfiles/config/projects_directory
 fi
 
 # check that the directory exists
