@@ -14,5 +14,5 @@ alias pyserver="python3 -m http.server -b 127.0.0.1 8080"
 
 alias vsp="open_visual_studio_pro_22"
 
-bind -x '"\C-o": open_work_project'
+bind '"\C-o": "source $HOME/.brunt-dotfiles/bin/open_work_project"'
 bind -x '"\C-r": source $HOME/.bashrc'
