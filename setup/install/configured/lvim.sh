@@ -1,7 +1,6 @@
 #!/bin/bash
 
-add-apt-repository ppa:neovim-ppa/unstable
-apt install neovim 
+apt install neovim # ppa:neovim-ppa/unstable
 
 LV_BRANCH='release-1.3/neovim-0.9' bash <(curl -s https://raw.githubusercontent.com/LunarVim/LunarVim/release-1.3/neovim-0.9/utils/installer/install.sh)
 

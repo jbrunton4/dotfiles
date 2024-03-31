@@ -4,5 +4,4 @@ if [ "$(jq '.profile' $HOME/.brunt-dotfiles/config/install.json)" != "\"home\"" 
     exit 0
 fi
 
-add-apt-repository ppa:qbittorrent-team/qbittorrent-stable
-apt-get install qbittorrent
+apt-get install qbittorrent # ppa:qbittorrent-team/qbittorrent-stable
