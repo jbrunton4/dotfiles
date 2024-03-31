@@ -21,6 +21,11 @@ vim.cmd.set "autochdir"
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 
+-- alt-arrow for moving windows 
+vim.keymap.set("n", "<M-Left>", ":wincmd h<CR>")
+vim.keymap.set("n", "<M-Down>", ":wincmd j<CR>")
+vim.keymap.set("n", "<M-Up>", ":wincmd k<CR>")
+vim.keymap.set("n", "<M-Right>", ":wincmd l<CR>")
 
 -- Default behaviour fixes
 -- paste over doesn't overwrite paste buffer
@@ -40,7 +45,14 @@ lvim.plugins = {
     },
     { "lewis6991/gitsigns.nvim" },
     { "andweeb/presence.nvim" },
-    { "tpope/vim-fugitive" }
+    { "tpope/vim-fugitive" },
+    { 
+        "christoomey/vim-tmux-navigator",
+        vim.keymap.set("n", "<M-Left>", ":TmuxNavigateLeft<CR>"),
+        vim.keymap.set("n", "<M-Down>", ":TmuxNavigateDown<CR>"),
+        vim.keymap.set("n", "<M-Up>", ":TmuxNavigateUp<CR>"),
+        vim.keymap.set("n", "<M-Right>", ":TmuxNavigateRight<CR>")
+    }
 }
 
 -- Package setup
