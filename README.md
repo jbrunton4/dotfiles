@@ -58,6 +58,7 @@ Thanks to everyone whose open-source code fuels this configuration. Links lead t
         - [andweeb/presence.nvim](https://github.com/andweeb/presence)
         - [catppuccin/nvim](https://github.com/MunifTanjim/nui.nvim)
         - [lewis6991/gitsigns.nvim"](https://github.com/lewis6991/gitsigns.nvim")
+        - [tpope/vim-fugitive](https://github.com/tpope/vim-fugitive)
     - [mozilla/sccache](https://github.com/mozilla/sccache)
     - [newsboat/newsboat](https://github.com/newsboat/newsboat)
     - [nmap/nmap](https://github.com/nmap/nmap)

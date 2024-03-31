@@ -39,7 +39,8 @@ lvim.plugins = {
         end
     },
     { "lewis6991/gitsigns.nvim" },
-    { "andweeb/presence.nvim" }
+    { "andweeb/presence.nvim" },
+    { "tpope/vim-fugitive" }
 }
 
 -- Package setup
