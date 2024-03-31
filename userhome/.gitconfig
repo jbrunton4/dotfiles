@@ -8,6 +8,7 @@
 [alias]
 	back = !/bin/bash "$HOME/.brunt-dotfiles/scripts/git-back.sh"
 	hist = log --graph --oneline --decorate --all
+	profile = !/bin/bash  "cat $HOME/.brunt-dotfiles/config/${1}.gitconfig > $HOME/.gitconfig"
 [init]
 	defaultBranch = main
 [merge]
