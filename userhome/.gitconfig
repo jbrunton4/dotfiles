@@ -10,6 +10,7 @@
 	hist = log --graph --oneline --decorate --all
 	profile = !/bin/bash  "cat $HOME/.brunt-dotfiles/config/${1}.gitconfig > $HOME/.gitconfig"
 	find = !/bin/bash  "$HOME/.brunt-dotfiles/bin/git-find"
+	forget = !/bin/bash  "$HOME/.brunt-dotfiles/bin/git-forget"
 [init]
 	defaultBranch = main
 [merge]

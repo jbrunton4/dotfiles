@@ -14,6 +14,7 @@ scripts=(
     "git-back"
     "unix"
     "git-find"
+    "git-forget"
 )
 if [ $(jq '.profile' $HOME/.brunt-dotfiles/config/install.json) -eq "\"home\"" ]; then
     scripts+=("lolcat_block")
