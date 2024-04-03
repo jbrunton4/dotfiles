@@ -14,10 +14,6 @@ if [ ! -f /etc/wsl.conf ]; then
     packages+=("snap-store")
 fi
 
-if [ $(jq '.profile' $HOME/.brunt-dotfiles/config/install.json) -eq "\"home\"" ]; then
-    packages+=("discord")
-fi
-
 if command -v snap &> /dev/null
 then
     : # pass
