@@ -1,3 +1,5 @@
+#!/bin/bash
+
 templates_path="$HOME/.brunt-dotfiles/data/gitignore-templates"
 
 if [ ! -d $templates_path ]; then

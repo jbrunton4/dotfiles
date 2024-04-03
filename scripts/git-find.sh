@@ -1,3 +1,5 @@
+#!/bin/bash
+
 if [[ "$1" == "--help" ]]; then 
   echo "$0 - help"
   echo "-r, --reflogs - Include reflog entries"
