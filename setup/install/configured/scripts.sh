@@ -13,6 +13,7 @@ scripts=(
     "pspsps"
     "git-back"
     "unix"
+    "git-find"
 )
 if [ $(jq '.profile' $HOME/.brunt-dotfiles/config/install.json) -eq "\"home\"" ]; then
     scripts+=("lolcat_block")
