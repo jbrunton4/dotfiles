@@ -4,8 +4,8 @@
 
 folder_path="$HOME/.brunt-dotfiles/logs"
 
-max_size_bytes=$(jq '.maxSizeBytes' $HOME/.brunt-dotfiles/config/logs.json)
-max_number_files=$(jq '.maxNumberFiles' $HOME/.brunt-dotfiles/config/logs.json)
+max_size_bytes=$(jq -r '.maxSizeBytes' $HOME/.brunt-dotfiles/config/logs.json)
+max_number_files=$(jq -r '.maxNumberFiles' $HOME/.brunt-dotfiles/config/logs.json)
 
 while [ "$(ls -A "$folder_path" | wc -l)" -gt "$max_number_files" ] \
     && [ "$(du -s --block-size=1 $folder_path | awk '{print $1}')" -gt "$max_size_bytes" ]; do

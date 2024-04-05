@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ "$(jq '.profile' $HOME/.brunt-dotfiles/config/install.json)" != "\"home\"" ] || [ -f /etc/wsl.conf ]; then
+if [[ "$(jq -r '.profile' $HOME/.brunt-dotfiles/config/install.json)" -ne "home" ]] || [ -f /etc/wsl.conf ]; then
     exit 0
 fi
 

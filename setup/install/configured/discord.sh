@@ -1,4 +1,4 @@
-if [ ! $(jq '.profile' $HOME/.brunt-dotfiles/config/install.json) -eq "\"home\"" ]; then
+if [[ ! $(jq -r '.profile' $HOME/.brunt-dotfiles/config/install.json) -eq "home" ]]; then
     exit 0
 fi
 
