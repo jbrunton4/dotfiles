@@ -93,7 +93,7 @@ eval $(thefuck --alias fuck)
 eval $(thefuck --alias FUCK)
 
 # neofetch
-if [[ "$(jq -r '.profile' $HOME/.brunt-dotfiles/config/install.json)" -eq "work" ]] && [ -f /etc/wsl.conf ]; then
+if [[ "$(jq -r '.profile' $HOME/.brunt-dotfiles/config/install.json)" == "work" ]] && [ -f /etc/wsl.conf ]; then
     neofetch --disable packages --disable distro --ascii_distro windows10
 else 
     neofetch --disable packages

@@ -17,7 +17,7 @@ scripts=(
     "git-forget"
     "git-ignoretemplate"
 )
-if [[ $(jq -r '.profile' $HOME/.brunt-dotfiles/config/install.json) -eq "home" ]]; then
+if [[ $(jq -r '.profile' $HOME/.brunt-dotfiles/config/install.json) == "home" ]]; then
     scripts+=("lolcat_block")
 fi
 
