@@ -5,5 +5,5 @@ if [ ! -f "$HOME/.brunt-dotfiles/config/install.json" ]; then
 fi
 
 if [ ! -f "$HOME/.brunt-dotfiles/config/logs.json" ]; then 
-    curl https://raw.githubusercontent.com/jbrunton4/dotfiles/main/config_defaults/logs.json > "$HOME/.brunt-dotfiles/config/install.json"
+    curl https://raw.githubusercontent.com/jbrunton4/dotfiles/main/config_defaults/logs.json > "$HOME/.brunt-dotfiles/config/logs.json"
 fi
