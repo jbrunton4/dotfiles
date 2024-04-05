@@ -1,3 +1,4 @@
 {
-    "profile": "work"
+    "profile": "work",
+    "installGithubRepos": false
 }
