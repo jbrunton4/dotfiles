@@ -8,6 +8,7 @@ packages=(
     "dos2unix"
     "dotnet7"
     "dotnet-sdk-8.0"
+    "exa"
     "ffmpeg"
     "fzf"
     "git"
