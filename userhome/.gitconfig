@@ -29,3 +29,5 @@
 	detachedHead = false
 [fetch]
 	all = true
+[credential "https://github.com"]
+	helper = !/usr/bin/gh auth git-credential
