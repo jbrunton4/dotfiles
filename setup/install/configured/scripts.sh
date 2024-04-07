@@ -10,6 +10,7 @@ scripts=(
     "open_visual_studio_pro_22"
     "open_work_project"
     "lolcat_block"
+    "dotfiles"
     "pspsps"
     "git-back"
     "unix"
