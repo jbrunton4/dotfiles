@@ -19,10 +19,6 @@ packages=(
     "tree"
 )
 
-if [[ $(jq -r '.profile' $HOME/.brunt-dotfiles/config/install.json) == "home" ]]; then
-    packages+=("wireshark")
-fi
-
 for package in "${packages[@]}"
 do
     echo "===== APT INSTALL: $package =====" >> $HOME/.brunt-dotfiles/logs/latest
