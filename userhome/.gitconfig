@@ -1,0 +1,33 @@
+[user]
+	name = "Josh Brunton"
+[core]
+	editor = nvim
+	logallrefupdates = true
+	ignorecase = false
+	hideFotFiles = false
+[alias]
+	back = !/bin/bash "$HOME/.brunt-dotfiles/bin/git-back"
+	hist = log --graph --oneline --decorate --all
+	profile = !/bin/bash  "cat $HOME/.brunt-dotfiles/config/${1}.gitconfig > $HOME/.gitconfig"
+	find = !/bin/bash  "$HOME/.brunt-dotfiles/bin/git-find"
+	forget = !/bin/bash  "$HOME/.brunt-dotfiles/bin/git-forget"
+	ignore-template = !/bin/bash  "$HOME/.brunt-dotfiles/bin/git-ignoretemplate"
+[init]
+	defaultBranch = main
+[merge]
+	tool = kdiff3
+[rerere]
+	enabled = 1
+	autoupdate = 1
+[web]
+	browser = firefox
+[color "status"]
+	changed = blue bold
+[url "https://github.com/"]
+	insteadOf = gh:
+[advice]
+	detachedHead = false
+[fetch]
+	all = true
+[credential "https://github.com"]
+	helper = !/usr/bin/gh auth git-credential
