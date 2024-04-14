@@ -1,0 +1,4 @@
+{ 
+    "maxSizeBytes": 1000000,
+    "maxNumberFiles": 100
+}
