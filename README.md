@@ -23,14 +23,9 @@ Before running, a backup of any files that are likely to be edited is created in
 Logs are output to the alphabetical last file in `~/.brunt-dotfiles/logs`. Should the script be allowed to run to completion, the latest logs are copied into `~/.brunt-dotfiles/logs/latest.log`. 
 
 ## Dependencies
-The ideal environment to run this installer is a debian-based linux distribution, as the strict requirements for installation are `apt` and `snap`. 
-
-Any other dependency will be installed automatically - for example, [sivel/speedtest-cli](https://github.com/sivel/speedtest-cli) is installed via `python3`'s `pip` module, whose presence in the environment will be automatically ensured by the program. 
+Most functionality is dependent on the apt package manager.
 
 It is **recommended** to use a nerd font, so that programs such as [oh-my-posh](https://github.com/JanDeDobbeleer/oh-my-posh) and [dashboard-nvim](https://github.com/nvimdev/dashboard-nvim) can display correctly. [FiraCode Nerd Mono](https://github.com/ryanoasis/nerd-fonts/tree/master/patched-fonts/FiraCode/Regular) is a great option to use and guaranteed to work with this configuration. 
-
-## Uninstallation
-The uninstall feature has not yet been implemented. See [the issue addressing this enhancement](https://github.com/jbrunton4/dotfiles/issues/5).
 
 ## Acknowledgements
 Thanks to everyone whose open-source code fuels this configuration. Links lead to [github.com](https://github.com/) unless otherwise stated. 
