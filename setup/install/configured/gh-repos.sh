@@ -7,7 +7,7 @@ if [ -z $projects_directory ]; then
     exit 1;
 fi
 
-if [[ $(jq -r '.installGithubRepos' $HOME/.brunt-dotfiles/config/install.json) -eq "true" ]]; then
+if [[ $(jq -r '.installGithubRepos' $HOME/.brunt-dotfiles/config/install.json) == "true" ]]; then
     repos=$(curl -s "https://api.github.com/users/jbrunton4/repos" | jq -r '.[] | .name')
     for repo in $repos
     do
