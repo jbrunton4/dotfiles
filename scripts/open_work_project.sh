@@ -25,7 +25,7 @@ then
 fi
 
 # move
-target=$(ls -d -1 "${root}/"**/ |
+target=$(ls -d -a -1 "${root}/"**/ |
     awk -F "/" '{print $(NF-1) "/" $NF}' |
     fzf --preview "tree '$(dirname $root)/{}' -L 1" \
         --info "hidden" \
