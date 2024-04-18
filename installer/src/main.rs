@@ -54,6 +54,7 @@ fn main() {
     ensure_mono();
     ensure_python3();
     update_pip();
+    ensure_snap();
     configure_atuin(&home_dir);
     sync_clock();
     install_apt_packages();
@@ -85,6 +86,19 @@ fn main() {
 
     log(&format!("Installation complete, took {}s", Instant::now().duration_since(start).as_secs()))
     // todo: gh-repos, gitext, newsboat, scripts, tor-browser, prune old logs
+}
+
+fn ensure_snap() {
+    log("Ensuring snap is installed");
+    let _ = Command::new("apt")
+        .args(&["install", "snapd"])
+        .output()
+        .expect("Failed to install snapd via apt");
+
+    let _ = Command::new("ln")
+        .args(&["-s", "/var/lib/snapd/snap", "/snap"])
+        .output()
+        .expect("Failed to symlink /var/lib/snapd/snap -> /snap");
 }
 
 fn install_snap_packages(is_wsl: &bool) {
