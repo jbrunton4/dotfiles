@@ -58,7 +58,8 @@ fn main() {
     sync_clock();
     install_apt_packages();
     install_cargo_crates();
-    install_pip_packages(&is_wsl);
+    install_pip_packages();
+    install_snap_packages(&is_wsl);
     configure_bash_aliases(&home_dir);
     configure_bashrc(&home_dir);
     configure_git(&home_dir, &config);
@@ -84,6 +85,25 @@ fn main() {
 
     log(&format!("Installation complete, took {}s", Instant::now().duration_since(start).as_secs()))
     // todo: gh-repos, gitext, newsboat, scripts, tor-browser, prune old logs
+}
+
+fn install_snap_packages(is_wsl: &bool) {
+    log("Installing snaps");
+    let _ = Command::new("snap")
+        .args(&["install", "ascii-image-converter", "lazygit", "lolcat"])
+        .output()
+        .expect("Failed to install one or more pip packages");
+    if !is_wsl {
+        let _ = Command::new("snap")
+            .args(&["install", "firefox", "gimp", "postman"])
+            .output()
+            .expect("Failed to install one or more pip packages (wsl-specific)");
+    } else {
+        let _ = Command::new("snap")
+            .args(&["install", "snap-store"])
+            .output()
+            .expect("Failed to install one or more pip packages (wsl-exclusive)");
+    }
 }
 
 fn install_lunarvim(home_dir: &String) {
@@ -239,30 +259,12 @@ fn configure_bash_aliases(home_dir: &String) {
     }
 }
 
-fn install_pip_packages(is_wsl: &bool) {
+fn install_pip_packages() {
     log("Installing pip packages");
     let _ = Command::new("python3")
         .args(&["-m", "pip", "install", "speedtest-cli", "pyinstaller"])
         .output()
         .expect("Failed to install one or more pip packages");
-
-    // snap installs
-    log("Installing snaps");
-    let _ = Command::new("snap")
-        .args(&["install", "ascii-image-converter", "lazygit", "lolcat"])
-        .output()
-        .expect("Failed to install one or more pip packages");
-    if !is_wsl {
-        let _ = Command::new("snap")
-            .args(&["install", "firefox", "gimp", "postman"])
-            .output()
-            .expect("Failed to install one or more pip packages (wsl-specific)");
-    } else {
-        let _ = Command::new("snap")
-            .args(&["install", "snap-store"])
-            .output()
-            .expect("Failed to install one or more pip packages (wsl-exclusive)");
-    }
 }
 
 fn install_cargo_crates() {
