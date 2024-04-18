@@ -6,6 +6,8 @@ use std::io::BufReader;
 use std::io::{Read, Write};
 use std::path::PathBuf;
 use std::process::Command;
+use chrono::Local;
+use std::time::Instant;
 
 #[derive(Debug, Deserialize, Serialize)]
 struct ConfigOptions {
@@ -14,10 +16,12 @@ struct ConfigOptions {
 }
 
 fn main() {
+    let start = Instant::now();
+
     let home_dir = std::env::var("HOME").expect("Could not retrieve $HOM£");
 
     // detect wsl
-    println!("Detecting WSL");
+    log("Detecting WSL");
     let is_wsl = match fs::metadata("/etc/wsl.conf") {
         Ok(_) => true,
         Err(_) => false,
@@ -26,17 +30,17 @@ fn main() {
     apply_config_default(&home_dir);
 
     // get the profile
-    println!("Loading profile");
+    log("Loading profile");
     let config_json_path = PathBuf::from(&home_dir).join(".brunt-dotfiles/config/install.json");
     let file = File::open(&config_json_path).expect("Failed to open install.json");
     let reader = BufReader::new(file);
     let config: ConfigOptions = serde_json::from_reader(reader).expect("Failed to parse JSON");
-    println!("Profile: {}", config.profile);
-    println!("Install GitHub Repos: {}", config.installGithubRepos);
+    log(&format!("Profile: {}", &config.profile));
+    log(&format!("Install GitHub Repos: {}", config.installGithubRepos));
 
     // Use Quad9 on home
     if config.profile == "home" {
-        println!("Setting nameserver to quad9");
+        log("Setting nameserver to quad9");
         let mut file = OpenOptions::new()
             .write(true)
             .create(true)
@@ -76,12 +80,14 @@ fn main() {
 
     apply_apt_fixes();
 
-    println!("Done!");
+    log("Done!");
+
+    log(&format!("Installation complete, took {}s", Instant::now().duration_since(start).as_secs()))
     // todo: gh-repos, gitext, newsboat, scripts, tor-browser, prune old logs
 }
 
 fn install_lunarvim(home_dir: &String) {
-    println!("Installing LunarVim");
+    log("Installing LunarVim");
 
     let _ = Command::new("add-apt-repository")
         .args(&["ppa:neovim-ppa/unstable"])
@@ -153,7 +159,7 @@ fn install_lunarvim(home_dir: &String) {
 }
 
 fn configure_git(home_dir: &String, config: &ConfigOptions) {
-    println!("Installing .gitconfig");
+    log("Installing .gitconfig");
     let mut response = reqwest::blocking::get(
         "https://raw.githubusercontent.com/jbrunton4/dotfiles/main/userhome/.gitconfig",
     )
@@ -191,7 +197,7 @@ fn configure_git(home_dir: &String, config: &ConfigOptions) {
 }
 
 fn configure_bashrc(home_dir: &String) {
-    println!("Configuring bashrc");
+    log("Configuring bashrc");
     let mut response = reqwest::blocking::get(
         "https://raw.githubusercontent.com/jbrunton4/dotfiles/main/userhome/.bashrc",
     )
@@ -212,7 +218,7 @@ fn configure_bashrc(home_dir: &String) {
 }
 
 fn configure_bash_aliases(home_dir: &String) {
-    println!("Configuring bash aliases");
+    log("Configuring bash aliases");
     let mut response = reqwest::blocking::get(
         "https://raw.githubusercontent.com/jbrunton4/dotfiles/main/userhome/.bash_aliases",
     )
@@ -234,14 +240,14 @@ fn configure_bash_aliases(home_dir: &String) {
 }
 
 fn install_pip_packages(is_wsl: &bool) {
-    println!("Installing pip packages");
+    log("Installing pip packages");
     let _ = Command::new("python3")
         .args(&["-m", "pip", "install", "speedtest-cli", "pyinstaller"])
         .output()
         .expect("Failed to install one or more pip packages");
 
     // snap installs
-    println!("Installing snaps");
+    log("Installing snaps");
     let _ = Command::new("snap")
         .args(&["install", "ascii-image-converter", "lazygit", "lolcat"])
         .output()
@@ -260,7 +266,7 @@ fn install_pip_packages(is_wsl: &bool) {
 }
 
 fn install_cargo_crates() {
-    println!("Installing cargo crates");
+    log("Installing cargo crates");
     let _ = Command::new("rustup")
         .arg("update")
         .output()
@@ -272,7 +278,7 @@ fn install_cargo_crates() {
 }
 
 fn apply_config_default(home_dir: &String) {
-    println!("Ensuring configurations exist");
+    log("Ensuring configurations exist");
     let config_json_path = PathBuf::from(&home_dir).join(".brunt-dotfiles/config/install.json");
     match fs::metadata(&config_json_path) {
         Ok(_) => {}
@@ -315,7 +321,7 @@ fn apply_config_default(home_dir: &String) {
 }
 
 fn install_apt_packages() {
-    println!("Installing apt packages");
+    log("Installing apt packages");
     let _ = Command::new("apt")
         .args(&[
             "install",
@@ -342,7 +348,7 @@ fn install_apt_packages() {
 }
 
 fn update_apt() {
-    println!("Updating apt");
+    log("Updating apt");
     let _ = Command::new("apt")
         .args(&["update", "-y"])
         .output()
@@ -350,7 +356,7 @@ fn update_apt() {
 }
 
 fn ensure_mono() {
-    println!("Ensuring mono");
+    log("Ensuring mono");
     let _ = Command::new("apt")
         .args(&["install", "-y", "mono-complete"])
         .output()
@@ -358,7 +364,7 @@ fn ensure_mono() {
 }
 
 fn ensure_python3() {
-    println!("Ensuring python 3.x");
+    log("Ensuring python 3.x");
     let _ = Command::new("apt")
         .args(&["install", "-y", "python3"])
         .output()
@@ -366,12 +372,12 @@ fn ensure_python3() {
 }
 
 fn touch_hushlogin(home_dir: &String) {
-    println!("Touching ~/.hushlogin");
+    log("Touching ~/.hushlogin");
     let _ = File::create(PathBuf::from(&home_dir).join(".hushlogin"));
 }
 
 fn update_pip() {
-    println!("Updating pip");
+    log("Updating pip");
     let _ = Command::new("python3")
         .args(&["-m", "pip", "install", "--upgrade", "pip"])
         .output()
@@ -379,7 +385,7 @@ fn update_pip() {
 }
 
 fn configure_atuin(home_dir: &String) {
-    println!("Installing atuin configuration");
+    log("Installing atuin configuration");
     let mut response = reqwest::blocking::get("https://raw.githubusercontent.com/jbrunton4/dotfiles/main/userhome/.config/atuin/config.toml")
                 .expect("Couldn't find atuin configuration online");
     if response.status().is_success() {
@@ -401,7 +407,7 @@ fn configure_atuin(home_dir: &String) {
 }
 
 fn sync_clock() {
-    println!("Syncing system clock");
+    log("Syncing system clock");
     let _ = Command::new("hwclock")
         .args(&["--systohc"])
         .output()
@@ -409,7 +415,7 @@ fn sync_clock() {
 }
 
 fn install_oh_my_posh() {
-    println!("Installing oh my posh");
+    log("Installing oh my posh");
     let _ = Command::new("apt")
         .args(&["install", "-y", "unzip"])
         .output()
@@ -422,7 +428,7 @@ fn install_oh_my_posh() {
 }
 
 fn install_thefuck() {
-    println!("Installing thefuck");
+    log("Installing thefuck");
     let _ = Command::new("apt")
         .args(&[
             "install",
@@ -440,7 +446,7 @@ fn install_thefuck() {
 }
 
 fn install_tmux(home_dir: &String) {
-    println!("Installing tmux");
+    log("Installing tmux");
     let _ = Command::new("apt")
         .args(&["install", "-y", "tmux"])
         .output()
@@ -466,7 +472,7 @@ fn install_tmux(home_dir: &String) {
 }
 
 fn install_tpm() {
-    println!("Installing tpm (tmux plugin manager)");
+    log("Installing tpm (tmux plugin manager)");
     let _ = Command::new("bash")
         .arg("-c")
         .arg(r#"git clone https://github.com/tmux-plugins/tpm $HOME/.tmux/plugins/tpm"#)
@@ -475,7 +481,7 @@ fn install_tpm() {
 }
 
 fn apply_apt_fixes() {
-    println!("Applying apt fixes");
+    log("Applying apt fixes");
     let _ = Command::new("apt")
         .arg("upgrade")
         .output()
@@ -493,7 +499,7 @@ fn apply_apt_fixes() {
 }
 
 fn set_wsl_default_user() {
-    println!("Setting default WSL user to wsl.conf");
+    log("Setting default WSL user to wsl.conf");
     let mut response = reqwest::blocking::get(
         "https://raw.githubusercontent.com/jbrunton4/dotfiles/main/linuxroot/etc/wsl.conf",
     )
@@ -523,9 +529,9 @@ fn install_discord(home_dir: String) {
         };
 
     if discord_installed {
-        println!("Skipping discord install (already installed)");
+        log("Skipping discord install (already installed)");
     } else {
-        println!("Installing discord");
+        log("Installing discord");
 
         let _ = Command::new("apt")
             .args(&["install", "libnotify4", "libnspr4", "libnss3"])
@@ -574,7 +580,7 @@ fn install_discord(home_dir: String) {
 }
 
 fn install_qbittorrent() {
-    println!("Installing qbittorrent");
+    log("Installing qbittorrent");
 
     let _ = Command::new("add-apt-repository")
         .args(&["ppa:qbittorrent-team/qbittorrent-stable"])
@@ -590,4 +596,8 @@ fn install_qbittorrent() {
         .args(&["install", "-y", "qbittorrent"])
         .output()
         .expect("Failed to install qbittorrent via apt");
+}
+
+fn log(message: &str) {
+    println!("[{}] {}", Local::now().format("%Y-%m-%d %H:%M:%S"), message)
 }
