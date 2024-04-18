@@ -1,6 +1,8 @@
 #!/bin/bash
 
-apt install git libssl-dev curl 
+apt update 
+apt upgrade
+apt install git libssl-dev curl build-essential  
 
 if [ ! -f $HOME/.cargo/bin/cargo ]; then
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
