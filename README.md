@@ -1,5 +1,22 @@
 # jbrunton4/dotfiles
 
+## Quick Start
+```bash
+curl -sSL https://raw.githubusercontent.com/jbrunton4/dotfiles/main/setup/setup-remote.sh | sh
+```
+
+## What Does The Installer Do? 
+In order: 
+* Uses `apt` to install `git`, `libssl-dev`, and `curl`.
+    * `git` for `git-clone`, used to retrieve code
+    * `libssl-dev` as a dependency of the `sccache` 
+    * `curl` to install rust, if it is not already installed
+* Checks for an installation of rust at `~/.cargo/bin/cargo`. If it is not found, rust will be installed. 
+* Installs `sccache`, a cargo crate used to speed up compilation by caching dependencies 
+* Clones this repository onto the filesystem in a uniquely named folder in the current directory
+* Uses cargo to compile and run the [installer](./installer/)
+* Removes the uniquely named directory
+
 ## Installation & Usage
 To apply this configuration on your system, it is recommended to use cURL: 
 ```bash
@@ -8,7 +25,7 @@ curl -sSL https://raw.githubusercontent.com/jbrunton4/dotfiles/main/setup/setup-
 
 Alternatively, if you're feeling lazy: 
 ```bash
-curl -L joshbrunton.dev/i | bash
+curl -L joshbrunton.dev/i | sh
 ```
 
 If you want to host an endpoint to this file, you should read the content at the URL and return it with the `content-type: text/plain`. This is mostly in case I forget. 
