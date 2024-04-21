@@ -1,5 +1,7 @@
 #!/bin/bash
 
+dpkg --configure -a 
+
 apt update 
 apt upgrade
 apt install -y git libssl-dev curl build-essential  
