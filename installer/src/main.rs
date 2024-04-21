@@ -15,6 +15,14 @@ struct ConfigOptions {
     installGithubRepos: bool,
 }
 
+fn ensure_directory_exists(path: &str) {
+    let _ = Command::new("mkdir")
+        .args(&["-p", path])
+        .output()
+        .expect("Failed to create a directory");
+ 
+}
+
 fn main() {
     let start = Instant::now();
 
@@ -296,6 +304,7 @@ fn install_cargo_crates() {
 fn apply_config_default(home_dir: &String) {
     log("Ensuring configurations exist");
     let config_json_path = PathBuf::from(&home_dir).join(".brunt-dotfiles/config/install.json");
+    ensure_directory_exists(PathBuf::from(&home_dir).join(".brunt-dotfiles/config").to_str().expect("???"));
     match fs::metadata(&config_json_path) {
         Ok(_) => {}
         Err(_) => {
