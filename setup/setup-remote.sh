@@ -16,10 +16,9 @@ else
     $HOME/.cargo/bin/cargo install sccache
 fi
 
-initial_dir="$(pwd)"
 repo_dir="dotfiles-$(date +%s)"
 git clone "https://github.com/jbrunton4/dotfiles" "${repo_dir}"
-cd $repo_dir/installer
-$HOME/.cargo/bin/cargo run 
-cd $initial_dir
+
+cargo run --jobs 1 --manifest-path "$repo_dir/installer/Cargo.toml"
+
 rm -rf $repo_dir
