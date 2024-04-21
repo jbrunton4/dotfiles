@@ -10,6 +10,7 @@ use chrono::Local;
 use std::time::Instant;
 
 #[derive(Debug, Deserialize, Serialize)]
+#[allow(non_snake_case)]
 struct ConfigOptions {
     profile: String,
     installGithubRepos: bool,
