@@ -84,8 +84,9 @@ fn main() {
     }
 
     if config.profile == "home" {
-        install_discord(home_dir);
+        install_discord(&home_dir);
         install_qbittorrent();
+        install_tor_browser(&home_dir);
     }
 
     apply_apt_fixes();
@@ -93,7 +94,39 @@ fn main() {
     log("Done!");
 
     log(&format!("Installation complete, took {}s", Instant::now().duration_since(start).as_secs()))
-    // todo: gh-repos, gitext, newsboat, scripts, tor-browser, prune old logs
+    // todo: gh-repos, gitext, newsboat, scripts, prune old logs
+}
+
+fn install_tor_browser(home_dir: &String) {
+    let binding = PathBuf::from(&home_dir).join(".brunt-dotfiles/install/tor");
+    let install_dir = binding.to_str().expect("Couldn't assemble a path for tor installation");
+
+    let tor_installed =
+        match fs::metadata(&install_dir) {
+            Ok(metadata) => metadata.is_dir(),
+            Err(_) => false,
+        };
+
+    if tor_installed {
+        log("Tor is already installed, skipping this step...");
+        return;
+    }
+
+    let url = "https://www.torproject.org/dist/torbrowser/13.0.10/tor-browser-linux-x86_64-13.0.10.tar.xz";
+    let binding = PathBuf::from(&home_dir).join(".brunt-dotfiles/install/tor/installer.tar.xz");
+    let tar_xz_location = binding.to_str().expect("Couldn't assemble a path for tor tarball download"); 
+
+    ensure_directory_exists(install_dir);
+
+    let _ = Command::new("wget")
+        .args(&["-O", tar_xz_location, url])
+        .output()
+        .expect("Failed to download tor 13.0.10 tarball");
+
+    let _ = Command::new("tar")
+        .args(&["-xf", tar_xz_location, "-C", install_dir])
+        .output()
+        .expect("Failed to extract tor tarball");
 }
 
 fn ensure_snap() {
@@ -546,7 +579,7 @@ fn set_wsl_default_user() {
     }
 }
 
-fn install_discord(home_dir: String) {
+fn install_discord(home_dir: &str) {
     let discord_installed =
         match fs::metadata(PathBuf::from(&home_dir).join(".brunt-dotfiles/install/discord")) {
             Ok(metadata) => metadata.is_dir(),
