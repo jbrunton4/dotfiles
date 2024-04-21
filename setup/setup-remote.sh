@@ -10,7 +10,11 @@ if [ ! -f $HOME/.cargo/bin/cargo ]; then
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 fi
 
-$HOME/.cargo/bin/cargo install sccache
+if cargo install --list | -grep -q "sccache"; then 
+    echo "Crate 'sccache' is already installed, skipping..."
+else
+    $HOME/.cargo/bin/cargo install sccache
+fi
 
 initial_dir="$(pwd)"
 repo_dir="dotfiles-$(date +%s)"
