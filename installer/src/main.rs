@@ -445,6 +445,9 @@ fn update_pip() {
 
 fn configure_atuin(home_dir: &String) {
     log("Installing atuin configuration");
+
+    ensure_directory_exists(PathBuf::from(&home_dir).join(".config/atuin").to_str().expect("Could not assemble the atuin config directory path"));
+
     let mut response = reqwest::blocking::get("https://raw.githubusercontent.com/jbrunton4/dotfiles/main/userhome/.config/atuin/config.toml")
                 .expect("Couldn't find atuin configuration online");
     if response.status().is_success() {
