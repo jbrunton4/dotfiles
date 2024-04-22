@@ -15,6 +15,27 @@ vim.scrolloff = 8
 vim.cmd.set "nu rnu"
 vim.cmd.set "autochdir"
 
+vim.g.have_nerd_font = true
+vim.opt.showmode = false
+
+vim.opt.list = true
+vim.opt.listchars = { tab = "   ", trail = "·", nbsp = "␣" }
+
+vim.opt.cursorline = true
+
+-- easier binds to close highlights and terminal
+vim.opt.hlsearch = true
+vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
+vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
+
+-- Flash highlight on yank
+vim.api.nvim_create_autocmd("TextYankPost", {
+	desc = "Highlight when yanking (copying) text",
+	group = vim.api.nvim_create_augroup("kickstart-highlight-yank", { clear = true }),
+	callback = function()
+		vim.highlight.on_yank()
+	end,
+})
 
 -- Keymaps
 -- move selected lines in visual mode by shift+dir
@@ -26,6 +47,10 @@ vim.keymap.set("n", "<M-Left>", ":wincmd h<CR>")
 vim.keymap.set("n", "<M-Down>", ":wincmd j<CR>")
 vim.keymap.set("n", "<M-Up>", ":wincmd k<CR>")
 vim.keymap.set("n", "<M-Right>", ":wincmd l<CR>")
+vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous [D]iagnostic message" })
+vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next [D]iagnostic message" })
+vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, { desc = "Show diagnostic [E]rror messages" })
+vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostic [Q]uickfix list" })
 
 -- Default behaviour fixes
 -- paste over doesn't overwrite paste buffer
