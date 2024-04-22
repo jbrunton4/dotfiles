@@ -102,10 +102,12 @@ fn main() {
 }
 
 fn install_refresh_script() {
+    log("Creating dotfiles command");
     std::fs::write("/usr/bin/dotfiles", "[[ \"$1\" == \"refresh\"]] && curl -sSL https://raw.githubusercontent.com/jbrunton4/dotfiles/main/setup-remote.sh | /bin/bash").expect("Failed to create the dotfiles refresh script");
 }
 
 fn install_nerdfetch() {
+    log("Installing nerdfetch");
     let _ = Command::new("curl")
         .args(&["https://raw.githubusercontent.com/ThatOneCalculator/NerdFetch/main/nerdfetch", "-o", "/usr/bin/nerdfetch"])
         .output()
