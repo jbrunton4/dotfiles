@@ -8,6 +8,7 @@ use std::path::PathBuf;
 use std::process::Command;
 use chrono::Local;
 use std::time::Instant;
+use is_wsl::is_wsl;
 
 #[derive(Debug, Deserialize, Serialize)]
 #[allow(non_snake_case)]
@@ -30,13 +31,6 @@ fn main() {
     install_refresh_script();
 
     let home_dir = std::env::var("HOME").expect("Could not retrieve $HOM£");
-
-    // detect wsl
-    log("Detecting WSL");
-    let is_wsl = match fs::metadata("/etc/wsl.conf") {
-        Ok(_) => true,
-        Err(_) => false,
-    };
 
     apply_config_default(&home_dir);
 
@@ -71,7 +65,7 @@ fn main() {
     install_apt_packages();
     install_cargo_crates();
     install_pip_packages();
-    install_snap_packages(&is_wsl);
+    install_snap_packages();
     configure_bash_aliases(&home_dir);
     configure_bashrc(&home_dir);
     configure_git(&home_dir, &config);
@@ -82,7 +76,7 @@ fn main() {
     install_tpm();
     install_nerdfetch();
 
-    if is_wsl {
+    if is_wsl() {
         touch_hushlogin(&home_dir);
         set_wsl_default_user();
     }
@@ -204,13 +198,13 @@ fn ensure_snap() {
         .expect("Failed to symlink /var/lib/snapd/snap -> /snap");
 }
 
-fn install_snap_packages(is_wsl: &bool) {
+fn install_snap_packages() {
     log("Installing snaps");
     let _ = Command::new("snap")
         .args(&["install", "ascii-image-converter", "lazygit", "lolcat"])
         .output()
         .expect("Failed to install one or more pip packages");
-    if !is_wsl {
+    if !is_wsl() {
         let _ = Command::new("snap")
             .args(&["install", "firefox", "gimp", "postman"])
             .output()
