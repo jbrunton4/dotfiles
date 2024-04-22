@@ -2,7 +2,6 @@ alias rn="mv"
 
 alias ls="exa"
 alias cat="batcat"
-alias ffmpreg="ffmpeg"
 alias top="bashtop"
 alias ripgrep="rg"
 alias nvim="lvim"
