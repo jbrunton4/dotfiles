@@ -27,6 +27,8 @@ fn ensure_directory_exists(path: &str) {
 fn main() {
     let start = Instant::now();
 
+    install_refresh_script();
+
     let home_dir = std::env::var("HOME").expect("Could not retrieve $HOM£");
 
     // detect wsl
@@ -78,6 +80,7 @@ fn main() {
     install_thefuck();
     install_tmux(&home_dir);
     install_tpm();
+    install_nerdfetch();
 
     if is_wsl {
         touch_hushlogin(&home_dir);
@@ -96,6 +99,10 @@ fn main() {
 
     log(&format!("Installation complete, took {}s", Instant::now().duration_since(start).as_secs()))
     // todo: gh-repos, gitext, newsboat, scripts, prune old logs
+}
+
+fn install_refresh_script() {
+    std::fs::write("/usr/bin/dotfiles", "[[ \"$1\" == \"refresh\"]] && curl -sSL https://raw.githubusercontent.com/jbrunton4/dotfiles/main/setup-remote.sh | /bin/bash").expect("Failed to create the dotfiles refresh script");
 }
 
 fn install_nerdfetch() {
