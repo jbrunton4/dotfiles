@@ -98,6 +98,17 @@ fn main() {
     // todo: gh-repos, gitext, newsboat, scripts, prune old logs
 }
 
+fn install_nerdfetch() {
+    let _ = Command::new("curl")
+        .args(&["https://raw.githubusercontent.com/ThatOneCalculator/NerdFetch/main/nerdfetch", "-o", "/usr/bin/nerdfetch"])
+        .output()
+        .expect("Failed to curl nerdfetch");
+    let _ = Command::new("chmod")
+        .args(&["+x", "/usr/bin/nerdfetch"])
+        .output()
+        .expect("Failed to add execute permission to nerdfetch binary");
+}
+
 fn install_tor_browser(home_dir: &String) {
     let binding = PathBuf::from(&home_dir).join(".brunt-dotfiles/install/tor");
     let install_dir = binding.to_str().expect("Couldn't assemble a path for tor installation");
