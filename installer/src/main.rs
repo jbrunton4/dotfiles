@@ -97,6 +97,7 @@ fn main() {
 }
 
 fn remove_ubuntu_bloat() {
+    log("Removing Ubuntu default bloatware");
     let _ = Command::new("apt")
         .args(&["remove", "-y",
             "account-plugin-aim",
