@@ -91,6 +91,7 @@ fn main() {
         install_discord(&home_dir);
         install_qbittorrent();
         install_tor_browser(&home_dir);
+        remove_ubuntu_bloat();
     }
 
     apply_apt_fixes();
@@ -99,6 +100,46 @@ fn main() {
 
     log(&format!("Installation complete, took {}s", Instant::now().duration_since(start).as_secs()))
     // todo: gh-repos, gitext, newsboat, scripts, prune old logs
+}
+
+fn remove_ubuntu_bloat() {
+    let _ = Command::new("apt")
+        .args(&["remove", "-y",
+            "account-plugin-aim",
+            "account-plugin-facebook",
+            "account-plugin-flickr",
+            "account-plugin-jabber",
+            "account-plugin-salut",
+            "account-plugin-yahoo",
+            "aisleriot",
+            "gnome-mahjongg",
+            "gnome-mines",
+            "gnome-sudoku",
+            "landscape-client-ui-install",
+            "unity-lens-music",
+            "unity-lens-photos",
+            "unity-lens-video",
+            "unity-scope-audacious",
+            "unity-scope-chromiumbookmarks",
+            "unity-scope-clementine",
+            "unity-scope-colourlovers",
+            "unity-scope-devhelp",
+            "unity-scope-firefoxbookmarks",
+            "unity-scope-gmusicbrowser",
+            "unity-scope-gourmet",
+            "unity-scope-guayadeque",
+            "unity-scope-musicstores",
+            "unity-scope-musique",
+            "unity-scope-openclipart",
+            "unity-scope-texdoc",
+            "unity-scope-tomboy",
+            "unity-scope-video-remote",
+            "unity-scope-virtualbox",
+            "unity-scope-zotero",
+            "unity-webapps-common",
+            ])
+    .output()
+    .expect("Failed to remove ubuntu bloatware");
 }
 
 fn install_refresh_script() {
