@@ -9,6 +9,13 @@ use std::process::Command;
 use chrono::Local;
 use std::time::Instant;
 use is_wsl::is_wsl;
+use reqwest::blocking::Client;
+
+#[derive(Debug, Deserialize)]
+struct Commit {
+    sha: String,
+    // Add more fields if needed
+}
 
 #[derive(Debug, Deserialize, Serialize)]
 #[allow(non_snake_case)]
@@ -90,10 +97,26 @@ fn main() {
 
     apply_apt_fixes();
 
-    log("Done!");
-
+    query_github_head_commit();
     log(&format!("Installation complete, took {}s", Instant::now().duration_since(start).as_secs()))
     // todo: gh-repos, gitext, newsboat, scripts, prune old logs
+}
+
+fn query_github_head_commit() {
+    let owner = "jbrunton4";
+    let repo = "dotfiles";
+    let branch = "main";
+    let url = format!("https://api.github.com/repos/{}/{}/commits/{}", owner, repo, branch);
+
+    let client = Client::new();
+    let response = client.get(&url).header(reqwest::header::USER_AGENT, "My Rust Program").send().expect("Something went wrong while trying to find what commit we're at");
+
+    if response.status().is_success() {
+        let commit: Commit = response.json().expect("Could not decode response from GitHub into commit info");
+        log(&format!("Commit {}", commit.sha));
+    } else {
+        log("Error while accessing GitHub API to retrieve commit hash at head of refs/main")
+    }
 }
 
 fn remove_ubuntu_bloat() {
