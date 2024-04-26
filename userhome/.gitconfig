@@ -11,6 +11,7 @@
 	profile = !/bin/bash  "cat $HOME/.brunt-dotfiles/config/${1}.gitconfig > $HOME/.gitconfig"
 	find = !/bin/bash  "$HOME/.brunt-dotfiles/bin/git-find"
 	forget = !/bin/bash  "$HOME/.brunt-dotfiles/bin/git-forget"
+	edit = "!f() { git -c rebase.autoSquash=false rebase -i --no-autosquash --autostash $1 }; f"
 	ignore-template = !/bin/bash  "$HOME/.brunt-dotfiles/bin/git-ignoretemplate"
 [init]
 	defaultBranch = main
