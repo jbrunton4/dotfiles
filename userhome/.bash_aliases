@@ -5,7 +5,6 @@ alias cat="batcat"
 alias top="bashtop"
 alias ripgrep="rg"
 alias grep="rg"
-alias nvim="lvim"
 alias at="__atuin_history"
 alias dos="wslpath -w"
 

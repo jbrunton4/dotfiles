@@ -13,8 +13,7 @@ use reqwest::blocking::Client;
 
 #[derive(Debug, Deserialize)]
 struct Commit {
-    sha: String,
-    // Add more fields if needed
+    sha: String
 }
 
 #[derive(Debug, Deserialize, Serialize)]
@@ -76,7 +75,7 @@ fn main() {
     configure_bash_aliases(&home_dir);
     configure_bashrc(&home_dir);
     configure_git(&home_dir, &config);
-    install_lunarvim(&home_dir);
+    install_neovim(&home_dir);
     install_oh_my_posh();
     install_thefuck();
     install_tmux(&home_dir);
@@ -241,8 +240,8 @@ fn install_snap_packages() {
     }
 }
 
-fn install_lunarvim(home_dir: &String) {
-    log("Installing LunarVim");
+fn install_neovim(home_dir: &String) {
+    log("Installing neovim");
 
     let _ = Command::new("add-apt-repository")
         .args(&["ppa:neovim-ppa/unstable"])
@@ -258,59 +257,6 @@ fn install_lunarvim(home_dir: &String) {
         .args(&["install", "-y", "neovim"])
         .output()
         .expect("Failed to install neovim via apt");
-
-    let _ = Command::new("bash")
-            .arg("-c")
-            .arg(r#"LV_BRANCH='release-1.3/neovim-0.9' bash <(curl -s https://raw.githubusercontent.com/LunarVim/LunarVim/release-1.3/neovim-0.9/utils/installer/install.sh)"#)
-            .output()
-            .expect("Failed to install LunarVim");
-
-    match fs::create_dir_all(PathBuf::from(&home_dir).join(".config/lvim")) {
-        Ok(_) => {}
-        Err(_) => {}
-    }
-    match fs::create_dir_all(PathBuf::from(&home_dir).join(".config/lvim/luasnippets")) {
-        Ok(_) => {}
-        Err(_) => {}
-    }
-
-    let mut response = reqwest::blocking::get(
-            "https://raw.githubusercontent.com/jbrunton4/dotfiles/main/userhome/.config/lvim/config.lua",
-        )
-        .expect("Couldn't find lvim/config.lua online");
-    if response.status().is_success() {
-        let mut file = OpenOptions::new()
-            .write(true)
-            .create(true)
-            .truncate(true)
-            .open(PathBuf::from(&home_dir).join(".config/lvim/config.lua"))
-            .expect("Could not open ~/.config/lvim/config.lua");
-        let mut buffer = Vec::new();
-        response
-            .read_to_end(&mut buffer)
-            .expect("Could not read a response for lvim/config.lua");
-        file.write_all(&buffer)
-            .expect("Could not write ~/.config/lvim/config.lua");
-    }
-
-    let mut response = reqwest::blocking::get(
-            "https://raw.githubusercontent.com/jbrunton4/dotfiles/main/userhome/.config/lvim/luasnippets/all.lua",
-        )
-        .expect("Couldn't find lvim/luasnippets/all.lua online");
-    if response.status().is_success() {
-        let mut file = OpenOptions::new()
-            .write(true)
-            .create(true)
-            .truncate(true)
-            .open(PathBuf::from(&home_dir).join(".config/lvim/luasnippets/all.lua"))
-            .expect("Could not open ~/.config/lvim/luasnippets/all.lua");
-        let mut buffer = Vec::new();
-        response
-            .read_to_end(&mut buffer)
-            .expect("Could not read a response for lvim/luasnippets/all.lua");
-        file.write_all(&buffer)
-            .expect("Could not write ~/.config/lvim/luasnippets/all.lua");
-    }
 }
 
 fn configure_git(home_dir: &String, config: &ConfigOptions) {
@@ -565,7 +511,7 @@ fn install_oh_my_posh() {
         .arg("-c")
         .arg(r#"curl -s -sSL https://ohmyposh.dev/install.sh | bash -s"#)
         .output()
-        .expect("Failed to install LunarVim");
+        .expect("Failed to install oh my posh");
 }
 
 fn install_thefuck() {
@@ -618,7 +564,7 @@ fn install_tpm() {
         .arg("-c")
         .arg(r#"git clone https://github.com/tmux-plugins/tpm $HOME/.tmux/plugins/tpm"#)
         .output()
-        .expect("Failed to install LunarVim");
+        .expect("Failed to install tpm");
 }
 
 fn apply_apt_fixes() {
