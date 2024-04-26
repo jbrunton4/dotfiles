@@ -81,6 +81,7 @@ fn main() {
     install_tmux(&home_dir);
     install_tpm();
     install_nerdfetch();
+    configure_cargo(&home_dir);
 
     if is_wsl() {
         touch_hushlogin(&home_dir);
@@ -99,6 +100,28 @@ fn main() {
     query_github_head_commit();
     log(&format!("Installation complete, took {}s", Instant::now().duration_since(start).as_secs()))
     // todo: gh-repos, gitext, newsboat, scripts, prune old logs
+}
+
+fn configure_cargo(home_dir: &String) {
+    log("Installing .gitconfig");
+    let mut response = reqwest::blocking::get(
+        "https://raw.githubusercontent.com/jbrunton4/dotfiles/main/userhome/.cargo/config.toml",
+    )
+    .expect("Couldn't find .cargo/config.toml online");
+    if response.status().is_success() {
+        let mut file = OpenOptions::new()
+            .write(true)
+            .create(true)
+            .truncate(true)
+            .open(PathBuf::from(&home_dir).join(".cargo/config.toml"))
+            .expect("Could not open ~/.cargo/config.toml");
+        let mut buffer = Vec::new();
+        response
+            .read_to_end(&mut buffer)
+            .expect("Could not read a response for ~/.cargo/config.toml");
+        file.write_all(&buffer)
+            .expect("Could not write ~/.cargo/config.toml");
+    }
 }
 
 fn query_github_head_commit() {
