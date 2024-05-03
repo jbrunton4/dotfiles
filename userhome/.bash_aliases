@@ -15,3 +15,4 @@ alias vsp="open_visual_studio_pro_22"
 
 bind '"\C-o": "\C-usource $HOME/.brunt-dotfiles/bin/open_work_project\n"'
 bind -x '"\C-r": source $HOME/.bashrc'
+bind -x '"\C-l": clear'
