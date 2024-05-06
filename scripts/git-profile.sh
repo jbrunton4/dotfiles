@@ -1,9 +1,7 @@
 # git config profiles
 
-profiles_folder="/home/joshbrunton/downloads/gitcfgprofiles"
-if [ ! -d "${profiles_folder}" ]; then
-	mkdir -p "${profiles_folder}"
-fi
+profiles_folder="$HOME/.brunt-dotfiles/data/git-profiles"
+mkdir -p "${profiles_folder}"
 
 # ensure we're not about to discard the current configuration
 current_config_stored=false
