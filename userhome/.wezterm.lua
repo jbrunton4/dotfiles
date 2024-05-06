@@ -8,6 +8,7 @@ local config = wezterm.config_builder()
 
 -- For example, changing the color scheme:
 config.font = wezterm.font("Fira Code")
+config.color_scheme = "Catppuccin Mocha"
 
 -- and finally, return the configuration to wezterm
 return config
