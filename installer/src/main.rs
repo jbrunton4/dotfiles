@@ -100,10 +100,11 @@ fn main() {
 
     query_github_head_commit();
     log(&format!("Installation complete, took {}s", Instant::now().duration_since(start).as_secs()))
-    // todo: gh-repos, gitext, newsboat, scripts, prune old logs
+    // todo: gh-repos, gitext, newsboat
 }
 
 fn install_scripts(home_dir: &String) {
+    log("Installing scripts");
     let folder = PathBuf::from(&home_dir).join(".brunt-dotfiles/bin");
 
     let _ = Command::new("mkdir")
@@ -229,6 +230,7 @@ fn install_tor_browser(home_dir: &String) {
         log("Tor is already installed, skipping this step...");
         return;
     }
+    log("Installing tor browser");
 
     let url = "https://www.torproject.org/dist/torbrowser/13.0.10/tor-browser-linux-x86_64-13.0.10.tar.xz";
     let binding = PathBuf::from(&home_dir).join(".brunt-dotfiles/install/tor/installer.tar.xz");
@@ -299,6 +301,7 @@ fn install_neovim(home_dir: &String) {
 }
 
 fn download_file(source: &String, path: &String) {
+    log(&format!("    Downloading file {} -> {}", &source, &path));
     let mut response = reqwest::blocking::get(source)
     .expect("Couldn't find .gitconfig online");
     if response.status().is_success() {
@@ -675,53 +678,54 @@ fn install_discord(home_dir: &str) {
 
     if discord_installed {
         log("Skipping discord install (already installed)");
-    } else {
-        log("Installing discord");
+        return;
+    } 
 
-        let _ = Command::new("apt")
-            .args(&["install", "libnotify4", "libnspr4", "libnss3"])
-            .output()
-            .expect("Failed to install one or more apt packages as a dependency of discord");
+    log("Installing discord");
 
-        fs::create_dir(PathBuf::from(&home_dir).join(".brunt-dotfiles/install/discord"))
-            .expect("Could not create directory for discord install");
+    let _ = Command::new("apt")
+        .args(&["install", "libnotify4", "libnspr4", "libnss3"])
+        .output()
+        .expect("Failed to install one or more apt packages as a dependency of discord");
 
-        let discord_deb_path =
-            PathBuf::from(&home_dir).join(".brunt-dotfiles/install/discord/installer.deb");
+    fs::create_dir(PathBuf::from(&home_dir).join(".brunt-dotfiles/install/discord"))
+        .expect("Could not create directory for discord install");
 
-        let mut response =
-            reqwest::blocking::get("https://discord.com/api/download?platform=linux&format=deb")
-                .expect("Couldn't find discord .deb");
-        if response.status().is_success() {
-            let mut file = OpenOptions::new()
-                .write(true)
-                .create(true)
-                .truncate(true)
-                .open(&discord_deb_path)
-                .expect("Could not open .brunt-dotfiles/install/discord/installer.deb");
-            let mut buffer = Vec::new();
-            response
-                .read_to_end(&mut buffer)
-                .expect("Could not read a response for discord install");
-            file.write_all(&buffer)
-                .expect("Could not write a file for discord install");
-        }
+    let discord_deb_path =
+        PathBuf::from(&home_dir).join(".brunt-dotfiles/install/discord/installer.deb");
 
-        let _ = Command::new("dpkg")
-            .args(&[
-                "-i",
-                discord_deb_path
-                    .to_str()
-                    .expect("Could not convert discord.deb path from PathBuf to string"),
-            ])
-            .output()
-            .expect("Failed to install one or more apt packages as a dependency of discord");
-
-        let _ = Command::new("apt")
-            .args(&["install", "-f"])
-            .output()
-            .expect("Failed to install one or more apt packages as a dependency of discord");
+    let mut response =
+        reqwest::blocking::get("https://discord.com/api/download?platform=linux&format=deb")
+        .expect("Couldn't find discord .deb");
+    if response.status().is_success() {
+        let mut file = OpenOptions::new()
+            .write(true)
+            .create(true)
+            .truncate(true)
+            .open(&discord_deb_path)
+            .expect("Could not open .brunt-dotfiles/install/discord/installer.deb");
+        let mut buffer = Vec::new();
+        response
+            .read_to_end(&mut buffer)
+            .expect("Could not read a response for discord install");
+        file.write_all(&buffer)
+            .expect("Could not write a file for discord install");
     }
+
+    let _ = Command::new("dpkg")
+        .args(&[
+            "-i",
+            discord_deb_path
+            .to_str()
+            .expect("Could not convert discord.deb path from PathBuf to string"),
+        ])
+        .output()
+        .expect("Failed to install one or more apt packages as a dependency of discord");
+
+    let _ = Command::new("apt")
+        .args(&["install", "-f"])
+        .output()
+        .expect("Failed to install one or more apt packages as a dependency of discord");
 }
 
 fn install_qbittorrent() {
