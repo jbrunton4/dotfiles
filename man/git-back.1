@@ -1,0 +1,34 @@
+.TH GIT-BACK 1 "22 February 2024" "v1.0" "Git-Back Manual"
+
+.SH NAME
+git-back \- Quick snapshots of the working directory 
+
+.SH SYNOPSIS
+.B git-back <[\fI--drop\fR]>
+
+.SH DESCRIPTION
+git-back creates a quick snapshot of the git workspace (encompassing the working 
+directory and commit index) which can be quickly restored later on, while leaving the 
+workspace seemingly untouched. 
+
+git-back may be added to the PATH to enable support for invocation via "git back", and 
+the display of this page via "git back --help".
+
+.SH OPTIONS
+.TP
+.B \-h, \-\-help
+Display help message.
+
+.TP
+.B \-\-drop
+Delete all branches in the backup/* folder
+
+.SH BUGS
+Running git-back will bring all items in the commit index back into 
+the working directory. 
+
+.SH AUTHOR
+https://github.com/jbrunton4
+
+.SH COPYRIGHT
+Released under the MIT License
