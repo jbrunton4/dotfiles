@@ -82,6 +82,7 @@ fn main() {
     install_tpm();
     install_nerdfetch();
     configure_cargo(&home_dir);
+    install_scripts(&home_dir);
 
     if is_wsl() {
         touch_hushlogin(&home_dir);
@@ -100,6 +101,21 @@ fn main() {
     query_github_head_commit();
     log(&format!("Installation complete, took {}s", Instant::now().duration_since(start).as_secs()))
     // todo: gh-repos, gitext, newsboat, scripts, prune old logs
+}
+
+fn install_scripts(home_dir: &String) {
+    let folder = PathBuf::from(&home_dir).join(".brunt-dotfiles/bin");
+
+    let _ = Command::new("mkdir")
+        .args(&["-p", folder.to_str().expect("Could not turn buffer to string")])
+    .output()
+    .expect("Failed to remove ubuntu bloatware");
+    for file in ["git-back", "git-find", "git-forget", "git-ignoretemplate", "git-profile", "lolcat_block", 
+    "open_visual_studio_pro_22", "open_work_project", "pspsps", "unix"] {
+        let url = format!("https://raw.githubusercontent.com/jbrunton4/dotfiles/main/scripts/{}.sh", file);
+        let path = PathBuf::from(folder.clone()).join(file).to_str().expect("Could not turn buffer to string").to_string();
+        download_file(&url, &path);
+    }
 }
 
 fn configure_cargo(home_dir: &String) {
@@ -280,6 +296,25 @@ fn install_neovim(home_dir: &String) {
         .args(&["install", "-y", "neovim"])
         .output()
         .expect("Failed to install neovim via apt");
+}
+
+fn download_file(source: &String, path: &String) {
+    let mut response = reqwest::blocking::get(source)
+    .expect("Couldn't find .gitconfig online");
+    if response.status().is_success() {
+        let mut file = OpenOptions::new()
+            .write(true)
+            .create(true)
+            .truncate(true)
+            .open(path)
+            .expect("Could not open path to download file");
+        let mut buffer = Vec::new();
+        response
+            .read_to_end(&mut buffer)
+            .expect("Could not read a response while downloading file");
+        file.write_all(&buffer)
+            .expect("Could not write to file");
+    }
 }
 
 fn configure_git(home_dir: &String, config: &ConfigOptions) {
