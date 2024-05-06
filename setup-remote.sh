@@ -4,16 +4,10 @@ dpkg --configure -a
 
 apt update
 apt upgrade
-apt install -y git libssl-dev curl build-essential pkg-config
+apt install -y git libssl-dev curl pkg-config
 
 if [ ! -f $HOME/.cargo/bin/cargo ]; then
 	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-fi
-
-if cargo install --list | -grep -q "sccache"; then
-	echo "Crate 'sccache' is already installed, skipping..."
-else
-	$HOME/.cargo/bin/cargo install sccache
 fi
 
 repo_dir="dotfiles-$(date +%s)"
