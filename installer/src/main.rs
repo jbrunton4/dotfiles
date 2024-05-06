@@ -83,6 +83,7 @@ fn main() {
     install_nerdfetch();
     configure_cargo(&home_dir);
     install_scripts(&home_dir);
+    config_wezterm(&home_dir);
 
     if is_wsl() {
         touch_hushlogin(&home_dir);
@@ -101,6 +102,12 @@ fn main() {
     query_github_head_commit();
     log(&format!("Installation complete, took {}s", Instant::now().duration_since(start).as_secs()))
     // todo: gh-repos, gitext, newsboat
+}
+
+fn config_wezterm(home_dir: &String) {
+    log("Configuring wezterm");
+    let folder = PathBuf::from(&home_dir).join(".wezterm.lua").to_str().expect("").to_string();
+    download_file(&"https://raw.githubusercontent.com/jbrunton4/dotfiles/main/userhome/.wezterm.lua".to_string(), &folder);
 }
 
 fn install_scripts(home_dir: &String) {
