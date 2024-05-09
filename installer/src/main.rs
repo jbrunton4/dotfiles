@@ -84,6 +84,7 @@ fn main() {
     configure_cargo(&home_dir);
     install_scripts(&home_dir);
     config_wezterm(&home_dir);
+    install_git_hooks(&home_dir);
 
     if is_wsl() {
         touch_hushlogin(&home_dir);
@@ -102,6 +103,22 @@ fn main() {
     query_github_head_commit();
     log(&format!("Installation complete, took {}s", Instant::now().duration_since(start).as_secs()))
     // todo: gh-repos, gitext, newsboat
+}
+
+fn install_git_hooks(home_dir: &String) {
+    log("Installing git hooks");
+    let folder = PathBuf::from(&home_dir).join(".brunt-dotfiles/config/git/hooks");
+
+    let _ = Command::new("mkdir")
+        .args(&["-p", folder.to_str().expect("Could not turn buffer to string")])
+    .output()
+    .expect("Could not create folder for git commit hooks");
+
+    for file in ["prepare-commit-msg"] {
+        let url = format!("https://raw.githubusercontent.com/jbrunton4/dotfiles/main/git-hooks/{}", file);
+        let path = PathBuf::from(folder.clone()).join(file).to_str().expect("Could not turn buffer to string").to_string();
+        download_file(&url, &path);
+    }
 }
 
 fn config_wezterm(home_dir: &String) {

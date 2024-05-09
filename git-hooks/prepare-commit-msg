@@ -1,0 +1,22 @@
+#!/bin/bash
+
+firstline=$(head -n1 $1)
+
+if [ ! -z "$firstline" ]; then
+	exit 0
+fi
+
+echo "" >$1
+
+echo "# $(git config --get user.name)<$(git config --get user.email)>" >>$1
+echo "#" >>$1
+
+if [ "$(git rev-parse --abbrev-ref HEAD)" = "HEAD" ]; then
+	echo "# On commit $(git rev-parse --short HEAD) (headless)" >>$1
+else
+	echo "# On branch $(git rev-parse --abbrev-ref HEAD)" >>$1
+fi
+echo "#" >>$1
+
+echo "# Changes to be committed" >>$1
+echo "$(git diff --cached -M -C --name-status | sed 's/^/#     /g' | sort -u)" >>$1

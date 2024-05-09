@@ -13,6 +13,7 @@
 	forget = !/bin/bash  "$HOME/.brunt-dotfiles/bin/git-forget"
 	edit = "!f() { git -c rebase.autoSquash=false rebase -i --no-autosquash --autostash $1 }; f"
 	ignore-template = !/bin/bash  "$HOME/.brunt-dotfiles/bin/git-ignoretemplate"
+    hooksPath = ~/.brunt-dotfiles/config/git-hooks
 [init]
 	defaultBranch = main
 [merge]
