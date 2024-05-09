@@ -118,6 +118,10 @@ fn install_git_hooks(home_dir: &String) {
         let url = format!("https://raw.githubusercontent.com/jbrunton4/dotfiles/main/git-hooks/{}", file);
         let path = PathBuf::from(folder.clone()).join(file).to_str().expect("Could not turn buffer to string").to_string();
         download_file(&url, &path);
+        let _ = Command::new("chmod")
+            .args(&["+x", &path])
+            .output()
+            .expect("Could not add execute permission for git hook");
     }
 }
 
