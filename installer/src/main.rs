@@ -107,12 +107,13 @@ fn main() {
 
 fn install_git_hooks(home_dir: &String) {
     log("Installing git hooks");
-    let folder = PathBuf::from(&home_dir).join(".brunt-dotfiles/config/git/hooks");
+    let folder_name = ".brunt-dotfiles/config/git/hooks";
+    let folder = PathBuf::from(&home_dir).join(folder_name);
 
     let _ = Command::new("mkdir")
         .args(&["-p", folder.to_str().expect("Could not turn buffer to string")])
     .output()
-    .expect("Could not create folder for git commit hooks");
+    .expect(&format!("Could not create folder for git commit hooks - tried to create {}", folder_name));
 
     for file in ["prepare-commit-msg"] {
         let url = format!("https://raw.githubusercontent.com/jbrunton4/dotfiles/main/git-hooks/{}", file);
@@ -121,7 +122,7 @@ fn install_git_hooks(home_dir: &String) {
         let _ = Command::new("chmod")
             .args(&["+x", &path])
             .output()
-            .expect("Could not add execute permission for git hook");
+            .expect(&format!("Could not add execute permission for git hook \"{}\"", path));
     }
 }
 
@@ -133,16 +134,23 @@ fn config_wezterm(home_dir: &String) {
 
 fn install_scripts(home_dir: &String) {
     log("Installing scripts");
-    let folder = PathBuf::from(&home_dir).join(".brunt-dotfiles/bin");
+    let folder_name = ".brunt-dotfiles/bin";
+    let binding = PathBuf::from(&home_dir).join(folder_name);
+    let folder = binding.to_str()
+        .expect(&format!("Could not turn buffer to string while concatonating home directory to {}", folder_name));
 
     let _ = Command::new("mkdir")
-        .args(&["-p", folder.to_str().expect("Could not turn buffer to string")])
+        .args(&["-p", folder])
     .output()
-    .expect("Failed to remove ubuntu bloatware");
+    .expect(&format!("Failed to create directory ~/{}", folder));
     for file in ["git-back", "git-find", "git-forget", "git-ignoretemplate", "git-profile", "lolcat_block", 
     "open_visual_studio_pro_22", "open_work_project", "pspsps", "unix"] {
         let url = format!("https://raw.githubusercontent.com/jbrunton4/dotfiles/main/scripts/{}.sh", file);
-        let path = PathBuf::from(folder.clone()).join(file).to_str().expect("Could not turn buffer to string").to_string();
+        let path = PathBuf::from(folder)
+            .join(file)
+            .to_str()
+            .expect(&format!("Could not turn buffer to string while concatonating {} to {}", folder, file))
+            .to_string();
         download_file(&url, &path);
     }
 }
@@ -176,7 +184,8 @@ fn query_github_head_commit() {
     let url = format!("https://api.github.com/repos/{}/{}/commits/{}", owner, repo, branch);
 
     let client = Client::new();
-    let response = client.get(&url).header(reqwest::header::USER_AGENT, "My Rust Program").send().expect("Something went wrong while trying to find what commit we're at");
+    let response = client.get(&url).header(reqwest::header::USER_AGENT, "My Rust Program").send()
+        .expect("Something went wrong while trying to find what commit we're at");
 
     if response.status().is_success() {
         let commit: Commit = response.json().expect("Could not decode response from GitHub into commit info");
@@ -237,16 +246,17 @@ fn install_nerdfetch() {
     let _ = Command::new("curl")
         .args(&["https://raw.githubusercontent.com/ThatOneCalculator/NerdFetch/main/nerdfetch", "-o", "/usr/bin/nerdfetch"])
         .output()
-        .expect("Failed to curl nerdfetch");
+        .expect("Failed to curl nerdfetch into file /usr/bin/nerdfetch");
     let _ = Command::new("chmod")
         .args(&["+x", "/usr/bin/nerdfetch"])
         .output()
-        .expect("Failed to add execute permission to nerdfetch binary");
+        .expect("Failed to add execute permission to nerdfetch binary (/usr/bin/nerdfetch)");
 }
 
 fn install_tor_browser(home_dir: &String) {
-    let binding = PathBuf::from(&home_dir).join(".brunt-dotfiles/install/tor");
-    let install_dir = binding.to_str().expect("Couldn't assemble a path for tor installation");
+    let folder_name = ".brunt-dotfiles/install/tor";
+    let binding = PathBuf::from(&home_dir).join(folder_name);
+    let install_dir = binding.to_str().expect(&format!("Failed to concatonate home directory to {}", folder_name));
 
     let tor_installed =
         match fs::metadata(&install_dir) {
@@ -261,15 +271,16 @@ fn install_tor_browser(home_dir: &String) {
     log("Installing tor browser");
 
     let url = "https://www.torproject.org/dist/torbrowser/13.0.10/tor-browser-linux-x86_64-13.0.10.tar.xz";
-    let binding = PathBuf::from(&home_dir).join(".brunt-dotfiles/install/tor/installer.tar.xz");
-    let tar_xz_location = binding.to_str().expect("Couldn't assemble a path for tor tarball download"); 
+    let path = ".brunt-dotfiles/install/tor/installer.tar.xz";
+    let binding = PathBuf::from(&home_dir).join(path);
+    let tar_xz_location = binding.to_str().expect(&format!("Couldn't assemble a path for tor tarball download, concatonating home directory to {}", path)); 
 
     ensure_directory_exists(install_dir);
 
     let _ = Command::new("wget")
         .args(&["-O", tar_xz_location, url])
         .output()
-        .expect("Failed to download tor 13.0.10 tarball");
+        .expect("Failed to download tor 13.0.10 tarbal using wget");
 
     let _ = Command::new("tar")
         .args(&["-xf", tar_xz_location, "-C", install_dir])
@@ -295,17 +306,17 @@ fn install_snap_packages() {
     let _ = Command::new("snap")
         .args(&["install", "ascii-image-converter", "lazygit", "lolcat"])
         .output()
-        .expect("Failed to install one or more pip packages");
+        .expect("Failed to install one or more snap packages");
     if !is_wsl() {
         let _ = Command::new("snap")
             .args(&["install", "firefox", "gimp", "postman"])
             .output()
-            .expect("Failed to install one or more pip packages (wsl-specific)");
+            .expect("Failed to install one or more snap packages (wsl-specific)");
     } else {
         let _ = Command::new("snap")
             .args(&["install", "snap-store"])
             .output()
-            .expect("Failed to install one or more pip packages (wsl-exclusive)");
+            .expect("Failed to install one or more snap packages (wsl-exclusive)");
     }
 }
 
@@ -320,7 +331,7 @@ fn install_neovim(home_dir: &String) {
     let _ = Command::new("apt")
         .args(&["update", "-y"])
         .output()
-        .expect("Failed to run apt update with newly added repositories.");
+        .expect("Failed to run apt update with newly added repository \"ppa:neovim-ppa/unstable\"");
 
     let _ = Command::new("apt")
         .args(&["install", "-y", "neovim"])
@@ -331,20 +342,20 @@ fn install_neovim(home_dir: &String) {
 fn download_file(source: &String, path: &String) {
     log(&format!("    Downloading file {} -> {}", &source, &path));
     let mut response = reqwest::blocking::get(source)
-    .expect("Couldn't find .gitconfig online");
+    .expect(&format!("Couldn't find file online: {}", source));
     if response.status().is_success() {
         let mut file = OpenOptions::new()
             .write(true)
             .create(true)
             .truncate(true)
             .open(path)
-            .expect("Could not open path to download file");
+            .expect(&format!("Could not open path to download file: {}", path));
         let mut buffer = Vec::new();
         response
             .read_to_end(&mut buffer)
-            .expect("Could not read a response while downloading file");
+            .expect(&format!("Could not read a response while downloading file {}", source));
         file.write_all(&buffer)
-            .expect("Could not write to file");
+            .expect(&format!("Could not write to file {}", path));
     }
 }
 
@@ -451,8 +462,10 @@ fn install_cargo_crates() {
 
 fn apply_config_default(home_dir: &String) {
     log("Ensuring configurations exist");
-    let config_json_path = PathBuf::from(&home_dir).join(".brunt-dotfiles/config/install.json");
-    ensure_directory_exists(PathBuf::from(&home_dir).join(".brunt-dotfiles/config").to_str().expect("???"));
+    let install_json_path = ".brunt-dotfiles/config/install.json";
+    let config_json_path = PathBuf::from(&home_dir).join(install_json_path).to_str()
+        .expect(&format!("Failed to concatonate home directory to {}", install_json_path));
+    ensure_directory_exists(PathBuf::from(&home_dir).join(".brunt-dotfiles/config"));
     match fs::metadata(&config_json_path) {
         Ok(_) => {}
         Err(_) => {
@@ -541,7 +554,7 @@ fn ensure_python3() {
     let _ = Command::new("apt")
         .args(&["install", "-y", "python3"])
         .output()
-        .expect("Failed to install mono-complete using apt");
+        .expect("Failed to install python3 using apt");
 }
 
 fn touch_hushlogin(home_dir: &String) {
