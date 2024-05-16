@@ -61,14 +61,19 @@ fn main() {
         let _ = file.write_all(b"nameserver 9.9.9.9");
     }
 
-    update_apt();
+    let is_arch = std::fs::read_to_string("/etc/os-release").map_or(false, |contents| contents.contains("ARCH"));
+
+    if !is_arch {
+        update_apt();
+        install_apt_packages();
+    }
+
     ensure_mono();
     ensure_python3();
     update_pip();
     ensure_snap();
     configure_atuin(&home_dir);
     sync_clock();
-    install_apt_packages();
     install_cargo_crates();
     install_pip_packages();
     install_snap_packages();
@@ -98,7 +103,9 @@ fn main() {
         remove_ubuntu_bloat();
     }
 
-    apply_apt_fixes();
+    if !is_arch {
+        apply_apt_fixes();
+    }
 
     query_github_head_commit();
     log(&format!("Installation complete, took {}s", Instant::now().duration_since(start).as_secs()))
