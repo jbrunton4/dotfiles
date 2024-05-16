@@ -463,9 +463,10 @@ fn install_cargo_crates() {
 fn apply_config_default(home_dir: &String) {
     log("Ensuring configurations exist");
     let install_json_path = ".brunt-dotfiles/config/install.json";
-    let config_json_path = PathBuf::from(&home_dir).join(install_json_path).to_str()
+    let binding = PathBuf::from(&home_dir).join(install_json_path);
+    let config_json_path = binding.to_str()
         .expect(&format!("Failed to concatonate home directory to {}", install_json_path));
-    ensure_directory_exists(PathBuf::from(&home_dir).join(".brunt-dotfiles/config"));
+    ensure_directory_exists(PathBuf::from(&home_dir).join(".brunt-dotfiles/config").to_str().expect("Could not assemble a path for config defaults"));
     match fs::metadata(&config_json_path) {
         Ok(_) => {}
         Err(_) => {
