@@ -69,6 +69,7 @@ fn main() {
         .expect("Failed to start `yes` command");
 
     // Pipe the output of `yes` to another command
+    log("Installing packages via pacman");
     let _ = Command::new("pacman")
         .args(&[
             "-S",
@@ -512,7 +513,7 @@ fn install_thefuck() {
 }
 
 fn ensure_pipx_in_path() {
-    log("Installing thefuck");
+    log("Ensuring pipx in the path");
     let _ = Command::new("pipx")
         .args(&["ensurepath"])
         .output()
