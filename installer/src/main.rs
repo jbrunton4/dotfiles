@@ -97,7 +97,7 @@ fn main() {
     ensure_pipx_in_path();
 
     sync_clock();
-    // install_cargo_crates();
+    install_cargo_crates();
     install_pip_packages();
     // install_snap_packages();
     configure_bash_aliases(&home_dir);
@@ -129,6 +129,18 @@ fn main() {
         Instant::now().duration_since(start).as_secs()
     ))
     // todo: gh-repos, gitext, newsboat
+}
+
+fn install_cargo_crates() {
+    log("Installing cargo crates");
+    let _ = Command::new("rustup")
+        .arg("update")
+        .output()
+        .expect("Failed to install one or more cargo crates");
+    let _ = Command::new("cargo")
+        .args(&["install", "atuin", "du-dust", "eza", "ripgrep"])
+        .output()
+        .expect("Failed to install one or more cargo crates");
 }
 
 fn install_git_hooks(home_dir: &String) {
