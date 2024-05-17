@@ -1,3 +1,6 @@
+use chrono::Local;
+use is_wsl::is_wsl;
+use reqwest::blocking::Client;
 use serde::{Deserialize, Serialize};
 use std::fs;
 use std::fs::File;
@@ -5,15 +8,12 @@ use std::fs::OpenOptions;
 use std::io::BufReader;
 use std::io::{Read, Write};
 use std::path::PathBuf;
-use std::process::Command;
-use chrono::Local;
+use std::process::{Command, Stdio};
 use std::time::Instant;
-use is_wsl::is_wsl;
-use reqwest::blocking::Client;
 
 #[derive(Debug, Deserialize)]
 struct Commit {
-    sha: String
+    sha: String,
 }
 
 #[derive(Debug, Deserialize, Serialize)]
@@ -28,13 +28,12 @@ fn ensure_directory_exists(path: &str) {
         .args(&["-p", path])
         .output()
         .expect("Failed to create a directory");
- 
 }
 
 fn main() {
     let start = Instant::now();
 
-    install_refresh_script();
+    // install_refresh_script();
 
     let home_dir = std::env::var("HOME").expect("Could not retrieve $HOM£");
 
@@ -46,69 +45,89 @@ fn main() {
     let file = File::open(&config_json_path).expect("Failed to open install.json");
     let reader = BufReader::new(file);
     let config: ConfigOptions = serde_json::from_reader(reader).expect("Failed to parse JSON");
-    log(&format!("Profile: {}", &config.profile));
-    log(&format!("Install GitHub Repos: {}", config.installGithubRepos));
+    log(&format!("\tProfile: {}", &config.profile));
+    log(&format!(
+        "\tInstall GitHub Repos: {}",
+        config.installGithubRepos
+    ));
 
     // Use Quad9 on home
-    if config.profile == "home" {
-        log("Setting nameserver to quad9");
-        let mut file = OpenOptions::new()
-            .write(true)
-            .create(true)
-            .truncate(true)
-            .open("/etc/resolv.conf")
-            .expect("Could not set nameserver in /etc/resolv.conf");
-        let _ = file.write_all(b"nameserver 9.9.9.9");
-    }
+    // if config.profile == "home" {
+    //     log("Setting nameserver to quad9");
+    //     let mut file = OpenOptions::new()
+    //         .write(true)
+    //         .create(true)
+    //         .truncate(true)
+    //         .open("/etc/resolv.conf")
+    //         .expect("Could not set nameserver in /etc/resolv.conf");
+    //     let _ = file.write_all(b"nameserver 9.9.9.9");
+    // }
 
-    let is_arch = std::fs::read_to_string("/etc/os-release").map_or(false, |contents| contents.contains("ARCH"));
+    let yes_command = Command::new("yes")
+        .stdout(Stdio::piped())
+        .spawn()
+        .expect("Failed to start `yes` command");
 
-    if !is_arch {
-        update_apt();
-        install_apt_packages();
-    }
+    // Pipe the output of `yes` to another command
+    let _ = Command::new("pacman")
+        .args(&[
+            "-S",
+            "git",
+            "neofetch",
+            "base-devel",
+            "tmux",
+            "bat",
+            "exa",
+            "python3",
+            "python-pip",
+            "python-pipx",
+            "kdiff3",
+            "ffmpeg",
+            "fzf",
+            "cloc",
+            "neovim",
+            "nmap",
+            "bashtop",
+            "unzip",
+        ])
+        .stdin(yes_command.stdout.unwrap())
+        .output()
+        .expect("Failed to start `pacman`");
 
-    ensure_mono();
-    ensure_python3();
-    update_pip();
-    ensure_snap();
-    configure_atuin(&home_dir);
+    ensure_pipx_in_path();
+
     sync_clock();
-    install_cargo_crates();
+    // install_cargo_crates();
     install_pip_packages();
-    install_snap_packages();
+    // install_snap_packages();
     configure_bash_aliases(&home_dir);
     configure_bashrc(&home_dir);
     configure_git(&home_dir, &config);
-    install_neovim(&home_dir);
     install_oh_my_posh();
     install_thefuck();
-    install_tmux(&home_dir);
+    configure_tmux(&home_dir);
     install_tpm();
     install_nerdfetch();
-    configure_cargo(&home_dir);
     install_scripts(&home_dir);
     config_wezterm(&home_dir);
     install_git_hooks(&home_dir);
 
     if is_wsl() {
         touch_hushlogin(&home_dir);
-        set_wsl_default_user();
+        // set_wsl_default_user();
     }
 
     if config.profile == "home" {
         install_discord(&home_dir);
         install_qbittorrent();
         install_tor_browser(&home_dir);
-        remove_ubuntu_bloat();
-    }
-
-    if !is_arch {
-        apply_apt_fixes();
     }
 
     query_github_head_commit();
-    log(&format!("Installation complete, took {}s", Instant::now().duration_since(start).as_secs()))
+    log(&format!(
+        "Installation complete, took {}s",
+        Instant::now().duration_since(start).as_secs()
+    ))
     // todo: gh-repos, gitext, newsboat
 }
 
@@ -118,69 +137,89 @@ fn install_git_hooks(home_dir: &String) {
     let folder = PathBuf::from(&home_dir).join(folder_name);
 
     let _ = Command::new("mkdir")
-        .args(&["-p", folder.to_str().expect("Could not turn buffer to string")])
-    .output()
-    .expect(&format!("Could not create folder for git commit hooks - tried to create {}", folder_name));
+        .args(&[
+            "-p",
+            folder.to_str().expect("Could not turn buffer to string"),
+        ])
+        .output()
+        .expect(&format!(
+            "Could not create folder for git commit hooks - tried to create {}",
+            folder_name
+        ));
 
     for file in ["prepare-commit-msg"] {
-        let url = format!("https://raw.githubusercontent.com/jbrunton4/dotfiles/main/git-hooks/{}", file);
-        let path = PathBuf::from(folder.clone()).join(file).to_str().expect("Could not turn buffer to string").to_string();
+        let url = format!(
+            "https://raw.githubusercontent.com/jbrunton4/dotfiles/main/git-hooks/{}",
+            file
+        );
+        let path = PathBuf::from(folder.clone())
+            .join(file)
+            .to_str()
+            .expect("Could not turn buffer to string")
+            .to_string();
         download_file(&url, &path);
         let _ = Command::new("chmod")
             .args(&["+x", &path])
             .output()
-            .expect(&format!("Could not add execute permission for git hook \"{}\"", path));
+            .expect(&format!(
+                "Could not add execute permission for git hook \"{}\"",
+                path
+            ));
     }
 }
 
 fn config_wezterm(home_dir: &String) {
     log("Configuring wezterm");
-    let folder = PathBuf::from(&home_dir).join(".wezterm.lua").to_str().expect("").to_string();
-    download_file(&"https://raw.githubusercontent.com/jbrunton4/dotfiles/main/userhome/.wezterm.lua".to_string(), &folder);
+    let folder = PathBuf::from(&home_dir)
+        .join(".wezterm.lua")
+        .to_str()
+        .expect("")
+        .to_string();
+    download_file(
+        &"https://raw.githubusercontent.com/jbrunton4/dotfiles/main/userhome/.wezterm.lua"
+            .to_string(),
+        &folder,
+    );
 }
 
 fn install_scripts(home_dir: &String) {
     log("Installing scripts");
     let folder_name = ".brunt-dotfiles/bin";
     let binding = PathBuf::from(&home_dir).join(folder_name);
-    let folder = binding.to_str()
-        .expect(&format!("Could not turn buffer to string while concatonating home directory to {}", folder_name));
+    let folder = binding.to_str().expect(&format!(
+        "Could not turn buffer to string while concatonating home directory to {}",
+        folder_name
+    ));
 
     let _ = Command::new("mkdir")
         .args(&["-p", folder])
-    .output()
-    .expect(&format!("Failed to create directory ~/{}", folder));
-    for file in ["git-back", "git-find", "git-forget", "git-ignoretemplate", "git-profile", "lolcat_block", 
-    "open_visual_studio_pro_22", "open_work_project", "pspsps", "unix"] {
-        let url = format!("https://raw.githubusercontent.com/jbrunton4/dotfiles/main/scripts/{}.sh", file);
+        .output()
+        .expect(&format!("Failed to create directory ~/{}", folder));
+    for file in [
+        "git-back",
+        "git-find",
+        "git-forget",
+        "git-ignoretemplate",
+        "git-profile",
+        "lolcat_block",
+        "open_visual_studio_pro_22",
+        "open_work_project",
+        "pspsps",
+        "unix",
+    ] {
+        let url = format!(
+            "https://raw.githubusercontent.com/jbrunton4/dotfiles/main/scripts/{}.sh",
+            file
+        );
         let path = PathBuf::from(folder)
             .join(file)
             .to_str()
-            .expect(&format!("Could not turn buffer to string while concatonating {} to {}", folder, file))
+            .expect(&format!(
+                "Could not turn buffer to string while concatonating {} to {}",
+                folder, file
+            ))
             .to_string();
         download_file(&url, &path);
-    }
-}
-
-fn configure_cargo(home_dir: &String) {
-    log("Installing .gitconfig");
-    let mut response = reqwest::blocking::get(
-        "https://raw.githubusercontent.com/jbrunton4/dotfiles/main/userhome/.cargo/config.toml",
-    )
-    .expect("Couldn't find .cargo/config.toml online");
-    if response.status().is_success() {
-        let mut file = OpenOptions::new()
-            .write(true)
-            .create(true)
-            .truncate(true)
-            .open(PathBuf::from(&home_dir).join(".cargo/config.toml"))
-            .expect("Could not open ~/.cargo/config.toml");
-        let mut buffer = Vec::new();
-        response
-            .read_to_end(&mut buffer)
-            .expect("Could not read a response for ~/.cargo/config.toml");
-        file.write_all(&buffer)
-            .expect("Could not write ~/.cargo/config.toml");
     }
 }
 
@@ -188,70 +227,36 @@ fn query_github_head_commit() {
     let owner = "jbrunton4";
     let repo = "dotfiles";
     let branch = "main";
-    let url = format!("https://api.github.com/repos/{}/{}/commits/{}", owner, repo, branch);
+    let url = format!(
+        "https://api.github.com/repos/{}/{}/commits/{}",
+        owner, repo, branch
+    );
 
     let client = Client::new();
-    let response = client.get(&url).header(reqwest::header::USER_AGENT, "My Rust Program").send()
+    let response = client
+        .get(&url)
+        .header(reqwest::header::USER_AGENT, "My Rust Program")
+        .send()
         .expect("Something went wrong while trying to find what commit we're at");
 
     if response.status().is_success() {
-        let commit: Commit = response.json().expect("Could not decode response from GitHub into commit info");
+        let commit: Commit = response
+            .json()
+            .expect("Could not decode response from GitHub into commit info");
         log(&format!("Commit {}", commit.sha));
     } else {
         log("Error while accessing GitHub API to retrieve commit hash at head of refs/main")
     }
 }
 
-fn remove_ubuntu_bloat() {
-    log("Removing Ubuntu default bloatware");
-    let _ = Command::new("apt")
-        .args(&["remove", "-y",
-            "account-plugin-aim",
-            "account-plugin-facebook",
-            "account-plugin-flickr",
-            "account-plugin-jabber",
-            "account-plugin-salut",
-            "account-plugin-yahoo",
-            "aisleriot",
-            "gnome-mahjongg",
-            "gnome-mines",
-            "gnome-sudoku",
-            "landscape-client-ui-install",
-            "unity-lens-music",
-            "unity-lens-photos",
-            "unity-lens-video",
-            "unity-scope-audacious",
-            "unity-scope-chromiumbookmarks",
-            "unity-scope-clementine",
-            "unity-scope-colourlovers",
-            "unity-scope-devhelp",
-            "unity-scope-firefoxbookmarks",
-            "unity-scope-gmusicbrowser",
-            "unity-scope-gourmet",
-            "unity-scope-guayadeque",
-            "unity-scope-musicstores",
-            "unity-scope-musique",
-            "unity-scope-openclipart",
-            "unity-scope-texdoc",
-            "unity-scope-tomboy",
-            "unity-scope-video-remote",
-            "unity-scope-virtualbox",
-            "unity-scope-zotero",
-            "unity-webapps-common",
-            ])
-    .output()
-    .expect("Failed to remove ubuntu bloatware");
-}
-
-fn install_refresh_script() {
-    log("Creating dotfiles command");
-    std::fs::write("/usr/bin/dotfiles", "[[ \"$1\" == \"refresh\"]] && curl -sSL https://raw.githubusercontent.com/jbrunton4/dotfiles/main/setup-remote.sh | /bin/bash").expect("Failed to create the dotfiles refresh script");
-}
-
 fn install_nerdfetch() {
     log("Installing nerdfetch");
     let _ = Command::new("curl")
-        .args(&["https://raw.githubusercontent.com/ThatOneCalculator/NerdFetch/main/nerdfetch", "-o", "/usr/bin/nerdfetch"])
+        .args(&[
+            "https://raw.githubusercontent.com/ThatOneCalculator/NerdFetch/main/nerdfetch",
+            "-o",
+            "/usr/bin/nerdfetch",
+        ])
         .output()
         .expect("Failed to curl nerdfetch into file /usr/bin/nerdfetch");
     let _ = Command::new("chmod")
@@ -263,13 +268,15 @@ fn install_nerdfetch() {
 fn install_tor_browser(home_dir: &String) {
     let folder_name = ".brunt-dotfiles/install/tor";
     let binding = PathBuf::from(&home_dir).join(folder_name);
-    let install_dir = binding.to_str().expect(&format!("Failed to concatonate home directory to {}", folder_name));
+    let install_dir = binding.to_str().expect(&format!(
+        "Failed to concatonate home directory to {}",
+        folder_name
+    ));
 
-    let tor_installed =
-        match fs::metadata(&install_dir) {
-            Ok(metadata) => metadata.is_dir(),
-            Err(_) => false,
-        };
+    let tor_installed = match fs::metadata(&install_dir) {
+        Ok(metadata) => metadata.is_dir(),
+        Err(_) => false,
+    };
 
     if tor_installed {
         log("Tor is already installed, skipping this step...");
@@ -280,7 +287,10 @@ fn install_tor_browser(home_dir: &String) {
     let url = "https://www.torproject.org/dist/torbrowser/13.0.10/tor-browser-linux-x86_64-13.0.10.tar.xz";
     let path = ".brunt-dotfiles/install/tor/installer.tar.xz";
     let binding = PathBuf::from(&home_dir).join(path);
-    let tar_xz_location = binding.to_str().expect(&format!("Couldn't assemble a path for tor tarball download, concatonating home directory to {}", path)); 
+    let tar_xz_location = binding.to_str().expect(&format!(
+        "Couldn't assemble a path for tor tarball download, concatonating home directory to {}",
+        path
+    ));
 
     ensure_directory_exists(install_dir);
 
@@ -295,61 +305,10 @@ fn install_tor_browser(home_dir: &String) {
         .expect("Failed to extract tor tarball");
 }
 
-fn ensure_snap() {
-    log("Ensuring snap is installed");
-    let _ = Command::new("apt")
-        .args(&["install", "snapd"])
-        .output()
-        .expect("Failed to install snapd via apt");
-
-    let _ = Command::new("ln")
-        .args(&["-s", "/var/lib/snapd/snap", "/snap"])
-        .output()
-        .expect("Failed to symlink /var/lib/snapd/snap -> /snap");
-}
-
-fn install_snap_packages() {
-    log("Installing snaps");
-    let _ = Command::new("snap")
-        .args(&["install", "ascii-image-converter", "lazygit", "lolcat"])
-        .output()
-        .expect("Failed to install one or more snap packages");
-    if !is_wsl() {
-        let _ = Command::new("snap")
-            .args(&["install", "firefox", "gimp", "postman"])
-            .output()
-            .expect("Failed to install one or more snap packages (wsl-specific)");
-    } else {
-        let _ = Command::new("snap")
-            .args(&["install", "snap-store"])
-            .output()
-            .expect("Failed to install one or more snap packages (wsl-exclusive)");
-    }
-}
-
-fn install_neovim(home_dir: &String) {
-    log("Installing neovim");
-
-    let _ = Command::new("add-apt-repository")
-        .args(&["ppa:neovim-ppa/unstable"])
-        .output()
-        .expect("Failed to add apt repository ppa:neovim-ppa/unstable");
-
-    let _ = Command::new("apt")
-        .args(&["update", "-y"])
-        .output()
-        .expect("Failed to run apt update with newly added repository \"ppa:neovim-ppa/unstable\"");
-
-    let _ = Command::new("apt")
-        .args(&["install", "-y", "neovim"])
-        .output()
-        .expect("Failed to install neovim via apt");
-}
-
 fn download_file(source: &String, path: &String) {
     log(&format!("    Downloading file {} -> {}", &source, &path));
-    let mut response = reqwest::blocking::get(source)
-    .expect(&format!("Couldn't find file online: {}", source));
+    let mut response =
+        reqwest::blocking::get(source).expect(&format!("Couldn't find file online: {}", source));
     if response.status().is_success() {
         let mut file = OpenOptions::new()
             .write(true)
@@ -358,9 +317,10 @@ fn download_file(source: &String, path: &String) {
             .open(path)
             .expect(&format!("Could not open path to download file: {}", path));
         let mut buffer = Vec::new();
-        response
-            .read_to_end(&mut buffer)
-            .expect(&format!("Could not read a response while downloading file {}", source));
+        response.read_to_end(&mut buffer).expect(&format!(
+            "Could not read a response while downloading file {}",
+            source
+        ));
         file.write_all(&buffer)
             .expect(&format!("Could not write to file {}", path));
     }
@@ -449,31 +409,26 @@ fn configure_bash_aliases(home_dir: &String) {
 
 fn install_pip_packages() {
     log("Installing pip packages");
-    let _ = Command::new("python3")
-        .args(&["-m", "pip", "install", "speedtest-cli", "pyinstaller"])
+    let _ = Command::new("pipx")
+        .args(&["install", "speedtest-cli", "pyinstaller"])
         .output()
         .expect("Failed to install one or more pip packages");
-}
-
-fn install_cargo_crates() {
-    log("Installing cargo crates");
-    let _ = Command::new("rustup")
-        .arg("update")
-        .output()
-        .expect("Failed to install one or more cargo crates");
-    let _ = Command::new("cargo")
-        .args(&["install", "atuin", "du-dust", "eza", "ripgrep"])
-        .output()
-        .expect("Failed to install one or more cargo crates");
 }
 
 fn apply_config_default(home_dir: &String) {
     log("Ensuring configurations exist");
     let install_json_path = ".brunt-dotfiles/config/install.json";
     let binding = PathBuf::from(&home_dir).join(install_json_path);
-    let config_json_path = binding.to_str()
-        .expect(&format!("Failed to concatonate home directory to {}", install_json_path));
-    ensure_directory_exists(PathBuf::from(&home_dir).join(".brunt-dotfiles/config").to_str().expect("Could not assemble a path for config defaults"));
+    let config_json_path = binding.to_str().expect(&format!(
+        "Failed to concatonate home directory to {}",
+        install_json_path
+    ));
+    ensure_directory_exists(
+        PathBuf::from(&home_dir)
+            .join(".brunt-dotfiles/config")
+            .to_str()
+            .expect("Could not assemble a path for config defaults"),
+    );
     match fs::metadata(&config_json_path) {
         Ok(_) => {}
         Err(_) => {
@@ -514,93 +469,9 @@ fn apply_config_default(home_dir: &String) {
     }
 }
 
-fn install_apt_packages() {
-    log("Installing apt packages");
-    let _ = Command::new("apt")
-        .args(&[
-            "install",
-            "-y",
-            "bash-completion",
-            "bashtop",
-            "bat",
-            "cloc",
-            "dos2unix",
-            "dotnet7",
-            "dotnet-sdk-8.0",
-            "ffmpeg",
-            "fzf",
-            "git",
-            "gh",
-            "kdiff3",
-            "neofetch",
-            "nmap",
-            "ripgrep",
-            "tree",
-        ])
-        .output()
-        .expect("Failed to install one or more apt packages");
-}
-
-fn update_apt() {
-    log("Updating apt");
-    let _ = Command::new("apt")
-        .args(&["update", "-y"])
-        .output()
-        .expect("Failed to run apt update. This might be because you don't have apt installed.");
-}
-
-fn ensure_mono() {
-    log("Ensuring mono");
-    let _ = Command::new("apt")
-        .args(&["install", "-y", "mono-complete"])
-        .output()
-        .expect("Failed to install mono-complete using apt");
-}
-
-fn ensure_python3() {
-    log("Ensuring python 3.x");
-    let _ = Command::new("apt")
-        .args(&["install", "-y", "python3"])
-        .output()
-        .expect("Failed to install python3 using apt");
-}
-
 fn touch_hushlogin(home_dir: &String) {
     log("Touching ~/.hushlogin");
     let _ = File::create(PathBuf::from(&home_dir).join(".hushlogin"));
-}
-
-fn update_pip() {
-    log("Updating pip");
-    let _ = Command::new("python3")
-        .args(&["-m", "pip", "install", "--upgrade", "pip"])
-        .output()
-        .expect("Failed to install/upgrade pip.");
-}
-
-fn configure_atuin(home_dir: &String) {
-    log("Installing atuin configuration");
-
-    ensure_directory_exists(PathBuf::from(&home_dir).join(".config/atuin").to_str().expect("Could not assemble the atuin config directory path"));
-
-    let mut response = reqwest::blocking::get("https://raw.githubusercontent.com/jbrunton4/dotfiles/main/userhome/.config/atuin/config.toml")
-                .expect("Couldn't find atuin configuration online");
-    if response.status().is_success() {
-        let mut file = OpenOptions::new()
-            .write(true)
-            .create(true)
-            .truncate(true)
-            .open(PathBuf::from(&home_dir).join(".config/atuin/config.toml"))
-            .expect("Could not open a file to write atuin config");
-        let mut buffer = Vec::new();
-        response
-            .read_to_end(&mut buffer)
-            .expect("Could not read a response for atuin config");
-        file.write_all(&buffer)
-            .expect("Could not write atuin config");
-    } else {
-        panic!("logs.json was not found, but couldn't find the default file online")
-    }
 }
 
 fn sync_clock() {
@@ -613,10 +484,6 @@ fn sync_clock() {
 
 fn install_oh_my_posh() {
     log("Installing oh my posh");
-    let _ = Command::new("apt")
-        .args(&["install", "-y", "unzip"])
-        .output()
-        .expect("Failed to install unzip via apt");
     let _ = Command::new("bash")
         .arg("-c")
         .arg(r#"curl -s -sSL https://ohmyposh.dev/install.sh | bash -s"#)
@@ -626,28 +493,22 @@ fn install_oh_my_posh() {
 
 fn install_thefuck() {
     log("Installing thefuck");
-    let _ = Command::new("apt")
-        .args(&[
-            "install",
-            "-y",
-            "python3-dev",
-            "python3-pip",
-            "python3-setuptools",
-        ])
-        .output()
-        .expect("Failed to install apt dependencies for thefuck");
-    let _ = Command::new("python3")
-        .args(&["-m", "pip", "install", "thefuck"])
+    let _ = Command::new("pipx")
+        .args(&["install", "thefuck"])
         .output()
         .expect("Failed to install thefuck");
 }
 
-fn install_tmux(home_dir: &String) {
-    log("Installing tmux");
-    let _ = Command::new("apt")
-        .args(&["install", "-y", "tmux"])
+fn ensure_pipx_in_path() {
+    log("Installing thefuck");
+    let _ = Command::new("pipx")
+        .args(&["ensurepath"])
         .output()
-        .expect("Failed to install tmux");
+        .expect("Failed to install thefuck");
+}
+
+fn configure_tmux(home_dir: &String) {
+    log("Installing tmux");
     let mut response = reqwest::blocking::get(
         "https://raw.githubusercontent.com/jbrunton4/dotfiles/main/userhome/.tmux.conf",
     )
@@ -677,47 +538,6 @@ fn install_tpm() {
         .expect("Failed to install tpm");
 }
 
-fn apply_apt_fixes() {
-    log("Applying apt fixes");
-    let _ = Command::new("apt")
-        .arg("upgrade")
-        .output()
-        .expect("Failed to remove redundant apts");
-
-    let _ = Command::new("apt")
-        .arg("autoremove")
-        .output()
-        .expect("Failed to remove redundant apts");
-
-    let _ = Command::new("apt")
-        .args(&["install", "-f"])
-        .output()
-        .expect("Failed to remove redundant apts");
-}
-
-fn set_wsl_default_user() {
-    log("Setting default WSL user to wsl.conf");
-    let mut response = reqwest::blocking::get(
-        "https://raw.githubusercontent.com/jbrunton4/dotfiles/main/linuxroot/etc/wsl.conf",
-    )
-    .expect("Couldn't find wsl configuration online");
-    if response.status().is_success() {
-        let mut file = OpenOptions::new()
-            .write(true)
-            .create(true)
-            .truncate(true)
-            .open("/etc/wsl.conf")
-            .expect("Could not open /etc/wsl.conf");
-        let mut buffer = Vec::new();
-        response
-            .read_to_end(&mut buffer)
-            .expect("Could not read a response for wsl.conf");
-        file.write_all(&buffer).expect("Could not write wsl.conf");
-    } else {
-        panic!("logs.json was not found, but couldn't find the default file online")
-    }
-}
-
 fn install_discord(home_dir: &str) {
     let discord_installed =
         match fs::metadata(PathBuf::from(&home_dir).join(".brunt-dotfiles/install/discord")) {
@@ -728,7 +548,7 @@ fn install_discord(home_dir: &str) {
     if discord_installed {
         log("Skipping discord install (already installed)");
         return;
-    } 
+    }
 
     log("Installing discord");
 
@@ -745,7 +565,7 @@ fn install_discord(home_dir: &str) {
 
     let mut response =
         reqwest::blocking::get("https://discord.com/api/download?platform=linux&format=deb")
-        .expect("Couldn't find discord .deb");
+            .expect("Couldn't find discord .deb");
     if response.status().is_success() {
         let mut file = OpenOptions::new()
             .write(true)
@@ -765,8 +585,8 @@ fn install_discord(home_dir: &str) {
         .args(&[
             "-i",
             discord_deb_path
-            .to_str()
-            .expect("Could not convert discord.deb path from PathBuf to string"),
+                .to_str()
+                .expect("Could not convert discord.deb path from PathBuf to string"),
         ])
         .output()
         .expect("Failed to install one or more apt packages as a dependency of discord");

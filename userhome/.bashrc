@@ -84,9 +84,6 @@ if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
 
-# bash-completion
-source /etc/profile.d/bash_completion.sh
-
 # the fuck
 eval $(thefuck --alias)
 eval $(thefuck --alias fuck)

@@ -1,7 +1,7 @@
 alias rn="mv"
 
 alias ls="exa"
-alias cat="batcat"
+alias cat="bat"
 alias top="bashtop"
 alias ripgrep="rg"
 alias grep="rg"
