@@ -2,9 +2,7 @@
 
 dpkg --configure -a
 
-apt update
-apt upgrade
-apt install -y git libssl-dev curl pkg-config
+yes "" | sudo pacman -S git curl base-devel
 
 if [ ! -f $HOME/.cargo/bin/cargo ]; then
 	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
