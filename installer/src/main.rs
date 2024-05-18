@@ -75,6 +75,7 @@ fn main() {
             "-S",
             "git",
             "neofetch",
+            "github-cli",
             "jq",
             "base-devel",
             "tmux",
