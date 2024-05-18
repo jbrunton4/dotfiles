@@ -76,6 +76,7 @@ fn main() {
             "git",
             "neofetch",
             "github-cli",
+            "thefuck",
             "jq",
             "base-devel",
             "tmux",
@@ -109,7 +110,6 @@ fn main() {
     configure_bashrc(&home_dir);
     configure_git(&home_dir, &config);
     install_oh_my_posh();
-    install_thefuck();
     configure_tmux(&home_dir);
     install_tpm();
     install_nerdfetch();
@@ -529,20 +529,12 @@ fn install_oh_my_posh() {
         .expect("Failed to install oh my posh");
 }
 
-fn install_thefuck() {
-    log("Installing thefuck");
-    let _ = Command::new("pipx")
-        .args(&["install", "thefuck"])
-        .output()
-        .expect("Failed to install thefuck");
-}
-
 fn ensure_pipx_in_path() {
     log("Ensuring pipx in the path");
     let _ = Command::new("pipx")
         .args(&["ensurepath"])
         .output()
-        .expect("Failed to install thefuck");
+        .expect("Failed to install ensure pipx in PATH");
 }
 
 fn configure_tmux(home_dir: &String) {
