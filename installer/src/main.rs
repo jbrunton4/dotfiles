@@ -83,6 +83,7 @@ fn main() {
             "python3",
             "python-pip",
             "python-pipx",
+            "python-setuptools",
             "kdiff3",
             "ffmpeg",
             "fzf",
