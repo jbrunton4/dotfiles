@@ -433,7 +433,7 @@ fn configure_bash_aliases(home_dir: &String) {
             .write(true)
             .create(true)
             .truncate(true)
-            .open(PathBuf::from(&home_dir).join(".bash_alises"))
+            .open(PathBuf::from(&home_dir).join(".bash_aliases"))
             .expect("Could not open ~/.bash_aliases");
         let mut buffer = Vec::new();
         response
