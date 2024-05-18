@@ -103,6 +103,7 @@ fn main() {
     install_cargo_crates();
     install_pip_packages();
     // install_snap_packages();
+    configure_profile(&home_dir);
     configure_bash_aliases(&home_dir);
     configure_bashrc(&home_dir);
     configure_git(&home_dir, &config);
@@ -397,6 +398,27 @@ fn configure_bashrc(home_dir: &String) {
             .read_to_end(&mut buffer)
             .expect("Could not read a response for bashrc");
         file.write_all(&buffer).expect("Could not write ~/.bashrc");
+    }
+}
+
+fn configure_profile(home_dir: &String) {
+    log("Configuring ~/.profile");
+    let mut response = reqwest::blocking::get(
+        "https://raw.githubusercontent.com/jbrunton4/dotfiles/main/userhome/.profile",
+    )
+    .expect("Couldn't find .profile online");
+    if response.status().is_success() {
+        let mut file = OpenOptions::new()
+            .write(true)
+            .create(true)
+            .truncate(true)
+            .open(PathBuf::from(&home_dir).join(".profile"))
+            .expect("Could not open ~/.profile");
+        let mut buffer = Vec::new();
+        response
+            .read_to_end(&mut buffer)
+            .expect("Could not read a response for profile");
+        file.write_all(&buffer).expect("Could not write ~/.profile");
     }
 }
 
