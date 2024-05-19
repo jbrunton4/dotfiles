@@ -2,7 +2,7 @@
 # Short script to split videos by filesize using ffmpeg by LukeLR
 # (Modified)
 
-if [ $# -lt 2 ] || [[ "$1" =~ ^-(-)?h(elp)?$ ]]; then
+if [ $# -lt 1 ] || [[ "$1" =~ ^-(-)?h(elp)?$ ]]; then
 	echo 'Usage:'
 	echo "$1 FILE_PATH [SIZE_LIMIT_BYES] [FFMPEG_ARGS]"
 	echo
