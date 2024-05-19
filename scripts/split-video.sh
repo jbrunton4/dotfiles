@@ -18,6 +18,10 @@ FILE="$1"
 SIZELIMIT="$2"
 FFMPEG_ARGS="$3"
 
+if [ -z "$SIZELIMIT" ]; then
+	SIZELIMIT="500000000"
+fi
+
 if [ -z "$FFMPEG_ARGS" ]; then
 	FFMPEG_ARGS="-c:v libx264 -crf 23 -c:a copy -vf scale=960:-1"
 fi
