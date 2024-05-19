@@ -223,6 +223,7 @@ fn install_scripts(home_dir: &String) {
         "open_work_project",
         "pspsps",
         "unix",
+        "split-video"
     ] {
         let url = format!(
             "https://raw.githubusercontent.com/jbrunton4/dotfiles/main/scripts/{}.sh",
