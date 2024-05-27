@@ -8,6 +8,7 @@ alias grep="rg"
 alias at="__atuin_history"
 alias dos="wslpath -w"
 alias exp="explorer.exe ."
+alias wgit="cmd.exe /C git"
 
 alias rtfm="tail -n 1 $HOME/.bash_history | awk '{print $1}' | xargs man"
 alias pyserver="python3 -m http.server -b 127.0.0.1 8080"
