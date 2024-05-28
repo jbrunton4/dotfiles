@@ -31,20 +31,15 @@ git_backup() {
 	new_commit_message="Backup atop ${latest_commit_hash} at $(date)"
 
 	# Create the backup
-	git reset
-	git checkout -b $new_branch
-	git add .
+	git add --all
 	git commit -m "$new_commit_message"
-	new_commit_hash=$(git rev-parse HEAD)
-
-	# Revert working state to pre-backup state
-	git checkout $old_branch
-	git cherry-pick -n $new_branch
+	git tag $new_branch
+	git reset --soft $latest_commit_hash
 	git reset
 }
 
 git_backup_delete_all() {
-	git branch | rg "^\s+backup/" | xargs git branch -D
+	git tag | rg "^(\s+)?backup/" | xargs git tag -d
 }
 
 if [[ "$@" == *"--drop"* ]]; then
@@ -55,5 +50,3 @@ fi
 git_backup >>/dev/null 2>&1
 echo -e "${GREEN}Success${NC}"
 echo "Created backup of working state"
-echo "  at ${new_commit_hash:0:7} in ${new_branch}"
-echo "  atop ${latest_commit_hash:0:7} on ${old_branch}"
