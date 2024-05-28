@@ -72,7 +72,7 @@ fn main() {
     log("Installing packages via pacman");
     let _ = Command::new("pacman")
         .args(&[
-            "-S",
+            "-Syu",
             "git",
             "neofetch",
             "github-cli",
