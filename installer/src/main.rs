@@ -99,8 +99,7 @@ fn main() {
         .output()
         .expect("Failed to start `pacman`");
 
-    ensure_pipx_in_path();
-
+    
     sync_clock();
     install_cargo_crates();
     install_pip_packages();
@@ -530,13 +529,13 @@ fn install_oh_my_posh() {
         .expect("Failed to install oh my posh");
 }
 
-fn ensure_pipx_in_path() {
-    log("Ensuring pipx in the path");
-    let _ = Command::new("pipx")
-        .args(&["ensurepath"])
-        .output()
-        .expect("Failed to install ensure pipx in PATH");
-}
+// fn ensure_pipx_in_path() {
+//     log("Ensuring pipx in the path");
+//     let _ = Command::new("pipx")
+//         .args(&["ensurepath"])
+//         .output()
+//         .expect("Failed to install ensure pipx in PATH");
+// }
 
 fn configure_tmux(home_dir: &String) {
     log("Installing tmux");
