@@ -94,6 +94,7 @@ fn main() {
             "nmap",
             "bashtop",
             "unzip",
+            "lolcat"
         ])
         .stdin(yes_command.stdout.unwrap())
         .output()
