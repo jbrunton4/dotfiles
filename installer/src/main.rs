@@ -102,7 +102,7 @@ fn main() {
     
     sync_clock();
     install_cargo_crates();
-    install_pip_packages();
+    // install_pip_packages();
     // install_snap_packages();
     configure_profile(&home_dir);
     configure_bash_aliases(&home_dir);
@@ -445,13 +445,13 @@ fn configure_bash_aliases(home_dir: &String) {
     }
 }
 
-fn install_pip_packages() {
-    log("Installing pip packages");
-    let _ = Command::new("pipx")
-        .args(&["install", "speedtest-cli", "pyinstaller"])
-        .output()
-        .expect("Failed to install one or more pip packages");
-}
+// fn install_pip_packages() {
+//     log("Installing pip packages");
+//     let _ = Command::new("pipx")
+//         .args(&["install", "speedtest-cli", "pyinstaller"])
+//         .output()
+//         .expect("Failed to install one or more pip packages");
+// }
 
 fn apply_config_default(home_dir: &String) {
     log("Ensuring configurations exist");
