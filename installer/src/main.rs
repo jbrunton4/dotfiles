@@ -102,7 +102,7 @@ fn main() {
 
     
     sync_clock();
-    install_cargo_crates();
+    install_cargo_crates(&home_dir);
     // install_pip_packages();
     // install_snap_packages();
     configure_profile(&home_dir);
@@ -136,16 +136,24 @@ fn main() {
     // todo: gh-repos, gitext, newsboat
 }
 
-fn install_cargo_crates() {
+fn install_cargo_crates(home_dir: &String) {
     log("Installing cargo crates");
     let _ = Command::new("rustup")
         .arg("update")
         .output()
         .expect("Failed to install one or more cargo crates");
+
+    let binding = PathBuf::from(&home_dir).join(".brunt-dotfiles");
+    let install_root = binding.to_str().expect("Could not create a path for ~/.brunt-dotfiles");
+
     let _ = Command::new("cargo")
         .args(&["install", "atuin", "du-dust", "eza", "ripgrep"])
         .output()
         .expect("Failed to install one or more cargo crates");
+    let _ = Command::new("cargo")
+        .args(&["install", "--git", "https://github.com/jbrunton4/watch-file.git", "--root", install_root])
+        .output()
+        .expect("Failed to install one or more cargo crates from git");
 }
 
 fn install_git_hooks(home_dir: &String) {
