@@ -52,16 +52,16 @@ fn main() {
     ));
 
     // Use Quad9 on home
-    // if config.profile == "home" {
-    //     log("Setting nameserver to quad9");
-    //     let mut file = OpenOptions::new()
-    //         .write(true)
-    //         .create(true)
-    //         .truncate(true)
-    //         .open("/etc/resolv.conf")
-    //         .expect("Could not set nameserver in /etc/resolv.conf");
-    //     let _ = file.write_all(b"nameserver 9.9.9.9");
-    // }
+    if config.profile == "home" {
+        log("Setting nameserver to quad9");
+        let mut file = OpenOptions::new()
+            .write(true)
+            .create(true)
+            .truncate(true)
+            .open("/etc/resolv.conf")
+            .expect("Could not set nameserver in /etc/resolv.conf");
+        let _ = file.write_all(b"nameserver 9.9.9.9");
+    }
 
     let yes_command = Command::new("yes")
         .stdout(Stdio::piped())
