@@ -116,6 +116,7 @@ fn main() {
     install_scripts(&home_dir);
     config_wezterm(&home_dir);
     install_git_hooks(&home_dir);
+    install_npmrc(&home_dir);
 
     if is_wsl() {
         touch_hushlogin(&home_dir);
@@ -134,6 +135,13 @@ fn main() {
         Instant::now().duration_since(start).as_secs()
     ))
     // todo: gh-repos, gitext, newsboat
+}
+
+fn install_npmrc(home_dir: &String) {
+    let binding = PathBuf::from(&home_dir).join(".npmrc");
+    let path = binding.to_str().expect("Could not make path for ~/.npmrc");
+    let url = "https://raw.githubusercontent.com/jbrunton4/dotfiles/main/userhome/.npmrc";
+    download_file(&url.to_string(), &path.to_string());
 }
 
 fn install_cargo_crates(home_dir: &String) {
