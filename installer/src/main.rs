@@ -64,6 +64,7 @@ fn main() {
     }
 
     let yes_command = Command::new("yes")
+        .args(&["\"\""])
         .stdout(Stdio::piped())
         .spawn()
         .expect("Failed to start `yes` command");
