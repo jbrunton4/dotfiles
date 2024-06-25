@@ -95,7 +95,9 @@ fn main() {
             "nmap",
             "bashtop",
             "unzip",
-            "lolcat"
+            "lolcat",
+            "neovim", 
+            "github-cli"
         ])
         .stdin(yes_command.stdout.unwrap())
         .output()
