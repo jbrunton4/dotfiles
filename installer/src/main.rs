@@ -136,8 +136,17 @@ fn main() {
     log(&format!(
         "Installation complete, took {}s",
         Instant::now().duration_since(start).as_secs()
-    ))
-    // todo: gh-repos, gitext, newsboat
+    ));
+
+    remove_temp_dir(&home_dir);
+}
+
+fn remove_temp_dir(home_dir: &String) {
+    let path = PathBuf::from(&home_dir).join(".brunt-dotfiles/temp");
+    match fs::remove_dir_all(path.clone()) {
+        Ok(_) => log("Removed temp files"),
+        Err(_) => eprintln!("Could not remove temp files, please manually remove {}", path.display())
+    }
 }
 
 fn install_yay(home_dir: &String) {
