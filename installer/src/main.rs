@@ -97,7 +97,8 @@ fn main() {
             "unzip",
             "lolcat",
             "neovim", 
-            "github-cli"
+            "github-cli",
+            "stow"
         ])
         .stdin(yes_command.stdout.unwrap())
         .output()
