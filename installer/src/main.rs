@@ -99,7 +99,8 @@ fn main() {
             "neovim", 
             "github-cli",
             "stow",
-            "man"
+            "man",
+            "fzf"
         ])
         .stdin(yes_command.stdout.unwrap())
         .output()
