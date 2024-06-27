@@ -98,7 +98,8 @@ fn main() {
             "lolcat",
             "neovim", 
             "github-cli",
-            "stow"
+            "stow",
+            "man"
         ])
         .stdin(yes_command.stdout.unwrap())
         .output()
