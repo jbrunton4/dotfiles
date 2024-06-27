@@ -122,11 +122,6 @@ fn main() {
     install_git_hooks(&home_dir);
     install_npmrc(&home_dir);
 
-    if is_wsl() {
-        touch_hushlogin(&home_dir);
-        // set_wsl_default_user();
-    }
-
     if config.profile == "home" {
         install_discord(&home_dir);
         install_qbittorrent();
@@ -526,11 +521,6 @@ fn apply_config_default(home_dir: &String) {
             }
         }
     }
-}
-
-fn touch_hushlogin(home_dir: &String) {
-    log("Touching ~/.hushlogin");
-    let _ = File::create(PathBuf::from(&home_dir).join(".hushlogin"));
 }
 
 fn sync_clock() {
