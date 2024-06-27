@@ -155,7 +155,7 @@ fn install_cargo_crates(home_dir: &String) {
     let install_root = binding.to_str().expect("Could not create a path for ~/.brunt-dotfiles");
 
     let _ = Command::new("cargo")
-        .args(&["install", "atuin", "du-dust", "eza", "ripgrep", "exa"])
+        .args(&["install", "atuin", "du-dust", "eza", "ripgrep", "exa", "bat"])
         .output()
         .expect("Failed to install one or more cargo crates");
     let _ = Command::new("cargo")
