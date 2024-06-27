@@ -120,7 +120,6 @@ fn main() {
     install_nerdfetch();
     install_scripts(&home_dir);
     config_wezterm(&home_dir);
-    install_git_hooks(&home_dir);
     install_npmrc(&home_dir);
 
     if config.profile == "home" {
@@ -162,43 +161,6 @@ fn install_cargo_crates(home_dir: &String) {
         .args(&["install", "--git", "https://github.com/jbrunton4/watch-file.git", "--root", install_root])
         .output()
         .expect("Failed to install one or more cargo crates from git");
-}
-
-fn install_git_hooks(home_dir: &String) {
-    log("Installing git hooks");
-    let folder_name = ".brunt-dotfiles/config/git/hooks";
-    let folder = PathBuf::from(&home_dir).join(folder_name);
-
-    let _ = Command::new("mkdir")
-        .args(&[
-            "-p",
-            folder.to_str().expect("Could not turn buffer to string"),
-        ])
-        .output()
-        .expect(&format!(
-            "Could not create folder for git commit hooks - tried to create {}",
-            folder_name
-        ));
-
-    for file in ["prepare-commit-msg"] {
-        let url = format!(
-            "https://raw.githubusercontent.com/jbrunton4/dotfiles/main/git-hooks/{}",
-            file
-        );
-        let path = PathBuf::from(folder.clone())
-            .join(file)
-            .to_str()
-            .expect("Could not turn buffer to string")
-            .to_string();
-        download_file(&url, &path);
-        let _ = Command::new("chmod")
-            .args(&["+x", &path])
-            .output()
-            .expect(&format!(
-                "Could not add execute permission for git hook \"{}\"",
-                path
-            ));
-    }
 }
 
 fn config_wezterm(home_dir: &String) {
