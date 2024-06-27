@@ -107,22 +107,17 @@ fn main() {
         .output()
         .expect("Failed to start `pacman`");
 
+    stow(&home_dir);
     sync_clock();
     install_yay(&home_dir);
     install_cargo_crates(&home_dir);
     // install_pip_packages();
     // install_snap_packages();
-    configure_profile(&home_dir);
-    configure_bash_aliases(&home_dir);
-    configure_bashrc(&home_dir);
-    configure_git(&home_dir, &config);
     install_oh_my_posh();
-    configure_tmux(&home_dir);
     install_tpm();
     install_nerdfetch();
+    configure_git(&config);
     install_scripts(&home_dir);
-    config_wezterm(&home_dir);
-    install_npmrc(&home_dir);
 
     if config.profile == "home" {
         install_qbittorrent();
@@ -134,11 +129,48 @@ fn main() {
 
     query_github_head_commit();
     log(&format!(
-        "Installation complete, took {}s",
-        Instant::now().duration_since(start).as_secs()
+            "Installation complete, took {}s",
+            Instant::now().duration_since(start).as_secs()
     ));
 
     remove_temp_dir(&home_dir);
+}
+
+fn stow(home_dir: &String) {
+    let binding = PathBuf::from(&home_dir).join(".brunt-dotfiles/repo");
+    let path = binding.to_str().expect("Could not form a path for dotfiles repo"); 
+    if let Ok(_) = fs::metadata(path) {
+        let _ = Command::new("git")
+            .args(&["-C", path, "stash", "-u"])
+            .output()
+            .expect("Could not git fetch dotfiles repo");
+        let _ = Command::new("git")
+            .args(&["-C", path, "fetch", "origin", "--progress", "--all"])
+            .output()
+            .expect("Could not git fetch dotfiles repo");
+        let _ = Command::new("git")
+            .args(&["-C", path, "reset", "--hard", "origin/main"])
+            .output()
+            .expect("Could not git fetch dotfiles repo");
+        } else {
+            let _ = Command::new("git")
+                .args(&["clone", "https://github.com/jbrunton4/dotfiles", path])
+                .output()
+                .expect("Could not git clone dotfiles repo");
+    }
+
+    let current_dir = env::current_dir().expect("Could not determine current working directory");
+    env::set_current_dir(&path).expect("Failed to change directory");
+
+    let _ = Command::new("stow").args(&["atuin"]).output().expect("Could not stow");
+    let _ = Command::new("stow").args(&["bash"]).output().expect("Could not stow");
+    let _ = Command::new("stow").args(&["git"]).output().expect("Could not stow");
+    let _ = Command::new("stow").args(&["npm"]).output().expect("Could not stow");
+    let _ = Command::new("stow").args(&["nvim"]).output().expect("Could not stow");
+    let _ = Command::new("stow").args(&["tmux"]).output().expect("Could not stow");
+    let _ = Command::new("stow").args(&["wezterm"]).output().expect("Could not stow");
+
+    env::set_current_dir(current_dir).expect("Could not switch back to original directory");
 }
 
 fn remove_temp_dir(home_dir: &String) {
@@ -167,13 +199,6 @@ fn install_yay(home_dir: &String) {
     env::set_current_dir(current_dir).expect("Could not switch back to original directory");
 }
 
-fn install_npmrc(home_dir: &String) {
-    let binding = PathBuf::from(&home_dir).join(".npmrc");
-    let path = binding.to_str().expect("Could not make path for ~/.npmrc");
-    let url = "https://raw.githubusercontent.com/jbrunton4/dotfiles/main/userhome/.npmrc";
-    download_file(&url.to_string(), &path.to_string());
-}
-
 fn install_cargo_crates(home_dir: &String) {
     log("Installing cargo crates");
     let _ = Command::new("rustup")
@@ -192,20 +217,6 @@ fn install_cargo_crates(home_dir: &String) {
         .args(&["install", "--git", "https://github.com/jbrunton4/watch-file.git", "--root", install_root])
         .output()
         .expect("Failed to install one or more cargo crates from git");
-}
-
-fn config_wezterm(home_dir: &String) {
-    log("Configuring wezterm");
-    let folder = PathBuf::from(&home_dir)
-        .join(".wezterm.lua")
-        .to_str()
-        .expect("")
-        .to_string();
-    download_file(
-        &"https://raw.githubusercontent.com/jbrunton4/dotfiles/main/userhome/.wezterm.lua"
-            .to_string(),
-        &folder,
-    );
 }
 
 fn install_scripts(home_dir: &String) {
@@ -353,26 +364,8 @@ fn download_file(source: &String, path: &String) {
     }
 }
 
-fn configure_git(home_dir: &String, config: &ConfigOptions) {
-    log("Installing .gitconfig");
-    let mut response = reqwest::blocking::get(
-        "https://raw.githubusercontent.com/jbrunton4/dotfiles/main/userhome/.gitconfig",
-    )
-    .expect("Couldn't find .gitconfig online");
-    if response.status().is_success() {
-        let mut file = OpenOptions::new()
-            .write(true)
-            .create(true)
-            .truncate(true)
-            .open(PathBuf::from(&home_dir).join(".gitconfig"))
-            .expect("Could not open ~/.gitconfig");
-        let mut buffer = Vec::new();
-        response
-            .read_to_end(&mut buffer)
-            .expect("Could not read a response for .gitconfig");
-        file.write_all(&buffer)
-            .expect("Could not write ~/.gitconfig");
-    }
+fn configure_git(config: &ConfigOptions) {
+    log("Configuring git");
     if config.profile == "home" {
         let _ = Command::new("git")
             .args(&["config", "--global", "user.email", "josh.brunton@proton.me"])
@@ -388,70 +381,6 @@ fn configure_git(home_dir: &String, config: &ConfigOptions) {
             .args(&["config", "--global", "user.email", "josh.brunton@binary.ax"])
             .output()
             .expect("Failed to set git global github.user");
-    }
-}
-
-fn configure_bashrc(home_dir: &String) {
-    log("Configuring bashrc");
-    let mut response = reqwest::blocking::get(
-        "https://raw.githubusercontent.com/jbrunton4/dotfiles/main/userhome/.bashrc",
-    )
-    .expect("Couldn't find bashrc online");
-    if response.status().is_success() {
-        let mut file = OpenOptions::new()
-            .write(true)
-            .create(true)
-            .truncate(true)
-            .open(PathBuf::from(&home_dir).join(".bashrc"))
-            .expect("Could not open ~/.bashrc");
-        let mut buffer = Vec::new();
-        response
-            .read_to_end(&mut buffer)
-            .expect("Could not read a response for bashrc");
-        file.write_all(&buffer).expect("Could not write ~/.bashrc");
-    }
-}
-
-fn configure_profile(home_dir: &String) {
-    log("Configuring ~/.profile");
-    let mut response = reqwest::blocking::get(
-        "https://raw.githubusercontent.com/jbrunton4/dotfiles/main/userhome/.profile",
-    )
-    .expect("Couldn't find .profile online");
-    if response.status().is_success() {
-        let mut file = OpenOptions::new()
-            .write(true)
-            .create(true)
-            .truncate(true)
-            .open(PathBuf::from(&home_dir).join(".profile"))
-            .expect("Could not open ~/.profile");
-        let mut buffer = Vec::new();
-        response
-            .read_to_end(&mut buffer)
-            .expect("Could not read a response for profile");
-        file.write_all(&buffer).expect("Could not write ~/.profile");
-    }
-}
-
-fn configure_bash_aliases(home_dir: &String) {
-    log("Configuring bash aliases");
-    let mut response = reqwest::blocking::get(
-        "https://raw.githubusercontent.com/jbrunton4/dotfiles/main/userhome/.bash_aliases",
-    )
-    .expect("Couldn't find bash aliases online");
-    if response.status().is_success() {
-        let mut file = OpenOptions::new()
-            .write(true)
-            .create(true)
-            .truncate(true)
-            .open(PathBuf::from(&home_dir).join(".bash_aliases"))
-            .expect("Could not open ~/.bash_aliases");
-        let mut buffer = Vec::new();
-        response
-            .read_to_end(&mut buffer)
-            .expect("Could not read a response for bash aliases");
-        file.write_all(&buffer)
-            .expect("Could not write ~/.bash_aliases");
     }
 }
 
@@ -541,28 +470,6 @@ fn install_oh_my_posh() {
 //         .output()
 //         .expect("Failed to install ensure pipx in PATH");
 // }
-
-fn configure_tmux(home_dir: &String) {
-    log("Installing tmux");
-    let mut response = reqwest::blocking::get(
-        "https://raw.githubusercontent.com/jbrunton4/dotfiles/main/userhome/.tmux.conf",
-    )
-    .expect("Couldn't find tmux.conf online");
-    if response.status().is_success() {
-        let mut file = OpenOptions::new()
-            .write(true)
-            .create(true)
-            .truncate(true)
-            .open(PathBuf::from(&home_dir).join(".tmux.conf"))
-            .expect("Could not open ~/.tmux.conf");
-        let mut buffer = Vec::new();
-        response
-            .read_to_end(&mut buffer)
-            .expect("Could not read a response for .tmux.conf");
-        file.write_all(&buffer)
-            .expect("Could not write ~/.tmux.conf");
-    }
-}
 
 fn install_tpm() {
     log("Installing tpm (tmux plugin manager)");
