@@ -2,7 +2,7 @@ use chrono::Local;
 use is_wsl::is_wsl;
 use reqwest::blocking::Client;
 use serde::{Deserialize, Serialize};
-use std::fs;
+use std::{fs,env};
 use std::fs::File;
 use std::fs::OpenOptions;
 use std::io::BufReader;
@@ -10,6 +10,7 @@ use std::io::{Read, Write};
 use std::path::PathBuf;
 use std::process::{Command, Stdio};
 use std::time::Instant;
+use git2::Repository;
 
 #[derive(Debug, Deserialize)]
 struct Commit {
@@ -106,8 +107,8 @@ fn main() {
         .output()
         .expect("Failed to start `pacman`");
 
-    
     sync_clock();
+    install_yay(&home_dir);
     install_cargo_crates(&home_dir);
     // install_pip_packages();
     // install_snap_packages();
@@ -135,6 +136,24 @@ fn main() {
         Instant::now().duration_since(start).as_secs()
     ))
     // todo: gh-repos, gitext, newsboat
+}
+
+fn install_yay(home_dir: &String) {
+    log("Installing yay");
+    let url = "https://aur.archlinux.org/yay.git";
+    let path = PathBuf::from(&home_dir).join(".brunt-dotfiles/temp/yay");
+    match Repository::clone(url, path.clone()) {
+        Ok(_) => log("Cloned yay from the AUR"),
+        Err(e) => panic!("Failed to clone yay repo from AUR: {}", e)
+    }
+
+    let current_dir = env::current_dir().expect("Could not determine current working directory");
+    env::set_current_dir(&path).expect("Failed to change directory");
+    let _ = Command::new("makepkg")
+        .args(&["-si"])
+        .output()
+        .expect("Could not makepkg on yay");
+    env::set_current_dir(current_dir).expect("Could not switch back to original directory");
 }
 
 fn install_npmrc(home_dir: &String) {
@@ -543,63 +562,12 @@ fn install_tpm() {
         .expect("Failed to install tpm");
 }
 
-fn install_discord(home_dir: &str) {
-    let discord_installed =
-        match fs::metadata(PathBuf::from(&home_dir).join(".brunt-dotfiles/install/discord")) {
-            Ok(metadata) => metadata.is_dir(),
-            Err(_) => false,
-        };
-
-    if discord_installed {
-        log("Skipping discord install (already installed)");
-        return;
-    }
-
+fn install_discord() {
     log("Installing discord");
-
-    let _ = Command::new("apt")
-        .args(&["install", "libnotify4", "libnspr4", "libnss3"])
+    let _ = Command::new("yay")
+        .args(&["-S", "discord"])
         .output()
-        .expect("Failed to install one or more apt packages as a dependency of discord");
-
-    fs::create_dir(PathBuf::from(&home_dir).join(".brunt-dotfiles/install/discord"))
-        .expect("Could not create directory for discord install");
-
-    let discord_deb_path =
-        PathBuf::from(&home_dir).join(".brunt-dotfiles/install/discord/installer.deb");
-
-    let mut response =
-        reqwest::blocking::get("https://discord.com/api/download?platform=linux&format=deb")
-            .expect("Couldn't find discord .deb");
-    if response.status().is_success() {
-        let mut file = OpenOptions::new()
-            .write(true)
-            .create(true)
-            .truncate(true)
-            .open(&discord_deb_path)
-            .expect("Could not open .brunt-dotfiles/install/discord/installer.deb");
-        let mut buffer = Vec::new();
-        response
-            .read_to_end(&mut buffer)
-            .expect("Could not read a response for discord install");
-        file.write_all(&buffer)
-            .expect("Could not write a file for discord install");
-    }
-
-    let _ = Command::new("dpkg")
-        .args(&[
-            "-i",
-            discord_deb_path
-                .to_str()
-                .expect("Could not convert discord.deb path from PathBuf to string"),
-        ])
-        .output()
-        .expect("Failed to install one or more apt packages as a dependency of discord");
-
-    let _ = Command::new("apt")
-        .args(&["install", "-f"])
-        .output()
-        .expect("Failed to install one or more apt packages as a dependency of discord");
+        .expect("Failed to install discord via yay");
 }
 
 fn install_qbittorrent() {
