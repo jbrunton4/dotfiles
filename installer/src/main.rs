@@ -128,7 +128,7 @@ fn main() {
         install_qbittorrent();
         install_tor_browser(&home_dir);
         if is_wsl() {
-            install_discord(&home_dir);
+            install_discord();
         }
     }
 
