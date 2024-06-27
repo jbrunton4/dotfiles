@@ -1,5 +1,7 @@
 #!/bin/bash
 
+rm -r $HOME/.brunt-dotfiles/temp
+
 dpkg --configure -a
 
 yes "" | sudo pacman -S git curl base-devel

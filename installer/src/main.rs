@@ -137,6 +137,7 @@ fn main() {
 }
 
 fn stow(home_dir: &String) {
+    log("Stowing");
     let binding = PathBuf::from(&home_dir).join(".brunt-dotfiles/repo");
     let path = binding.to_str().expect("Could not form a path for dotfiles repo"); 
     if let Ok(_) = fs::metadata(path) {
@@ -159,18 +160,21 @@ fn stow(home_dir: &String) {
                 .expect("Could not git clone dotfiles repo");
     }
 
-    let current_dir = env::current_dir().expect("Could not determine current working directory");
-    env::set_current_dir(&path).expect("Failed to change directory");
+    apply_stow("atuin", path, home_dir);
+    apply_stow("bash", path, home_dir);
+    apply_stow("git", path, home_dir);
+    apply_stow("npm", path, home_dir);
+    apply_stow("nvim", path, home_dir);
+    apply_stow("tmux", path, home_dir);
+    apply_stow("wezterm", path, home_dir);
+}
 
-    let _ = Command::new("stow").args(&["atuin"]).output().expect("Could not stow");
-    let _ = Command::new("stow").args(&["bash"]).output().expect("Could not stow");
-    let _ = Command::new("stow").args(&["git"]).output().expect("Could not stow");
-    let _ = Command::new("stow").args(&["npm"]).output().expect("Could not stow");
-    let _ = Command::new("stow").args(&["nvim"]).output().expect("Could not stow");
-    let _ = Command::new("stow").args(&["tmux"]).output().expect("Could not stow");
-    let _ = Command::new("stow").args(&["wezterm"]).output().expect("Could not stow");
-
-    env::set_current_dir(current_dir).expect("Could not switch back to original directory");
+fn apply_stow(package: &str, dir: &str, target: &str) {
+    log(&format!("Stow {}", package));
+    let _ = Command::new("stow")
+        .args(&[package, "-d", dir, "-t", target])
+        .output()
+        .expect(&format!("Could not stow {}", package));
 }
 
 fn remove_temp_dir(home_dir: &String) {
