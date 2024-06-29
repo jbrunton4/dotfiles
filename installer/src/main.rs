@@ -125,20 +125,30 @@ fn main() {
         if is_wsl() {
             install_discord();
         } else {
-        let _ = Command::new("pacman")
-            .args(&["-Syu", "qbittorrent"])
-                    .stdin(yes_command.stdout.unwrap())
-                    .output()
-                    .expect("Failed to start `pacman`");
+            let yes_command = Command::new("yes")
+                .args(&["\"\""])
+                .stdout(Stdio::piped())
+                .spawn()
+                .expect("Failed to start `yes` command");
+            let _ = Command::new("pacman")
+                .args(&["-Syu", "qbittorrent"])
+                .stdin(yes_command.stdout.unwrap())
+                .output()
+                .expect("Failed to start `pacman`");
         }
     }
 
     if !is_wsl() {
+        let yes_command = Command::new("yes")
+            .args(&["\"\""])
+            .stdout(Stdio::piped())
+            .spawn()
+            .expect("Failed to start `yes` command");
         let _ = Command::new("pacman")
             .args(&["-Syu", "firefox"])
-                    .stdin(yes_command.stdout.unwrap())
-                    .output()
-                    .expect("Failed to start `pacman`");
+            .stdin(yes_command.stdout.unwrap())
+            .output()
+            .expect("Failed to start `pacman`");
     }
 
     query_github_head_commit();
