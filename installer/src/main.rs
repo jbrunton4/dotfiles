@@ -124,6 +124,12 @@ fn main() {
         install_tor_browser(&home_dir);
         if is_wsl() {
             install_discord();
+        } else {
+        let _ = Command::new("pacman")
+            .args(&["-Syu", "qbittorrent"])
+                    .stdin(yes_command.stdout.unwrap())
+                    .output()
+                    .expect("Failed to start `pacman`");
         }
     }
 
