@@ -127,6 +127,14 @@ fn main() {
         }
     }
 
+    if !is_wsl() {
+        let _ = Command::new("pacman")
+            .args(&["-Syu", "firefox"])
+                    .stdin(yes_command.stdout.unwrap())
+                    .output()
+                    .expect("Failed to start `pacman`");
+    }
+
     query_github_head_commit();
     log(&format!(
             "Installation complete, took {}s",
