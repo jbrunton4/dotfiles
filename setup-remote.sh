@@ -11,6 +11,8 @@ if [ ! -f $HOME/.cargo/bin/cargo ]; then
 	yes "" | sudo pacman -S cargo
 fi
 
+yes "y" | sudo pacman -S rustup
+
 repo_dir="dotfiles-$(date +%s)"
 git clone "https://github.com/jbrunton4/dotfiles" "${repo_dir}"
 
