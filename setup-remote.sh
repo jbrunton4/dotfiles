@@ -22,3 +22,5 @@ cp -r "${repo_dir}/userhome/.config/nvim" $HOME/.config/nvim
 cargo run --jobs 1 --manifest-path "$repo_dir/installer/Cargo.toml"
 
 rm -rf $repo_dir
+rm -rf $HOME/.brunt-dotfiles/repo/.git
+rm -rf $HOME/.brunt-dotfiles/repo/installer
