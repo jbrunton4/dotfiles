@@ -7,7 +7,7 @@
 	hideFotFiles = false
 [alias]
 	back = !/bin/bash "$HOME/.brunt-dotfiles/bin/git-back"
-	hist = log --all --graph --pretty=format:'%C(auto)%h %s %C(bold black)<%aN>%Creset'
+	hist = log --all --graph --pretty=format:'%C(auto)%h %s%d %C(bold black)<%aN>%Creset'
 	profile = !/bin/bash  "cat $HOME/.brunt-dotfiles/config/${1}.gitconfig > $HOME/.gitconfig"
 	find = !/bin/bash  "$HOME/.brunt-dotfiles/bin/git-find"
 	forget = !/bin/bash  "$HOME/.brunt-dotfiles/bin/git-forget"
