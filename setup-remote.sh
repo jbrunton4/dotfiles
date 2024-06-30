@@ -1,6 +1,7 @@
 #!/bin/bash
 
 rm -r $HOME/.brunt-dotfiles/temp
+rm -r $HOME/.brunt-dotfiles/repo
 
 dpkg --configure -a
 
