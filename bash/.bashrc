@@ -101,3 +101,6 @@ export PATH="$HOME/.brunt-dotfiles/bin:$PATH"
 
 # atuin
 eval "$(atuin init bash --disable-up-arrow --disable-ctrl-r)"
+
+# fzf
+eval "$(fzf --bash)"
