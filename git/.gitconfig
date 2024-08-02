@@ -4,7 +4,7 @@
 	editor = nvim
 	logallrefupdates = true
 	ignorecase = false
-	hideFotFiles = false
+	hideDotFiles = false
 [alias]
 	back = !/bin/bash "$HOME/.brunt-dotfiles/bin/git-back"
 	hist = log --all --graph --pretty=format:'%C(auto)%h %s%d %C(bold black)<%aN>%Creset'
