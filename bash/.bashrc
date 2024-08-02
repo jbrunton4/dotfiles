@@ -92,7 +92,7 @@ eval $(thefuck --alias FUCK)
 neofetch --disable packages
 
 # oh-my-posh
-eval "$(oh-my-posh init bash --config 'https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/catppuccin_frappe.omp.json')"
+eval "$(oh-my-posh init bash --config 'https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/hul10.omp.json')"
 
 # PATH
 export PATH="$HOME/.local/bin:$PATH"
