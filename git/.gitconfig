@@ -1,5 +1,3 @@
-[user]
-	name = "Josh Brunton"
 [core]
 	editor = nvim
 	logallrefupdates = true

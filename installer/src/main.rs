@@ -121,7 +121,6 @@ fn main() {
     install_oh_my_posh();
     install_tpm();
     install_nerdfetch();
-    configure_git(&config);
     install_scripts(&home_dir);
     setup_cron();
 
@@ -437,26 +436,6 @@ fn download_file(source: &String, path: &String) {
         ));
         file.write_all(&buffer)
             .expect(&format!("Could not write to file {}", path));
-    }
-}
-
-fn configure_git(config: &ConfigOptions) {
-    log("Configuring git");
-    if config.profile == "home" {
-        let _ = Command::new("git")
-            .args(&["config", "--global", "user.email", "josh.brunton@proton.me"])
-            .output()
-            .expect("Failed to set git global user.email");
-
-        let _ = Command::new("git")
-            .args(&["config", "--global", "github.user", "jbrunton4"])
-            .output()
-            .expect("Failed to set git global github.user");
-    } else {
-        let _ = Command::new("git")
-            .args(&["config", "--global", "user.email", "josh.brunton@binary.ax"])
-            .output()
-            .expect("Failed to set git global github.user");
     }
 }
 
